@@ -1,0 +1,83 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "CodeArmy is a repo-first orchestration layer for long-running AI coding and research projects."
+} = Astro.props;
+
+const pageTitle = `${title} | CodeArmy`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="canonical" href={Astro.url.href} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href={`${import.meta.env.BASE_URL}`}>
+          <span class="brand-mark">CA</span>
+          <span class="brand-text">
+            <strong>CodeArmy</strong>
+            <small>Powered by Alice Runtime</small>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href={`${import.meta.env.BASE_URL}`}>Home</a>
+          <a href={`${import.meta.env.BASE_URL}how-it-works/`}>How It Works</a>
+          <a href={`${import.meta.env.BASE_URL}research-use-cases/`}>Research</a>
+          <a href={`${import.meta.env.BASE_URL}integrations/`}>Integrations</a>
+          <a href={`${import.meta.env.BASE_URL}roadmap/`}>Roadmap</a>
+          <a href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Quickstart</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <p class="eyebrow">CodeArmy</p>
+          <p class="footer-copy">
+            A repo-first orchestration layer for long-horizon coding and research campaigns.
+          </p>
+        </div>
+        <div>
+          <p class="footer-title">Explore</p>
+          <ul class="footer-links">
+            <li><a href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Quickstart</a></li>
+            <li><a href={`${import.meta.env.BASE_URL}how-it-works/`}>How It Works</a></li>
+            <li><a href={`${import.meta.env.BASE_URL}research-use-cases/`}>Research Use Cases</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-title">Current Code</p>
+          <ul class="footer-links">
+            <li><a href="https://github.com/Alice-space/alice">Alice Runtime Repo</a></li>
+            <li><a href="https://github.com/Alice-space/codearmy-site">Site Repo</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

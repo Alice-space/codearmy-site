@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="How It Works"
+  description="See how CodeArmy organizes long-running coding and research work as repo-first campaigns."
+>
+  <section class="container page-hero">
+    <p class="eyebrow">How It Works</p>
+    <h1>Campaigns, task packages, roles, reconcile, reports.</h1>
+    <p class="lead">
+      CodeArmy manages AI coding work as a persistent campaign. The repo becomes the source of
+      truth for planning, execution, review, and final evidence.
+    </p>
+  </section>
+
+  <section class="container page-body split-grid">
+    <div>
+      <h2>Core loop</h2>
+      <ol class="page-list">
+        <li>Create a campaign with objective, baseline, tags, and gates.</li>
+        <li>Break work into task packages that carry context, scope, and expected outcome.</li>
+        <li>Dispatch planner, reviewer, and executor work in bounded steps.</li>
+        <li>Reconcile the repo to refresh task state and determine next actions.</li>
+        <li>Generate structured progress and closure reports from the same campaign state.</li>
+      </ol>
+    </div>
+
+    <div>
+      <h2>Why repo-first matters</h2>
+      <ul class="page-list">
+        <li>Project state survives new chats, new sessions, and new tools.</li>
+        <li>Human review can inspect durable artifacts instead of reconstructing chat history.</li>
+        <li>Long-running work can resume without re-explaining the whole project.</li>
+        <li>Reports become derived outputs, not manual retellings.</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <strong>Role discipline</strong>
+      CodeArmy is strongest when planner, reviewer, and executor are treated as distinct roles with
+      explicit handoff states, rather than one agent doing everything invisibly.
+    </div>
+
+    <div class="callout">
+      <strong>Hard gates</strong>
+      Approve-plan, review checks, and reconcile are product features, not optional niceties. They
+      are how long-horizon work stays trustworthy.
+    </div>
+  </section>
+</BaseLayout>

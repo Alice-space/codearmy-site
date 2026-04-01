@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Docs"
+  description="Documentation entry point for CodeArmy."
+>
+  <section class="container page-hero">
+    <p class="eyebrow">Docs</p>
+    <h1>Start with the quick narrative, then deepen the product story.</h1>
+    <p class="lead">
+      The first public docs set should stay small and clear: what CodeArmy is, why it exists, and
+      how to start shaping it into a product.
+    </p>
+    <div class="hero-actions">
+      <a class="button" href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Open Quickstart</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}how-it-works/`}>
+        Read How It Works
+      </a>
+    </div>
+  </section>
+</BaseLayout>

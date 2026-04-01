@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="CodeArmy logo">
+  <rect width="128" height="128" rx="24" fill="#0f172a"/>
+  <path d="M28 44h72v12H28zM28 58h72v12H28zM28 72h44v12H28z" fill="#f8fafc"/>
+  <circle cx="92" cy="78" r="14" fill="#f59e0b"/>
+  <path d="M92 68v20M82 78h20" stroke="#0f172a" stroke-width="6" stroke-linecap="round"/>
+</svg>

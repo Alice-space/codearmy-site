@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Research Use Cases"
+  description="See how CodeArmy fits AI4Science and long-running research optimization workflows."
+>
+  <section class="container page-hero">
+    <p class="eyebrow">Research Use Cases</p>
+    <h1>Designed for coding plus experiments, not code alone.</h1>
+    <p class="lead">
+      CodeArmy is especially well suited to long-running research workflows where code changes,
+      experiment runs, metrics, cluster jobs, and reports all need to move together.
+    </p>
+  </section>
+
+  <section class="container page-body grid-2">
+    <article class="card">
+      <h3>JUNO Monte Carlo parameter tuning</h3>
+      <p>
+        Treat Monte Carlo parameter optimization as a campaign with hypotheses, scheduled runs,
+        metrics, reviews, and evidence-backed summaries.
+      </p>
+      <ul class="page-list">
+        <li>Track candidate parameter sets and observed improvements.</li>
+        <li>Keep cluster runs tied to the same campaign state.</li>
+        <li>Generate phase summaries for group discussion and follow-up decisions.</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3>CEPC fast-simulation DiT optimization</h3>
+      <p>
+        Manage model architecture changes, training runs, speed-quality tradeoffs, and evaluation
+        results with a single repo-first workflow.
+      </p>
+      <ul class="page-list">
+        <li>Compare model variants across metrics, resources, and experimental evidence.</li>
+        <li>Use review gates before adopting a new baseline.</li>
+        <li>Turn experiment outcomes into durable reports, not ephemeral chat notes.</li>
+      </ul>
+    </article>
+  </section>
+</BaseLayout>

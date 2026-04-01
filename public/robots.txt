@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alice-space.github.io/codearmy-site/sitemap-index.xml
