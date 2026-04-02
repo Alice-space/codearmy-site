@@ -28,10 +28,10 @@ export const PATH_MAPPINGS: Record<string, string> = {
 };
 
 // Set of available Chinese paths that actually exist in the build.
-// T401: Currently empty; T402/T403 will populate this as they create /zh/* pages.
+// T401: Added /zh/ (homepage); T402/T403 will add more pages.
 // This controls auto-redirect behavior - we only redirect to paths that exist.
 export const AVAILABLE_ZH_PATHS: Set<string> = new Set([
-  // Example: "/zh/how-it-works/" will be added when T402 creates the page
+  "/zh/",
 ]);
 
 // Reverse mapping for Chinese to English
@@ -239,17 +239,18 @@ export function initLocale(): void {
     }
   }
 
-  // NOTE: First-time browser locale auto-redirect is DISABLED in T401
-  // because /zh/* pages don't exist yet. Will be enabled in T402/T403
-  // when AVAILABLE_ZH_PATHS is populated.
-  // 
-  // if (!stored && effectiveLocale !== currentLocale) {
-  //   const targetPath = getCounterpartPath(path);
-  //   if (isZhPathAvailable(targetPath) && ...avoid loops...) {
-  //     window.location.href = targetPath;
-  //     return;
-  //   }
-  // }
+  // First-time browser locale auto-redirect: Chinese locale -> /zh/
+  // Only redirect if: 1) no stored preference, 2) not already on Chinese path,
+  // 3) target path exists, 4) avoid redirect loops
+  const effectiveLocale = detectEffectiveLocale(path);
+  if (!stored && effectiveLocale === "zh" && currentLocale !== "zh") {
+    const targetPath = getCounterpartPath(path);
+    if (isZhPathAvailable(targetPath) && !sessionStorage.getItem("codearmy-locale-redirect")) {
+      sessionStorage.setItem("codearmy-locale-redirect", "1");
+      window.location.href = targetPath;
+      return;
+    }
+  }
 
   // Clear redirect flag after successful load
   sessionStorage.removeItem("codearmy-locale-redirect");
