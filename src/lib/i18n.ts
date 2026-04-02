@@ -92,6 +92,11 @@ export function isBrowserLocaleChinese(): boolean {
 export function getCounterpartPath(currentPath: string): string {
   const stripped = stripBase(currentPath);
 
+  // Handle /zh without trailing slash - treat as /zh/
+  if (stripped === "/zh") {
+    return addBase("/");
+  }
+
   // Exact match first
   if (PATH_MAPPINGS[stripped]) {
     return addBase(PATH_MAPPINGS[stripped]);
