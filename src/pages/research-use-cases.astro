@@ -1,76 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const baseUrl = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout
   title="Research Use Cases"
-  description="Evidence-based research workflows that shaped CodeArmy: JUNO Monte Carlo tuning and CEPC FastSim DiT optimization."
+  description="See how CodeArmy fits AI4Science and long-running research optimization workflows."
 >
   <section class="container page-hero">
     <p class="eyebrow">Research Use Cases</p>
-    <h1>Real research workflows, not AI hype.</h1>
+    <h1>Designed for coding plus experiments, not code alone.</h1>
     <p class="lead">
-      CodeArmy's design comes from long-horizon work in particle-physics simulation and generative-model optimization. These two campaigns shaped its repo-first orchestration model.
+      CodeArmy is especially well suited to long-running research workflows where code changes,
+      experiment runs, metrics, cluster jobs, and reports all need to move together.
     </p>
   </section>
 
-  <section class="container page-body">
-    <article class="card" style="margin-bottom: 1.25rem;">
-      <h2 style="margin: 0 0 0.6rem; font-size: 1.35rem; font-weight: 700;">JUNO Monte Carlo parameter tuning</h2>
+  <section class="container page-body grid-2">
+    <article class="card">
+      <h3>JUNO Monte Carlo parameter tuning</h3>
       <p>
-        Monte Carlo parameter optimization is not a one-off script run. It is a multi-round campaign of hypothesis, experiment, and review. Each iteration involves candidate parameter sets, cluster job submissions, physics metric evaluation, and group-meeting reporting.
+        Treat Monte Carlo parameter optimization as a campaign with hypotheses, scheduled runs,
+        metrics, reviews, and evidence-backed summaries.
       </p>
-
-      <div class="split-grid" style="margin-top: 1.25rem; align-items: stretch;">
-        <div>
-          <h3 class="mini-title">Artifacts & evidence</h3>
-          <ul class="page-list">
-            <li>Candidate parameter sets tied to observed physics metrics.</li>
-            <li>Cluster run logs associated with the same campaign state.</li>
-            <li>Phase summaries that become the basis for group decisions.</li>
-          </ul>
-        </div>
-        <div class="callout">
-          <strong>Why repo-first matters</strong>
-          Parameter tuning spans months of iteration. Chat logs and temporary scripts cannot sustain reproducibility. Anchoring hypotheses, code changes, experimental evidence, and review comments in the repo is what keeps long-term work from losing context.
-        </div>
-      </div>
+      <ul class="page-list">
+        <li>Track candidate parameter sets and observed improvements.</li>
+        <li>Keep cluster runs tied to the same campaign state.</li>
+        <li>Generate phase summaries for group discussion and follow-up decisions.</li>
+      </ul>
     </article>
 
-    <article class="card" style="margin-bottom: 1.25rem;">
-      <h2 style="margin: 0 0 0.6rem; font-size: 1.35rem; font-weight: 700;">CEPC fast-simulation DiT optimization</h2>
+    <article class="card">
+      <h3>CEPC fast-simulation DiT optimization</h3>
       <p>
-        Diffusion Transformer (DiT) optimization in fast simulation involves model architecture adjustments, training pipeline changes, and speed-quality tradeoff assessments. Every experiment can affect downstream physics analysis and requires strict change control.
+        Manage model architecture changes, training runs, speed-quality tradeoffs, and evaluation
+        results with a single repo-first workflow.
       </p>
-
-      <div class="split-grid" style="margin-top: 1.25rem; align-items: stretch;">
-        <div>
-          <h3 class="mini-title">Artifacts & evidence</h3>
-          <ul class="page-list">
-            <li>Comparisons of model variants across metrics, resources, and sample quality.</li>
-            <li>Review-gate records explaining why a baseline was adopted or rejected.</li>
-            <li>Durable reports derived from experiment outcomes, not ephemeral chat notes.</li>
-          </ul>
-        </div>
-        <div class="callout">
-          <strong>Why repo-first matters</strong>
-          Model optimization produces a large number of experimental branches. Without a structured campaign to track each variant's code, configuration, and evaluation results, the team cannot reconstruct the rationale behind decisions months later.
-        </div>
-      </div>
+      <ul class="page-list">
+        <li>Compare model variants across metrics, resources, and experimental evidence.</li>
+        <li>Use review gates before adopting a new baseline.</li>
+        <li>Turn experiment outcomes into durable reports, not ephemeral chat notes.</li>
+      </ul>
     </article>
-
-    <div class="callout" style="margin-bottom: 1.25rem;">
-      <strong>Fact boundary</strong>
-      The task shapes and artifact types on this page reflect the real usage experience of CodeArmy's designer in JUNO and CEPC FastSim projects. No unverified quantitative performance data or benchmark claims are included.
-    </div>
-
-    <div class="hero-actions">
-      <a class="button" href={`${baseUrl}docs/quickstart/`}>Read Quickstart</a>
-      <a class="button-secondary" href={`${baseUrl}how-it-works/`}>How It Works</a>
-    </div>
   </section>
 </BaseLayout>

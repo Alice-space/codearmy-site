@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { getCounterpartPath, isZhPath } from "../lib/i18n";
 
 interface Props {
   title: string;
@@ -17,6 +18,14 @@ const pageTitle = `${title} | CodeArmy`;
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
   ? import.meta.env.BASE_URL 
   : `${import.meta.env.BASE_URL}/`;
+
+// Determine current locale from URL path
+const currentPath = Astro.url.pathname;
+const currentLocale = isZhPath(currentPath) ? "zh" : "en";
+
+// Get counterpart path for language switching (reuse shared mapping)
+const counterpartPath = getCounterpartPath(currentPath);
+const switchLabel = currentLocale === "zh" ? "English" : "中文";
 
 const navItems = [
   { href: `${baseUrl}`, label: "Home" },
@@ -41,7 +50,7 @@ const footerLinks = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={currentLocale === "zh" ? "zh-CN" : "en"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -90,6 +99,17 @@ const footerLinks = {
             </a>
           ))}
         </nav>
+        <div class="lang-switcher">
+          <button 
+            class="lang-switcher-btn" 
+            data-counterpart={counterpartPath}
+            aria-label={`Switch to ${switchLabel}`}
+          >
+            <span class="lang-current">{currentLocale === "zh" ? "中" : "EN"}</span>
+            <span class="lang-separator">/</span>
+            <span class="lang-target">{switchLabel}</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -128,6 +148,44 @@ const footerLinks = {
     </footer>
 
     <script>
+      import { initLocale, storeLocale, isZhPath, isZhPathAvailable, getLocaleFromPath } from "../lib/i18n";
+
+      // Initialize locale on page load
+      initLocale();
+
+      // Set up language switcher
+      document.addEventListener("DOMContentLoaded", () => {
+        const langBtn = document.querySelector(".lang-switcher-btn") as HTMLButtonElement | null;
+
+        if (langBtn) {
+          langBtn.addEventListener("click", () => {
+            const counterpartPath = langBtn.dataset.counterpart;
+            const currentPath = window.location.pathname;
+            
+            if (!counterpartPath) return;
+
+            const currentLocale = getLocaleFromPath(currentPath);
+            const newLocale = currentLocale === "zh" ? "en" : "zh";
+            
+            // ALWAYS store user preference first (even if target page doesn't exist)
+            storeLocale(newLocale);
+            console.log(`[i18n] Preference saved: ${newLocale}`);
+
+            // Check if switching to Chinese and the page exists
+            const switchingToZh = isZhPath(counterpartPath);
+            if (switchingToZh && !isZhPathAvailable(counterpartPath)) {
+              // Chinese page not available yet - preference is saved but stay on current page
+              console.log("[i18n] Chinese page not yet available, staying on current page. Will redirect when T402/T403 creates the page.");
+              // Could add UI notification here in the future
+              return;
+            }
+
+            // Navigate to counterpart path
+            window.location.href = counterpartPath;
+          });
+        }
+      });
+
       // Mobile navigation toggle
       const navToggle = document.querySelector('.nav-toggle');
       const siteNav = document.getElementById('site-nav');

@@ -1,139 +1,51 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-
-const baseUrl = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout
   title="Quickstart"
-  description="Get started with CodeArmy: prerequisites, first steps, and the Alice/CodeArmy relationship."
+  description="A practical starting point for shaping CodeArmy as a product and integrating it with Trae Solo."
 >
   <section class="container page-hero">
     <p class="eyebrow">Quickstart</p>
-    <h1>From zero to first campaign in 30 minutes.</h1>
+    <h1>Start with a product narrative, not a generic agent shell.</h1>
     <p class="lead">
-      CodeArmy turns long-horizon coding and research into structured, repo-first campaigns. 
-      This guide covers prerequisites, the Alice/CodeArmy split, and your first concrete steps.
+      The first public version of CodeArmy should present a clean story: repo-first orchestration
+      for long-running AI coding and research campaigns.
     </p>
-    <div class="hero-actions">
-      <a class="button" href="https://github.com/Alice-space/alice">
-        Clone Alice Runtime
-      </a>
-      <a class="button-secondary" href={`${baseUrl}how-it-works/`}>
-        Read How It Works
-      </a>
-    </div>
   </section>
 
-  <section class="container page-body">
-    <div class="split-grid">
-      <div>
-        <h2>Prerequisites</h2>
-        <p class="section-copy">
-          Before starting, ensure you have the following set up:
-        </p>
-        <ul class="page-list">
-          <li><strong>Git</strong> — Version 2.30 or later</li>
-          <li><strong>GitHub account</strong> — For campaign repos and collaboration</li>
-          <li><strong>Trae Solo</strong> — Recommended editor with agent support (VS Code with extensions also works)</li>
-          <li><strong>Node.js 18+</strong> — Required if using CLI tools and local site preview</li>
-        </ul>
-        <div class="callout" style="margin-top: 1rem;">
-          <strong>Not sure about Trae?</strong>
-          Trae Solo is the primary interface for CodeArmy campaigns. It provides agent loops, 
-          MCP tool integration, and Skills support. Download from 
-          <a href="https://trae.ai" target="_blank" rel="noopener">trae.ai</a>.
-        </div>
-      </div>
-
-      <div>
-        <h2>Alice and CodeArmy: The split</h2>
-        <p class="section-copy">
-          Understanding the relationship between these two names is key to using the system correctly.
-        </p>
-        <ul class="page-list">
-          <li>
-            <strong>Alice</strong> — The underlying runtime and orchestration engine. 
-            This is where the code lives and executes.
-          </li>
-          <li>
-            <strong>CodeArmy</strong> — The product layer: workflows, conventions, and interfaces 
-            built on top of Alice. This is what you interact with.
-          </li>
-        </ul>
-        <p class="section-copy">
-          Think of it as: <em>Alice runs the engine; CodeArmy provides the playbook.</em>
-        </p>
-      </div>
+  <section class="container page-body split-grid">
+    <div>
+      <h2>Recommended starting point</h2>
+      <ol class="page-list">
+        <li>Keep the current runtime code in the Alice repository.</li>
+        <li>Use CodeArmy as the public-facing product name.</li>
+        <li>Make Trae Solo the primary user-facing entry point.</li>
+        <li>Keep CLI and Feishu as secondary entry points.</li>
+      </ol>
     </div>
 
-    <div class="split-grid" style="margin-top: 2rem;">
-      <div>
-        <h2>First steps</h2>
-        <ol class="page-list">
-          <li>
-            <strong>Clone the Alice runtime repo</strong>
-            <pre style="background: rgba(19,34,56,0.06); padding: 0.75rem 1rem; border-radius: 0.5rem; margin-top: 0.5rem; overflow-x: auto;"><code>git clone https://github.com/Alice-space/alice.git
-cd alice</code></pre>
-          </li>
-          <li>
-            <strong>Set up your campaign structure</strong> — Create a campaign repo following the 
-            <a href={`${baseUrl}how-it-works/`}>How It Works</a> conventions.
-          </li>
-          <li>
-            <strong>Initialize your first campaign</strong> — Define objective, baseline, and gates 
-            in <code>campaign.md</code>.
-          </li>
-          <li>
-            <strong>Run your first reconcile</strong> — Check campaign state and generate initial task packages.
-          </li>
-          <li>
-            <strong>Execute a task</strong> — Pick a bounded task, dispatch to an executor, and review output.
-          </li>
-        </ol>
-      </div>
-
-      <div>
-        <h2>What this page covers (and doesn't)</h2>
-        <p class="section-copy">
-          This quickstart is designed to get you oriented and moving. It does not cover:
-        </p>
-        <ul class="page-list">
-          <li>
-            <strong>Not covered:</strong> Detailed planner/reviewer/executor workflows — 
-            see <a href={`${baseUrl}how-it-works/`}>How It Works</a>
-          </li>
-          <li>
-            <strong>Not covered:</strong> Integration specifics for Feishu, Slack, or custom channels — 
-            see <a href={`${baseUrl}integrations/`}>Integrations</a>
-          </li>
-          <li>
-            <strong>Not covered:</strong> Research case studies and advanced patterns — 
-            see <a href={`${baseUrl}research-use-cases/`}>Research Use Cases</a>
-          </li>
-          <li>
-            <strong>Not covered:</strong> Roadmap and upcoming features — 
-            see <a href={`${baseUrl}roadmap/`}>Roadmap</a>
-          </li>
-        </ul>
-        <div class="callout" style="margin-top: 1rem;">
-          <strong>Stuck?</strong>
-          The <a href={`${baseUrl}how-it-works/`}>How It Works</a> page explains the 
-          campaign model in detail. For implementation questions, check the 
-          <a href="https://github.com/Alice-space/alice">Alice repo</a> issues and discussions.
-        </div>
-      </div>
+    <div>
+      <h2>Initial public package</h2>
+      <ul class="page-list">
+        <li>Landing page on GitHub Pages</li>
+        <li>Focused Quickstart documentation</li>
+        <li>How-It-Works narrative</li>
+        <li>Research use-case pages</li>
+      </ul>
     </div>
 
-    <div class="callout" style="margin-top: 2rem;">
-      <strong>Next steps after Quickstart</strong>
-      <div class="hero-actions" style="margin-top: 1rem;">
-        <a class="button" href={`${baseUrl}how-it-works/`}>Understand the Model</a>
-        <a class="button-secondary" href={`${baseUrl}integrations/`}>Choose Integration</a>
-        <a class="button-secondary" href={`${baseUrl}research-use-cases/`}>See Use Cases</a>
-      </div>
+    <div class="callout">
+      <strong>Technical note</strong>
+      This website is intentionally static and GitHub Pages-friendly. It avoids backends, dynamic
+      forms, and unnecessary client-side complexity so the product story can evolve quickly.
+    </div>
+
+    <div class="callout">
+      <strong>Current implementation note</strong>
+      The CodeArmy product narrative is being introduced while the runtime still lives in the
+      current Alice repository. This keeps the technical transition incremental.
     </div>
   </section>
 </BaseLayout>
