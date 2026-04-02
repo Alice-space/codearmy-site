@@ -134,7 +134,7 @@ export const siteContent: Record<Locale, SiteContent> = {
     ],
     hero: {
       eyebrow: "For work that lasts longer than one chat",
-      title: "CodeArmy manages long-running AI coding and research campaigns.",
+      title: "Give long-running AI work a memory.",
       body:
         "Use it when one task spans several repos, several review rounds, or several days of experiments. CodeArmy keeps the plan, task status, review results, and next action in repo so the work can stop, resume, and stay understandable.",
       actions: [
@@ -395,18 +395,18 @@ export const siteContent: Record<Locale, SiteContent> = {
     ],
     hero: {
       eyebrow: "给那些不会在一轮聊天里结束的工作",
-      title: "CodeArmy 用来管理长周期的 AI 编码和科研协作。",
+      title: "给 AI 长任务一条不会失忆的主线。",
       body:
-        "当一个任务会跨多个仓库、多个 review 回合，或者几天的实验执行时，它就比普通聊天和任务板更合适。CodeArmy 把计划、任务状态、review 结论和下一步动作写回仓库，所以工作中断之后还能接着做。",
+        "当一个任务跨多个仓库、多个 review 回合，或者几天几周的实验执行时，普通聊天会丢状态，任务板也不够细。CodeArmy 把计划、任务状态、review 结论和下一步动作写回仓库，让协作能暂停、能恢复、能复盘。",
       actions: [
         { label: "先看流程", href: "#flow" },
         { label: "再看案例", href: "#cases" }
       ],
       examples: [
-        "一个功能同时改多个仓库，而且必须经过显式 review。",
-        "一次科研迭代既有本地代码修改，也有集群作业和稍后唤醒。",
-        "Planner、Executor、Reviewer 和人类操作员之间需要稳定交接。",
-        "你想一眼看到哪些任务可执行、哪些被阻塞、哪些在等待。"
+        "一个功能同时改多个仓库，还要经过多轮 review。",
+        "一次科研迭代既有本地改代码，也有集群作业和稍后唤醒。",
+        "不同 agent 和人类操作员之间，需要稳定交接，不想反复重讲背景。",
+        "你想随时知道：什么能做，什么卡住了，什么还在等。"
       ],
       terminalLabel: "典型控制循环",
       terminalLines: [
@@ -437,9 +437,9 @@ export const siteContent: Record<Locale, SiteContent> = {
     },
     why: {
       eyebrow: "为什么需要 CodeArmy",
-      title: "因为聊天记录不是长期项目系统。",
+      title: "长任务一长，状态就开始散。",
       body:
-        "短任务靠聊天就够了。长任务一旦跨仓库、跨人、跨计算面，状态就会开始漏。CodeArmy 的价值，就是把这些状态留在能复查、能恢复的地方。",
+        "短任务靠聊天就够了。长任务一旦跨仓库、跨人、跨计算面，计划、证据和下一步动作就会慢慢散掉。CodeArmy 的价值，就是把这些状态留在能复查、能恢复的地方。",
       problems: [
         {
           title: "计划会淹没在对话里",
@@ -461,16 +461,16 @@ export const siteContent: Record<Locale, SiteContent> = {
     },
     capabilities: {
       eyebrow: "CodeArmy 能做什么",
-      title: "它提供的是一份长任务协作合同。",
+      title: "它做的事都很具体。",
       body:
-        "重点不是把描述说得多抽象，而是让下一步动作更清楚、当前状态更可查、review 证据更容易回看。",
+        "重点不是喊概念，而是把长任务最容易丢的那部分状态接住，让下一步动作更清楚、当前状态更可查。",
       features: [
         {
-          title: "把一个目标拆成可审阅的任务包",
+          title: "把目标拆成真正能执行的任务包",
           body: "计划会落成 phase、task、依赖、write scope 和 acceptance，而不是一串模糊待办。"
         },
         {
-          title: "告诉你哪些任务能做、哪些被阻塞、哪些在等待",
+          title: "自动看清 ready、blocked 和 waiting",
           body: "Reconcile 直接从仓库真相源推导队列，而不是依赖操作员记忆。"
         },
         {
@@ -482,20 +482,20 @@ export const siteContent: Record<Locale, SiteContent> = {
           body: "Source repo、分支、worktree 和远程作业都保持边界清楚、责任明确。"
         },
         {
-          title: "让长任务可以被唤醒接回",
+          title: "让长任务能等，也能回来接着做",
           body: "等训练、等评估、等外部证据，不再意味着主线状态丢失。"
         },
         {
-          title: "把状态和报告写回仓库",
+          title: "把状态和报告一起写回仓库",
           body: "驱动执行的那套任务产物，本身也能支撑 live report 和最终总结。"
         }
       ]
     },
     flow: {
       eyebrow: "流程",
-      title: "循环很简单：定目标、出计划、做任务、审结果、再回填。",
+      title: "一个目标，五步走完一轮。",
       body:
-        "这是站在用户视角的一条主线。每一步都会留下产物，方便下一位人或 agent 继续接手。",
+        "这是站在用户视角的一条主线。每一步都会留下产物，方便下一位人或 agent 接着往下做。",
       nodes: [
         {
           step: "01",
@@ -531,7 +531,7 @@ export const siteContent: Record<Locale, SiteContent> = {
     },
     cases: {
       eyebrow: "真实案例",
-      title: "这不是给演示用的小任务，而是给现实里已经很乱的工作。",
+      title: "它适合那些已经复杂起来的真实工作。",
       body:
         "下面这些是 Alice / CodeArmy 当前工作环境里已经存在的典型 campaign 形态，不是凭空编出来的营销例子。",
       items: [
@@ -569,7 +569,7 @@ export const siteContent: Record<Locale, SiteContent> = {
     },
     repo: {
       eyebrow: "为什么必须仓库优先",
-      title: "CodeArmy 选择仓库优先，因为恢复工作只能靠仓库。",
+      title: "仓库优先，不是口号，是为了接得住。",
       body:
         "聊天可以帮助人和 agent 推进协作，但真正发生了什么、当前走到哪一步、下一步能不能继续，必须落在仓库里。只有这样，中断、交接和 review 才可靠。",
       points: [
@@ -592,7 +592,7 @@ export const siteContent: Record<Locale, SiteContent> = {
     },
     quickstart: {
       eyebrow: "快速入门",
-      title: "最快理解 CodeArmy 的方式，仍然是从仓库出发。",
+      title: "最快理解它的方法，就是亲手跑一轮。",
       body:
         "如果你想快速上手，就先建一个 campaign repo，然后把控制循环跑一遍。",
       steps: [
@@ -629,7 +629,7 @@ export const siteContent: Record<Locale, SiteContent> = {
         "如果你是在排查系统自己，就要把 runtime repo 和 campaign repo 一起看：前者解释控制流，后者保存长期状态。"
     },
     closing: {
-      title: "好的开源编排层，不该显得神秘，而该显得能查、能接、能恢复。",
+      title: "AI 可以加速执行，但长期协作必须有记忆。",
       body:
         "CodeArmy 最有价值的时候，是它把长任务变得清楚：计划看得见，执行有边界，review 能回看，暂停之后还能继续。",
       primary: { label: "从流程开始看", href: "#flow" },

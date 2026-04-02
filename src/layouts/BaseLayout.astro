@@ -83,7 +83,7 @@ const ui =
     <link rel="alternate" hreflang={locale === "zh" ? "en" : "zh-CN"} href={counterpartUrl} />
     <link rel="alternate" hreflang="x-default" href={new URL(addBase("/"), Astro.site)} />
   </head>
-  <body>
+  <body data-locale={locale}>
     <a class="skip-link" href="#main-content">{ui.skipLink}</a>
 
     <header class="site-header">
