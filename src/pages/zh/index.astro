@@ -1,0 +1,161 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const pillars = [
+  {
+    title: "以仓库为核心的 Campaign",
+    text: "在结构化的 campaign 中跟踪长期工作，而不是依赖一次性聊天线程。"
+  },
+  {
+    title: "严格的工作流关卡",
+    text: "通过计划、评审、批准、执行、协调和报告的显式状态转换保持可信度。"
+  },
+  {
+    title: "研究就绪",
+    text: "为代码、实验、集群作业、指标和证据一体化推进而设计。"
+  }
+];
+
+const integrations = ["Trae Solo", "CLI", "飞书", "集群 / HPC", "报告", "仓库模板"];
+---
+
+<BaseLayout
+  title="面向长期 AI 编程的仓库优先编排"
+  description="CodeArmy 将长期运行的编码和研究工作转化为结构化 campaign，支持规划、执行、评审、协调和报告。"
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">CodeArmy</p>
+        <h1>把长期 AI 编程转化为结构化 campaign。</h1>
+        <p class="lead">
+          CodeArmy 是面向长期编码和研究项目的 repo-first orchestration layer。你可以在
+          Trae、CLI 和团队工作流中推进计划、执行、评审、协调和报告，而不是让状态散落在对话里。
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>阅读快速入门</a>
+          <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>
+            了解工作原理
+          </a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <p class="mini-title">不是另一个一次性 Agent</p>
+        <ul>
+          <li>Campaign 而非一次性 prompt</li>
+          <li>Planner、Reviewer、Executor 的角色纪律</li>
+          <li>依靠 repo 状态而不是聊天记忆漂移</li>
+          <li>面向编码加实验、指标和报告的一体化工作流</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">为什么是 CodeArmy</p>
+      <h2>为比单个 prompt 更持久的工作而构建。</h2>
+      <p class="section-copy">
+        多数自主 agent 更擅长一次性任务。CodeArmy 针对的是跨规划、实施、实验、评审和报告的多阶段
+        campaign，并要求所有产物都能回写到可审计的 repo 状态。
+      </p>
+      <div class="grid-3">
+        {pillars.map((pillar) => (
+          <article class="card">
+            <h3>{pillar.title}</h3>
+            <p>{pillar.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split-grid">
+      <div>
+        <p class="eyebrow">工作流</p>
+        <h2>从 campaign 启动到结案报告。</h2>
+        <p class="section-copy">
+          CodeArmy 把 AI 编码工作组织成闭环，因此每一轮规划、执行和评审都会在仓库中留下持久结构，而不是
+          被新的会话覆盖。
+        </p>
+        <div class="workflow">
+          <div class="workflow-step">
+            <strong>1</strong>
+            <p>创建带有目标、基线和关卡条件的 campaign。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>2</strong>
+            <p>拆成带上下文、write scope 和验收标准的 task package。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>3</strong>
+            <p>运行 planner、reviewer 和 executor 的显式交接回合。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>4</strong>
+            <p>通过 reconcile 刷新状态、决定下一步并暴露 blocker。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>5</strong>
+            <p>从同一套 campaign 事实源派生进度摘要和最终报告。</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="padding: 1.5rem;">
+        <p class="mini-title">入口面</p>
+        <ul class="feature-list">
+          {integrations.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <div class="callout" style="margin-top: 1.2rem;">
+          <strong>当前切入点</strong>
+          已用于真实研究工作流，包括 JUNO 蒙特卡洛参数调优和 CEPC FastSim DiT 优化。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">入口策略</p>
+      <h2>同一个核心，多种 surface。</h2>
+      <p class="section-copy">
+        共享的是同一套 campaign state，而不是所有入口面都提供等价体验。日常主入口应优先理解为 Trae；
+        CLI、飞书和集群负责自动化、协作和远端执行。
+      </p>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Trae Solo</h3>
+          <p>日常主入口，承接自定义 agents、Skills 和 MCP tools 的产品叙事。</p>
+        </article>
+        <article class="card">
+          <h3>CLI 和自动化</h3>
+          <p>适合初始化 campaign、reconcile 状态和脚本化生成报告。</p>
+        </article>
+        <article class="card">
+          <h3>飞书与团队同步</h3>
+          <p>负责协作摘要、审批信号和团队通知，而不是替代 repo 事实源。</p>
+        </article>
+        <article class="card">
+          <h3>Cluster / HPC</h3>
+          <p>承接真实实验和远端作业，让结果继续回到同一条 campaign 时间线。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container callout">
+      <strong>先从聚焦前门开始</strong>
+      首个公开版本要先把长期 AI 编码和研究 campaign 的产品前门讲清楚，而不是急着扩成宽泛平台。
+      <div class="hero-actions" style="margin-top: 1rem;">
+        <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>打开快速入门</a>
+        <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/research-use-cases/`}>
+          查看研究用例
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

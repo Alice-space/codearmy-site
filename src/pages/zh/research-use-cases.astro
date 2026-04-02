@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const scenarios = [
+  {
+    title: "JUNO 蒙特卡洛参数调优",
+    summary:
+      "把参数扫描、批处理作业、指标比较和阶段总结组织成同一个长期 campaign，而不是散落在多轮聊天和临时脚本里。",
+    points: [
+      "围绕候选参数组、假设和观察记录形成可回看 task package。",
+      "让集群运行、结果记录和后续 review 绑定到同一套 repo 状态。",
+      "把阶段总结沉淀成可复用的报告材料，而不是会话结束即丢失的口头结论。"
+    ]
+  },
+  {
+    title: "CEPC FastSim DiT 优化",
+    summary:
+      "把模型结构迭代、训练运行、速度与质量权衡、评估结果和结论收敛到同一个 repo-first workflow 中。",
+    points: [
+      "比较不同模型版本时，同时保留代码变更、实验配置和评价证据。",
+      "在切换 baseline 之前保留 review gate，避免只凭单轮对话改方向。",
+      "让实验结果最终落成结构化报告，而不是零散截图和短期记忆。"
+    ]
+  }
+];
+
+const evidenceTypes = [
+  "代码变更与 task package 上下文",
+  "实验运行记录、集群作业与配置",
+  "指标、对比结论和阶段性 review",
+  "面向组会或后续决策的摘要与报告"
+];
+
+const repoFirstValue = [
+  "项目状态可以跨会话、跨工具延续，不需要每次重新解释背景。",
+  "Reviewer 能看到真实产物链路，而不是倒推聊天记录。",
+  "长期实验和多轮调参可以在明确 handoff 状态下持续推进。",
+  "报告由 repo 中的证据派生出来，而不是事后手工回忆。"
+];
+---
+
+<BaseLayout
+  title="研究用例"
+  description="查看 CodeArmy 如何服务长期科研编程场景，并理解为什么代码、实验、指标与报告需要 repo-first orchestration。"
+>
+  <section class="container page-hero">
+    <p class="eyebrow">研究用例</p>
+    <h1>面向代码加实验的长期科研工作，而不只是代码生成。</h1>
+    <p class="lead">
+      CodeArmy 更适合需要长期推进的科研编程流程：代码修改、实验运行、指标比较、review 结论和最终报告都要一起前进，而不是彼此散落。
+    </p>
+    <div class="hero-actions">
+      <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>返回中文快速入门</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>查看工作原理</a>
+    </div>
+  </section>
+
+  <section class="container page-body">
+    <div class="callout">
+      <strong>这是一页 evidence page，不是公开 benchmark。</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        这里描述的是真实科研使用背景与工作模式，用来说明 CodeArmy 为什么适合长期科研编程；页面不声称未经公开来源验证的量化收益。
+      </p>
+    </div>
+  </section>
+
+  <section class="container page-body grid-2">
+    {scenarios.map((scenario) => (
+      <article class="card">
+        <p class="mini-title">真实场景</p>
+        <h3>{scenario.title}</h3>
+        <p>{scenario.summary}</p>
+        <ul class="page-list">
+          {scenario.points.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="container page-body split-grid">
+    <div>
+      <h2>关键产物与证据类型</h2>
+      <ul class="page-list">
+        {evidenceTypes.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h2>为什么需要 repo-first orchestration</h2>
+      <ul class="page-list">
+        {repoFirstValue.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="集成入口"
+  description="CodeArmy 在 Trae、CLI、协作面和远端执行环境之间复用同一套 campaign state，但这些入口面的职责并不对等。"
+>
+  <section class="container page-hero">
+    <p class="eyebrow">集成入口</p>
+    <h1>同一套 campaign state 可以跨入口继续，但主入口只有一个。</h1>
+    <p class="lead">
+      CodeArmy 的目标不是把所有入口面做成并列功能卡片，而是让同一个 campaign 在不同工作面之间保持连续。日常主入口仍应优先理解为 Trae；CLI、飞书与 Cluster / HPC 负责自动化、协作同步和远端执行。
+    </p>
+    <div class="hero-actions">
+      <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>回到中文 Quickstart</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>
+        查看工作原理
+      </a>
+    </div>
+  </section>
+
+  <section class="container section">
+    <h2>入口层次</h2>
+    <p class="section-copy">
+      这些入口面共享的是 campaign 的事实、任务状态和结果沉淀，不代表它们都是产品第一现场。如果把它们理解成完全等价的客户端，就会误判当前产品边界。
+    </p>
+    <div class="grid-2">
+      <article class="card">
+        <p class="mini-title">Primary Surface</p>
+        <h3>Trae Solo 是日常主入口</h3>
+        <p>产品应主要通过 Trae 内的 custom agents、Skills 和 MCP tools 被使用，而不是要求用户先搭一套脚本系统。</p>
+      </article>
+      <article class="card">
+        <p class="mini-title">Shared State</p>
+        <h3>共享的是状态，不是体验对等</h3>
+        <p>入口切换后，任务上下文、结果、审阅和报告仍应回到同一套 repo-first 事实源，而不是各自维护分叉状态。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container section">
+    <h2>次级入口分别解决什么问题</h2>
+    <div class="grid-2">
+      <article class="card">
+        <h3>CLI</h3>
+        <p>更适合自动化任务、定时 reconcile、批量生成报告和脚本化接入。它是 automation-friendly surface，不是所有用户的第一触点。</p>
+      </article>
+      <article class="card">
+        <h3>飞书</h3>
+        <p>主要承接协作摘要、审批和外发通知，帮助团队消费 repo 内结论，但不是产品重心。</p>
+      </article>
+      <article class="card">
+        <h3>Cluster / HPC</h3>
+        <p>承接真实实验、远端作业和大规模计算。价值在于远端结果仍能回到同一条 campaign 时间线。</p>
+      </article>
+      <article class="card">
+        <h3>边界提醒</h3>
+        <p>任何需要额外配置、权限或私有环境的能力，都只能作为接入方向说明，不能写成默认开箱即用承诺。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="callout">
+      <p class="eyebrow">Recommended Path</p>
+      <h2>先理解主入口，再考虑次级入口。</h2>
+      <p class="section-copy" style="margin-bottom: 1rem;">
+        如果你是第一次接触 CodeArmy，先走 Trae 主入口和 repo-first workflow。只有在需要自动化、团队协作或远端执行时，再决定是否接入 CLI、飞书或 Cluster / HPC。
+      </p>
+      <div class="hero-actions" style="margin-top: 0;">
+        <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>打开中文 Quickstart</a>
+        <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>
+          了解 workflow 与角色边界
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="文档"
+  description="CodeArmy 中文文档入口，帮助你快速理解产品定位、使用路径和工作流边界。"
+>
+  <section class="container page-hero">
+    <p class="eyebrow">文档</p>
+    <h1>从快速入门开始，再逐步深入产品叙事。</h1>
+    <p class="lead">
+      中文文档入口保持精简清晰：先解释 CodeArmy 是什么、为什么存在，再引导你进入工作原理、研究用例和集成边界。
+    </p>
+    <div class="hero-actions">
+      <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>打开快速入门</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/`}>返回中文首页</a>
+    </div>
+  </section>
+
+  <section class="container page-body">
+    <h2>推荐阅读顺序</h2>
+    <div class="split-grid">
+      <div>
+        <h3>1. 快速入门</h3>
+        <p>先建立产品定位、首次试用途径，以及 Alice Runtime 与 CodeArmy 的关系。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>开始阅读 →</a>
+        </p>
+      </div>
+      <div>
+        <h3>2. 工作原理</h3>
+        <p>理解 repo-first orchestration、task package、角色边界和 hard gates。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>查看中文工作原理 →</a>
+        </p>
+      </div>
+      <div>
+        <h3>3. 集成入口</h3>
+        <p>理解 Trae、CLI、飞书和 Cluster / HPC 的主次关系，而不是把它们看成等价客户端。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/integrations/`}>查看中文集成页 →</a>
+        </p>
+      </div>
+      <div>
+        <h3>4. 研究用例</h3>
+        <p>了解 CodeArmy 为什么适合长期科研编程，并查看 JUNO 与 CEPC 场景。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/research-use-cases/`}>查看中文研究用例 →</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 2rem;">
+      <strong>Alice Runtime 与 CodeArmy</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        Alice 仍是当前运行时代码库，CodeArmy 是面向外部的产品品牌。站点负责承载产品前门和文档，
+        运行时代码则继续留在 Alice 仓库中逐步演进。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

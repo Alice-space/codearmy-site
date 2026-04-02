@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="快速入门"
+  description="CodeArmy 中文快速入门，帮助你在几分钟内理解产品定位、前置条件和首次试用途径。"
+>
+  <section class="container page-hero">
+    <p class="eyebrow">快速入门</p>
+    <h1>先理解产品叙事，再开始第一次试用。</h1>
+    <p class="lead">
+      本页是中文文档体系的第一站。它解释 CodeArmy 是什么、它与 Alice Runtime 的关系，以及你应该从哪里进入第一个 repo-first campaign。
+    </p>
+    <div class="hero-actions">
+      <a class="button" href={`${import.meta.env.BASE_URL}zh/`}>前往中文首页</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/docs/`}>返回文档入口</a>
+    </div>
+  </section>
+
+  <section class="container page-body split-grid">
+    <div>
+      <h2>推荐起点</h2>
+      <ol class="page-list">
+        <li>把当前运行时代码继续留在 Alice 仓库里。</li>
+        <li>对外统一使用 CodeArmy 作为产品名。</li>
+        <li>把 Trae Solo 视作主要用户入口。</li>
+        <li>把 CLI 和飞书视作次级入口，而不是并列主入口。</li>
+      </ol>
+    </div>
+
+    <div>
+      <h2>首个公开包应该包含什么</h2>
+      <ul class="page-list">
+        <li>GitHub Pages 上的产品前门</li>
+        <li>聚焦的快速入门文档</li>
+        <li>工作原理叙事</li>
+        <li>研究用例与路线图页面</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <strong>技术边界</strong>
+      网站刻意保持静态、适合 GitHub Pages 发布，不依赖后端、动态表单或复杂客户端逻辑，优先把产品叙事讲清楚。
+    </div>
+
+    <div class="callout">
+      <strong>当前实现状态</strong>
+      CodeArmy 产品叙事已经成型，但运行时仍然逐步留在 Alice 仓库里。这是刻意的渐进式过渡，而不是品牌和代码立即完全拆分。
+    </div>
+  </section>
+
+  <section class="container page-body">
+    <h2>下一步阅读</h2>
+    <div class="hero-actions">
+      <a class="button" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>查看工作原理</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/integrations/`}>查看集成入口</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/research-use-cases/`}>
+        查看研究用例
+      </a>
+    </div>
+  </section>
+</BaseLayout>

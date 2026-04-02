@@ -12,10 +12,135 @@ const {
 } = Astro.props;
 
 const pageTitle = `${title} | CodeArmy`;
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const currentPath = Astro.url.pathname;
+
+const stripBase = (path: string) => {
+  if (baseUrl !== "/" && path.startsWith(baseUrl.slice(0, -1))) {
+    const remainder = path.slice(baseUrl.length - 1);
+    return remainder || "/";
+  }
+  return path || "/";
+};
+
+const addBase = (path: string) => {
+  if (baseUrl === "/") {
+    return path;
+  }
+  const normalized = path.startsWith("/") ? path.slice(1) : path;
+  return `${baseUrl}${normalized}`;
+};
+
+const routeMap: Record<string, string> = {
+  "/": "/zh/",
+  "/docs/": "/zh/docs/",
+  "/docs/quickstart/": "/zh/docs/quickstart/",
+  "/how-it-works/": "/zh/how-it-works/",
+  "/integrations/": "/zh/integrations/",
+  "/research-use-cases/": "/zh/research-use-cases/",
+  "/roadmap/": "/zh/roadmap/"
+};
+
+const reverseRouteMap = Object.fromEntries(
+  Object.entries(routeMap).map(([enPath, zhPath]) => [zhPath, enPath])
+);
+
+const normalizePath = (path: string) => {
+  if (path === "/zh") {
+    return "/zh/";
+  }
+  if (path !== "/" && !path.endsWith("/")) {
+    return `${path}/`;
+  }
+  return path;
+};
+
+const strippedPath = normalizePath(stripBase(currentPath));
+const currentLocale = strippedPath.startsWith("/zh/") ? "zh" : "en";
+
+const getCounterpartPath = (path: string) => {
+  if (routeMap[path]) {
+    return routeMap[path];
+  }
+  if (reverseRouteMap[path]) {
+    return reverseRouteMap[path];
+  }
+  if (path.startsWith("/zh/")) {
+    const fallback = path.slice(3);
+    return normalizePath(fallback.startsWith("/") ? fallback : `/${fallback}`);
+  }
+  return normalizePath(`/zh${path === "/" ? "/" : path}`);
+};
+
+const counterpartStrippedPath = getCounterpartPath(strippedPath);
+const counterpartHref = addBase(counterpartStrippedPath);
+const hasCounterpart = Boolean(routeMap[strippedPath] || reverseRouteMap[strippedPath]);
+const localeRoot = currentLocale === "zh" ? addBase("/zh/") : baseUrl;
+
+const labels =
+  currentLocale === "zh"
+    ? {
+        home: "首页",
+        howItWorks: "工作原理",
+        research: "研究用例",
+        integrations: "集成",
+        roadmap: "路线图",
+        quickstart: "快速入门",
+        switchTarget: "English",
+        switchAria: "切换到英文",
+        currentBadge: "中",
+        footerExplore: "继续阅读",
+        footerCode: "当前代码",
+        footerCopy: "面向长期 AI 编程与研究 campaign 的 repo-first orchestration layer。",
+        brandSubline: "Repo-First Orchestration",
+        skipLink: "跳到主要内容",
+        menuLabel: "主导航",
+        menuToggle: "切换导航"
+      }
+    : {
+        home: "Home",
+        howItWorks: "How It Works",
+        research: "Research",
+        integrations: "Integrations",
+        roadmap: "Roadmap",
+        quickstart: "Quickstart",
+        switchTarget: "中文",
+        switchAria: "Switch to Chinese",
+        currentBadge: "EN",
+        footerExplore: "Explore",
+        footerCode: "Current Code",
+        footerCopy: "A repo-first orchestration layer for long-horizon coding and research campaigns.",
+        brandSubline: "Repo-First Orchestration",
+        skipLink: "Skip to main content",
+        menuLabel: "Primary",
+        menuToggle: "Toggle navigation"
+      };
+
+const navItems =
+  currentLocale === "zh"
+    ? [
+        { href: addBase("/zh/"), label: labels.home },
+        { href: addBase("/zh/how-it-works/"), label: labels.howItWorks },
+        { href: addBase("/zh/research-use-cases/"), label: labels.research },
+        { href: addBase("/zh/integrations/"), label: labels.integrations },
+        { href: addBase("/zh/roadmap/"), label: labels.roadmap },
+        { href: addBase("/zh/docs/quickstart/"), label: labels.quickstart, highlight: true }
+      ]
+    : [
+        { href: baseUrl, label: labels.home },
+        { href: addBase("/how-it-works/"), label: labels.howItWorks },
+        { href: addBase("/research-use-cases/"), label: labels.research },
+        { href: addBase("/integrations/"), label: labels.integrations },
+        { href: addBase("/roadmap/"), label: labels.roadmap },
+        { href: addBase("/docs/quickstart/"), label: labels.quickstart, highlight: true }
+      ];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={currentLocale === "zh" ? "zh-CN" : "en"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,58 +151,239 @@ const pageTitle = `${title} | CodeArmy`;
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
     <link rel="canonical" href={Astro.url.href} />
+    <link rel="alternate" hreflang={currentLocale === "zh" ? "zh-CN" : "en"} href={Astro.url.href} />
+    {
+      hasCounterpart && (
+        <link
+          rel="alternate"
+          hreflang={currentLocale === "zh" ? "en" : "zh-CN"}
+          href={new URL(counterpartHref, Astro.site)}
+        />
+      )
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(baseUrl, Astro.site)} />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">{labels.skipLink}</a>
+
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href={`${import.meta.env.BASE_URL}`}>
-          <span class="brand-mark">CA</span>
+        <a class="brand" href={localeRoot} aria-label="CodeArmy Home">
+          <span class="brand-mark" aria-hidden="true">CA</span>
           <span class="brand-text">
             <strong>CodeArmy</strong>
-            <small>Powered by Alice Runtime</small>
+            <small>{labels.brandSubline}</small>
           </span>
         </a>
-        <nav class="site-nav" aria-label="Primary">
-          <a href={`${import.meta.env.BASE_URL}`}>Home</a>
-          <a href={`${import.meta.env.BASE_URL}how-it-works/`}>How It Works</a>
-          <a href={`${import.meta.env.BASE_URL}research-use-cases/`}>Research</a>
-          <a href={`${import.meta.env.BASE_URL}integrations/`}>Integrations</a>
-          <a href={`${import.meta.env.BASE_URL}roadmap/`}>Roadmap</a>
-          <a href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Quickstart</a>
+
+        <button
+          class="nav-toggle"
+          aria-label={labels.menuToggle}
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label={labels.menuLabel}>
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class={item.highlight ? "nav-highlight" : undefined}
+              aria-current={strippedPath === stripBase(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
+
+        {
+          hasCounterpart && (
+            <div class="lang-switcher">
+              <button
+                class="lang-switcher-btn"
+                data-counterpart={counterpartHref}
+                aria-label={labels.switchAria}
+              >
+                <span class="lang-current">{labels.currentBadge}</span>
+                <span class="lang-separator">/</span>
+                <span class="lang-target">{labels.switchTarget}</span>
+              </button>
+            </div>
+          )
+        }
       </div>
     </header>
 
-    <main>
+    <main id="main-content">
       <slot />
     </main>
 
     <footer class="site-footer">
       <div class="container footer-grid">
-        <div>
+        <div class="footer-brand">
           <p class="eyebrow">CodeArmy</p>
-          <p class="footer-copy">
-            A repo-first orchestration layer for long-horizon coding and research campaigns.
-          </p>
+          <p class="footer-copy">{labels.footerCopy}</p>
         </div>
-        <div>
-          <p class="footer-title">Explore</p>
+        <div class="footer-section">
+          <p class="footer-title">{labels.footerExplore}</p>
           <ul class="footer-links">
-            <li><a href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Quickstart</a></li>
-            <li><a href={`${import.meta.env.BASE_URL}how-it-works/`}>How It Works</a></li>
-            <li><a href={`${import.meta.env.BASE_URL}research-use-cases/`}>Research Use Cases</a></li>
+            <li><a href={navItems[5].href}>{labels.quickstart}</a></li>
+            <li><a href={navItems[1].href}>{labels.howItWorks}</a></li>
+            <li><a href={navItems[2].href}>{labels.research}</a></li>
           </ul>
         </div>
-        <div>
-          <p class="footer-title">Current Code</p>
+        <div class="footer-section">
+          <p class="footer-title">{labels.footerCode}</p>
           <ul class="footer-links">
             <li><a href="https://github.com/Alice-space/alice">Alice Runtime Repo</a></li>
             <li><a href="https://github.com/Alice-space/codearmy-site">Site Repo</a></li>
           </ul>
         </div>
       </div>
+      <div class="container footer-meta">
+        <p>{labels.footerCopy}</p>
+      </div>
     </footer>
+
+    <script is:inline>
+      (() => {
+        const BASE_URL = "{baseUrl}";
+        const BASE_PATH = BASE_URL === "/" ? "" : BASE_URL.replace(/\/$/, "");
+        const STORAGE_KEY = "codearmy-locale-pref";
+        const routeMap = {
+          "/": "/zh/",
+          "/docs/": "/zh/docs/",
+          "/docs/quickstart/": "/zh/docs/quickstart/",
+          "/how-it-works/": "/zh/how-it-works/",
+          "/integrations/": "/zh/integrations/",
+          "/research-use-cases/": "/zh/research-use-cases/",
+          "/roadmap/": "/zh/roadmap/"
+        };
+        const reverseRouteMap = Object.fromEntries(
+          Object.entries(routeMap).map(([enPath, zhPath]) => [zhPath, enPath])
+        );
+        const availableZhPaths = new Set(Object.values(routeMap));
+
+        const stripBase = (path) => {
+          if (BASE_PATH && path.startsWith(BASE_PATH)) {
+            const remainder = path.slice(BASE_PATH.length);
+            return remainder || "/";
+          }
+          return path || "/";
+        };
+
+        const addBase = (path) => {
+          if (!BASE_PATH) return path;
+          return `${BASE_PATH}${path}`;
+        };
+
+        const normalizePath = (path) => {
+          if (path === "/zh") return "/zh/";
+          if (path !== "/" && !path.endsWith("/")) return `${path}/`;
+          return path;
+        };
+
+        const isZhPath = (path) => normalizePath(stripBase(path)).startsWith("/zh/");
+        const getLocaleFromPath = (path) => (isZhPath(path) ? "zh" : "en");
+
+        const getCounterpartPath = (path) => {
+          const stripped = normalizePath(stripBase(path));
+          if (routeMap[stripped]) return addBase(routeMap[stripped]);
+          if (reverseRouteMap[stripped]) return addBase(reverseRouteMap[stripped]);
+          if (stripped.startsWith("/zh/")) {
+            const fallback = stripped.slice(3);
+            return addBase(normalizePath(fallback.startsWith("/") ? fallback : `/${fallback}`));
+          }
+          return addBase(normalizePath(`/zh${stripped === "/" ? "/" : stripped}`));
+        };
+
+        const getStoredLocale = () => {
+          try {
+            const value = window.localStorage.getItem(STORAGE_KEY);
+            return value === "zh" || value === "en" ? value : null;
+          } catch {
+            return null;
+          }
+        };
+
+        const storeLocale = (locale) => {
+          try {
+            window.localStorage.setItem(STORAGE_KEY, locale);
+          } catch {}
+        };
+
+        const isBrowserLocaleChinese = () =>
+          (navigator.language || "").toLowerCase().startsWith("zh");
+
+        const maybeRedirect = () => {
+          const currentPath = window.location.pathname;
+          const currentLocale = getLocaleFromPath(currentPath);
+          const storedLocale = getStoredLocale();
+          const redirectFlag = window.sessionStorage.getItem("codearmy-locale-redirect");
+
+          if (storedLocale && storedLocale !== currentLocale) {
+            const target = getCounterpartPath(currentPath);
+            const strippedTarget = normalizePath(stripBase(target));
+            if (storedLocale === "zh" && !availableZhPaths.has(strippedTarget)) {
+              return;
+            }
+            if (!redirectFlag && target !== currentPath) {
+              window.sessionStorage.setItem("codearmy-locale-redirect", "1");
+              window.location.href = target;
+            }
+            return;
+          }
+
+          if (!storedLocale && currentLocale === "en" && isBrowserLocaleChinese()) {
+            const target = getCounterpartPath(currentPath);
+            const strippedTarget = normalizePath(stripBase(target));
+            if (availableZhPaths.has(strippedTarget) && !redirectFlag) {
+              window.sessionStorage.setItem("codearmy-locale-redirect", "1");
+              window.location.href = target;
+              return;
+            }
+          }
+
+          window.sessionStorage.removeItem("codearmy-locale-redirect");
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+          maybeRedirect();
+
+          const langButton = document.querySelector(".lang-switcher-btn");
+          if (langButton instanceof HTMLButtonElement) {
+            langButton.addEventListener("click", () => {
+              const currentLocale = getLocaleFromPath(window.location.pathname);
+              const nextLocale = currentLocale === "zh" ? "en" : "zh";
+              storeLocale(nextLocale);
+              const target = langButton.dataset.counterpart || getCounterpartPath(window.location.pathname);
+              window.location.href = target;
+            });
+          }
+
+          const navToggle = document.querySelector(".nav-toggle");
+          const siteNav = document.getElementById("site-nav");
+          if (navToggle instanceof HTMLButtonElement && siteNav) {
+            navToggle.addEventListener("click", () => {
+              const expanded = navToggle.getAttribute("aria-expanded") === "true";
+              navToggle.setAttribute("aria-expanded", String(!expanded));
+              siteNav.classList.toggle("is-open");
+            });
+
+            siteNav.querySelectorAll("a").forEach((link) => {
+              link.addEventListener("click", () => {
+                navToggle.setAttribute("aria-expanded", "false");
+                siteNav.classList.remove("is-open");
+              });
+            });
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
