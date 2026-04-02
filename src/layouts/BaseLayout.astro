@@ -57,8 +57,10 @@ const strippedPath = normalizePath(stripBase(currentPath));
 const currentLocale = strippedPath.startsWith("/zh/") ? "zh" : "en";
 const sectionAnchor = routeSectionMap[strippedPath] ?? "#hero";
 
+const enRoot = addBase("/");
 const localeRoot = currentLocale === "zh" ? addBase("/zh/") : addBase("/");
 const counterpartRoot = currentLocale === "zh" ? addBase("/") : addBase("/zh/");
+const zhRoot = addBase("/zh/");
 const counterpartHref = `${counterpartRoot}${sectionAnchor}`;
 const activeAnchor = sectionAnchor.replace("#", "");
 
@@ -198,20 +200,23 @@ const footerLinks =
         </nav>
 
         <div class="lang-switcher">
-            <button
-              type="button"
+            <a
               class="lang-switcher-btn"
+              href={counterpartHref}
               data-current-locale={currentLocale}
+              data-current-root={localeRoot}
+              data-en-root={enRoot}
+              data-zh-root={zhRoot}
               data-counterpart-root={counterpartRoot}
               data-section-anchor={sectionAnchor}
-              data-counterpart={counterpartHref}
               data-next-locale={currentLocale === "zh" ? "en" : "zh"}
               aria-label={labels.switchAria}
-          >
+              role="button"
+            >
             <span class="lang-current">{labels.currentBadge}</span>
             <span class="lang-separator">/</span>
             <span class="lang-target">{labels.switchTarget}</span>
-          </button>
+          </a>
         </div>
       </div>
     </header>
@@ -265,21 +270,72 @@ const footerLinks =
             return valid.has(hash) ? hash : "#hero";
           };
 
+          const getStoredLocale = () => {
+            try {
+              const stored = window.localStorage.getItem(STORAGE_KEY);
+              if (stored === "en" || stored === "zh") return stored;
+            } catch (_err) {
+              // localStorage might be unavailable
+            }
+            return null;
+          };
+
+          const detectBrowserLocale = () => {
+            const lang = (navigator.language || "en").toLowerCase();
+            return lang === "zh" || lang.startsWith("zh-") || lang.startsWith("zh_")
+              ? "zh"
+              : "en";
+          };
+
+          const getSectionAnchor = (fallback = "#hero") => {
+            const fromHash = normalizeSectionHash(window.location.hash || "");
+            if (fromHash !== "#hero") {
+              return fromHash;
+            }
+            return normalizeSectionHash(fallback);
+          };
+
+          const jumpToLocale = (nextLocale, persist = true) => {
+            if (!nextLocale) return;
+
+            const currentLocale = langButton.dataset.currentLocale || "en";
+            if (currentLocale === nextLocale) return;
+
+            const targetRoot =
+              nextLocale === "zh" ? langButton.dataset.zhRoot : langButton.dataset.enRoot;
+            if (!targetRoot) return;
+
+            const anchor = getSectionAnchor(langButton.dataset.sectionAnchor);
+            const target = `${targetRoot}${anchor}`;
+
+            if (persist) {
+              storeLocale(nextLocale);
+            }
+            window.location.href = target;
+          };
+
           const langButton = document.querySelector(".lang-switcher-btn");
-          if (langButton instanceof HTMLButtonElement) {
-            langButton.addEventListener("click", () => {
-              const nextLocale = langButton.dataset.nextLocale;
-              const fallbackAnchor = langButton.dataset.sectionAnchor || "#hero";
-              const hash = normalizeSectionHash(window.location.hash || fallbackAnchor);
-              const targetRoot = langButton.dataset.counterpartRoot || "";
-              const target = `${targetRoot}${hash}`;
-              if (nextLocale) {
-                storeLocale(nextLocale);
-              }
-              if (target) {
-                window.location.href = target;
-              }
+          if (langButton instanceof HTMLAnchorElement) {
+            const fallback = langButton.dataset.sectionAnchor || "#hero";
+            const anchor = getSectionAnchor(fallback);
+            const target = `${langButton.dataset.counterpartRoot || ""}${anchor}`;
+            if (target) {
+              langButton.setAttribute("href", target);
+            }
+
+            langButton.addEventListener("click", (event) => {
+              event.preventDefault();
+              jumpToLocale(langButton.dataset.nextLocale);
             });
+
+            const storedLocale = getStoredLocale();
+            const currentLocale = langButton.dataset.currentLocale || "en";
+            const browserLocale = detectBrowserLocale();
+            if (storedLocale && storedLocale !== currentLocale) {
+              jumpToLocale(storedLocale, false);
+            } else if (!storedLocale && browserLocale !== currentLocale) {
+              jumpToLocale(browserLocale, false);
+            }
           }
 
           const navToggle = document.querySelector(".nav-toggle");

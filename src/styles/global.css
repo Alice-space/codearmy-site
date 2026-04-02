@@ -239,6 +239,7 @@ a {
 }
 
 .lang-switcher-btn {
+  text-decoration: none;
   border: 1px solid var(--line);
   background: rgba(6, 17, 42, 0.85);
   border-radius: 999px;
