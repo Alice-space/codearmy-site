@@ -2,13 +2,29 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Page Not Found">
+<BaseLayout
+  title="Page Not Found"
+  description="Bilingual 404 fallback for the CodeArmy site. Return to the English or Chinese home pages and continue from there."
+>
   <section class="container page-hero">
     <p class="eyebrow">404</p>
     <h1>That page does not exist.</h1>
-    <p class="lead">Head back to the homepage and continue from there.</p>
+    <p class="lead">
+      Return to the English or Chinese entry points and continue from a known route.
+    </p>
     <div class="hero-actions">
       <a class="button" href={`${import.meta.env.BASE_URL}`}>Go Home</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/`}>前往中文首页</a>
+    </div>
+    <div class="not-found-copy">
+      <div class="callout">
+        <strong>English</strong>
+        This site now ships paired English and Chinese routes for the core pages. Start again from the homepage, docs, or quickstart if you landed on a stale link.
+      </div>
+      <div class="callout">
+        <strong>中文</strong>
+        站点的核心页面已经提供中英文对应路由。如果你打开了旧链接或错误路径，请返回中文首页、文档入口或快速入门重新进入。
+      </div>
     </div>
   </section>
 </BaseLayout>

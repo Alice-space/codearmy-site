@@ -1,27 +1,20 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-
-const baseUrl = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout
   title="文档"
-  description="CodeArmy 中文文档入口，帮助你快速了解产品定位、使用方法和最佳实践。"
+  description="CodeArmy 中文文档入口，帮助你快速理解产品定位、使用路径和工作流边界。"
 >
   <section class="container page-hero">
     <p class="eyebrow">文档</p>
-    <h1>从快速指南开始，逐步深入了解产品。</h1>
+    <h1>从快速入门开始，再逐步深入产品叙事。</h1>
     <p class="lead">
-      CodeArmy 中文文档保持精简清晰：解释 CodeArmy 是什么、为什么存在，
-      以及如何将它转化为你的生产力工具。
+      中文文档入口保持精简清晰：先解释 CodeArmy 是什么、为什么存在，再引导你进入工作原理、研究用例和集成边界。
     </p>
     <div class="hero-actions">
-      <a class="button" href={`${baseUrl}zh/docs/quickstart/`}>打开快速入门</a>
-      <a class="button-secondary" href={`${baseUrl}zh/`}>
-        返回中文首页
-      </a>
+      <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>打开快速入门</a>
+      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/`}>返回中文首页</a>
     </div>
   </section>
 
@@ -29,63 +22,40 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
     <h2>推荐阅读顺序</h2>
     <div class="split-grid">
       <div>
-        <h3>1. 快速入门（3 分钟）</h3>
-        <p>
-          了解 CodeArmy 的核心概念、首次试用路径，以及 Alice 与 CodeArmy 的关系。
-          适合希望快速评估产品是否适合自己的用户。
+        <h3>1. 快速入门</h3>
+        <p>先建立产品定位、首次试用途径，以及 Alice Runtime 与 CodeArmy 的关系。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>开始阅读 →</a>
         </p>
-        <a href={`${baseUrl}zh/docs/quickstart/`}>开始阅读 →</a>
       </div>
       <div>
         <h3>2. 工作原理</h3>
-        <p>
-          深入理解 CodeArmy 的仓库优先编排模型、角色分工和工作流关卡。
-          帮助你规划如何在团队中使用 CodeArmy。
-        </p>
-        <p style="color:var(--muted);">中文页面即将提供</p>
-        <p style="margin-top:0.25rem;">
-          <a href={`${baseUrl}zh/`}>前往中文首页 →</a>
+        <p>理解 repo-first orchestration、task package、角色边界和 hard gates。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>查看中文工作原理 →</a>
         </p>
       </div>
       <div>
-        <h3>3. 研究用例</h3>
-        <p>
-          查看 CodeArmy 在真实科研场景中的应用，包括 JUNO 蒙特卡洛参数调优
-          和 CEPC 快速模拟 DiT 优化等案例。
-        </p>
-        <p style="color:var(--muted);">中文页面即将提供</p>
-        <p style="margin-top:0.25rem;">
-          <a href={`${baseUrl}zh/`}>前往中文首页 →</a>
+        <h3>3. 集成入口</h3>
+        <p>理解 Trae、CLI、飞书和 Cluster / HPC 的主次关系，而不是把它们看成等价客户端。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/integrations/`}>查看中文集成页 →</a>
         </p>
       </div>
       <div>
-        <h3>4. 集成指南</h3>
-        <p>
-          了解如何将 CodeArmy 与 Trae Solo、CLI、飞书和计算集群等工具集成，
-          构建完整的工作流。
-        </p>
-        <p style="color:var(--muted);">中文页面即将提供</p>
-        <p style="margin-top:0.25rem;">
-          <a href={`${baseUrl}zh/`}>前往中文首页 →</a>
+        <h3>4. 研究用例</h3>
+        <p>了解 CodeArmy 为什么适合长期科研编程，并查看 JUNO 与 CEPC 场景。</p>
+        <p style="margin-top: 0.5rem;">
+          <a href={`${import.meta.env.BASE_URL}zh/research-use-cases/`}>查看中文研究用例 →</a>
         </p>
       </div>
     </div>
 
     <div class="callout" style="margin-top: 2rem;">
-      <strong>Alice 与 CodeArmy 的关系</strong>
+      <strong>Alice Runtime 与 CodeArmy</strong>
       <p style="margin: 0.5rem 0 0 0;">
-        Alice 是运行时代码库，CodeArmy 是面向用户的产品品牌。
-        当前运行时尚在 Alice 仓库中，CodeArmy 网站负责承载产品叙事和文档。
-        这种渐进式过渡让技术迁移更加平滑。
-      </p>
-    </div>
-
-    <div class="callout" style="margin-top: 1rem;">
-      <strong>前置条件</strong>
-      <p style="margin: 0.5rem 0 0 0;">
-        使用 CodeArmy 需要具备 Git 基础知识、对 Astro 静态站点有基本了解，
-        以及能够访问 GitHub 或类似的代码托管平台。
-        如果你计划使用 Trae Solo 集成，建议先熟悉 Trae 编辑器的基本操作。
+        Alice 仍是当前运行时代码库，CodeArmy 是面向外部的产品品牌。站点负责承载产品前门和文档，
+        运行时代码则继续留在 Alice 仓库中逐步演进。
       </p>
     </div>
   </section>

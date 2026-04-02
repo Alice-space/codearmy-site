@@ -1,8 +1,4 @@
-/* ==========================================================================
-   CodeArmy Design Tokens
-   ========================================================================== */
 :root {
-  /* Color palette - warm engineering aesthetic */
   --bg: #f5f1e8;
   --panel: #fffdf8;
   --ink: #132238;
@@ -12,35 +8,17 @@
   --accent: #0f766e;
   --accent-strong: #0b534f;
   --accent-soft: rgba(15, 118, 110, 0.08);
-  --warm: #f59e0b;
   --warm-soft: rgba(245, 158, 11, 0.12);
-  
-  /* Elevation */
   --shadow-sm: 0 2px 8px rgba(19, 34, 56, 0.04);
   --shadow: 0 20px 50px rgba(19, 34, 56, 0.08);
   --shadow-lg: 0 30px 80px rgba(19, 34, 56, 0.12);
-  
-  /* Layout */
   --max-width: 1160px;
   --header-height: 4.75rem;
   --section-gap: 5rem;
-  
-  /* Typography */
-  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", "SF Mono", "Fira Code", monospace;
-  
-  /* Animation */
-  --transition-fast: 120ms ease;
-  --transition-base: 180ms ease;
-  --transition-slow: 300ms ease;
-  
   color-scheme: light;
-  font-family: var(--font-sans);
+  font-family: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
-/* ==========================================================================
-   Base Reset
-   ========================================================================== */
 *,
 *::before,
 *::after {
@@ -65,7 +43,6 @@ body {
   line-height: 1.6;
 }
 
-/* Skip link for accessibility */
 .skip-link {
   position: absolute;
   top: -100%;
@@ -75,10 +52,9 @@ body {
   padding: 0.75rem 1.5rem;
   background: var(--ink);
   color: #fff;
-  font-weight: 600;
-  text-decoration: none;
   border-radius: 0 0 0.5rem 0.5rem;
-  transition: top var(--transition-fast);
+  font-weight: 600;
+  transition: top 120ms ease;
 }
 
 .skip-link:focus {
@@ -91,22 +67,16 @@ a {
 }
 
 img {
+  display: block;
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
-/* ==========================================================================
-   Layout Containers
-   ========================================================================== */
 .container {
   width: min(calc(100% - 2.5rem), var(--max-width));
   margin: 0 auto;
 }
 
-/* ==========================================================================
-   Site Header
-   ========================================================================== */
 .site-header {
   position: sticky;
   top: 0;
@@ -125,12 +95,11 @@ img {
   min-height: var(--header-height);
 }
 
-/* Brand */
 .brand {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 0.9rem;
-  flex-shrink: 0;
 }
 
 .brand-mark {
@@ -141,9 +110,9 @@ img {
   border-radius: 0.85rem;
   background: var(--ink);
   color: #fff;
+  font-size: 0.9rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  font-size: 0.9rem;
 }
 
 .brand-text {
@@ -154,17 +123,14 @@ img {
 
 .brand-text strong {
   font-size: 1.1rem;
-  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
 .brand-text small {
   color: var(--muted);
   font-size: 0.75rem;
-  font-weight: 500;
 }
 
-/* Navigation Toggle (mobile) */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -173,11 +139,11 @@ img {
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
+  gap: 5px;
   background: transparent;
   border: 1px solid var(--line);
   border-radius: 0.5rem;
   cursor: pointer;
-  gap: 5px;
 }
 
 .nav-toggle-bar {
@@ -186,7 +152,7 @@ img {
   height: 2px;
   background: var(--ink);
   border-radius: 1px;
-  transition: transform var(--transition-fast), opacity var(--transition-fast);
+  transition: transform 120ms ease, opacity 120ms ease;
 }
 
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
@@ -201,12 +167,11 @@ img {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Site Navigation */
 .site-nav {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.25rem 1.25rem;
   font-size: 0.95rem;
   color: var(--muted);
@@ -215,7 +180,7 @@ img {
 .site-nav a {
   position: relative;
   padding: 0.35rem 0;
-  transition: color var(--transition-fast);
+  transition: color 120ms ease;
 }
 
 .site-nav a:hover,
@@ -231,9 +196,9 @@ img {
 .site-nav a[aria-current="page"]::after {
   content: "";
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
   height: 2px;
   background: var(--accent);
   border-radius: 1px;
@@ -244,9 +209,9 @@ img {
   background: var(--ink);
   color: #fff !important;
   border-radius: 999px;
-  font-weight: 600;
   font-size: 0.9rem;
-  transition: background var(--transition-fast), transform var(--transition-fast) !important;
+  font-weight: 600;
+  transition: background 120ms ease, transform 120ms ease !important;
 }
 
 .nav-highlight:hover,
@@ -255,7 +220,6 @@ img {
   transform: translateY(-1px);
 }
 
-/* Language Switcher */
 .lang-switcher {
   display: flex;
   align-items: center;
@@ -269,13 +233,13 @@ img {
   align-items: center;
   gap: 0.35rem;
   padding: 0.4rem 0.7rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--muted);
   background: transparent;
   border: 1px solid var(--line);
   border-radius: 999px;
+  color: var(--muted);
   cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
   transition: all 150ms ease;
 }
 
@@ -298,9 +262,6 @@ img {
   opacity: 0.7;
 }
 
-/* ==========================================================================
-   Hero & Page Sections
-   ========================================================================== */
 .hero {
   padding: 5.5rem 0 3rem;
 }
@@ -308,8 +269,8 @@ img {
 .hero-grid,
 .split-grid {
   display: grid;
-  gap: 2.5rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
   align-items: start;
 }
 
@@ -317,9 +278,9 @@ img {
   margin: 0 0 0.8rem;
   color: var(--accent-strong);
   font-size: 0.82rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-weight: 700;
 }
 
 .hero h1,
@@ -335,8 +296,8 @@ img {
 .page-hero p.lead {
   margin: 1.3rem 0 0;
   max-width: 50rem;
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
   color: var(--muted);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
   line-height: 1.6;
 }
 
@@ -347,9 +308,6 @@ img {
   margin-top: 2rem;
 }
 
-/* ==========================================================================
-   Buttons
-   ========================================================================== */
 .button,
 .button-secondary {
   display: inline-flex;
@@ -358,9 +316,9 @@ img {
   min-height: 3rem;
   padding: 0.8rem 1.5rem;
   border-radius: 999px;
-  font-weight: 700;
   font-size: 1rem;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  font-weight: 700;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
 }
 
 .button {
@@ -372,8 +330,8 @@ img {
 .button:hover,
 .button:focus-visible {
   transform: translateY(-2px);
-  box-shadow: var(--shadow);
   background: var(--accent-strong);
+  box-shadow: var(--shadow);
 }
 
 .button-secondary {
@@ -389,9 +347,6 @@ img {
   background: rgba(19, 34, 56, 0.04);
 }
 
-/* ==========================================================================
-   Cards & Panels
-   ========================================================================== */
 .hero-card,
 .panel,
 .callout,
@@ -410,19 +365,19 @@ img {
 .hero-card .mini-title,
 .card .mini-title {
   margin: 0;
-  font-size: 0.8rem;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .hero-card ul,
 .page-list,
 .metric-list,
 .feature-list {
-  padding-left: 1.1rem;
   margin: 0.9rem 0 0;
+  padding-left: 1.1rem;
 }
 
 .hero-card li,
@@ -432,9 +387,6 @@ img {
   margin-top: 0.5rem;
 }
 
-/* ==========================================================================
-   Content Sections
-   ========================================================================== */
 .section {
   padding: var(--section-gap) 0;
 }
@@ -453,12 +405,11 @@ img {
 
 .section-copy {
   max-width: 46rem;
-  color: var(--muted);
   margin-bottom: 1.5rem;
+  color: var(--muted);
   font-size: 1.05rem;
 }
 
-/* Grid systems */
 .grid-3,
 .grid-2 {
   display: grid;
@@ -475,7 +426,7 @@ img {
 
 .card {
   padding: 1.5rem;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
 .card:hover {
@@ -496,7 +447,6 @@ img {
   line-height: 1.55;
 }
 
-/* Workflow */
 .workflow {
   display: grid;
   gap: 0.9rem;
@@ -515,12 +465,12 @@ img {
 .workflow-step strong {
   display: inline-grid;
   place-items: center;
+  flex-shrink: 0;
   width: 2rem;
   height: 2rem;
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
-  flex-shrink: 0;
   font-size: 0.85rem;
   font-weight: 700;
 }
@@ -532,7 +482,6 @@ img {
   line-height: 1.5;
 }
 
-/* Page specific */
 .page-hero {
   margin-top: 2rem;
   padding: 2.5rem;
@@ -552,9 +501,6 @@ img {
   font-weight: 700;
 }
 
-/* ==========================================================================
-   Site Footer
-   ========================================================================== */
 .site-footer {
   padding: 4rem 0 2rem;
   border-top: 1px solid var(--line);
@@ -563,28 +509,24 @@ img {
 
 .footer-grid {
   display: grid;
-  gap: 2rem;
   grid-template-columns: 2fr 1fr 1fr;
+  gap: 2rem;
   margin-bottom: 3rem;
-}
-
-.footer-brand .eyebrow {
-  margin-bottom: 0.6rem;
 }
 
 .footer-title {
   margin: 0 0 0.9rem;
-  font-weight: 700;
-  font-size: 0.95rem;
   color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .footer-copy {
+  max-width: 20rem;
   margin: 0;
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.6;
-  max-width: 20rem;
 }
 
 .footer-links {
@@ -600,7 +542,7 @@ img {
 .footer-links a {
   color: var(--muted);
   font-size: 0.95rem;
-  transition: color var(--transition-fast);
+  transition: color 120ms ease;
 }
 
 .footer-links a:hover,
@@ -620,14 +562,17 @@ img {
   font-size: 0.85rem;
 }
 
-/* ==========================================================================
-   Responsive Design
-   ========================================================================== */
+.not-found-copy {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
 @media (max-width: 900px) {
   :root {
     --section-gap: 3.5rem;
   }
-  
+
   .hero-grid,
   .split-grid,
   .grid-3,
@@ -635,17 +580,16 @@ img {
   .footer-grid {
     grid-template-columns: 1fr;
   }
-  
-  /* Mobile navigation */
+
   .nav-toggle {
     display: flex;
   }
-  
+
   .site-nav {
     position: absolute;
     top: 100%;
-    left: 0;
     right: 0;
+    left: 0;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
@@ -656,73 +600,77 @@ img {
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
-    transition: transform var(--transition-base), opacity var(--transition-base), visibility var(--transition-base);
+    transition: transform 180ms ease, opacity 180ms ease, visibility 180ms ease;
   }
-  
+
   .site-nav.is-open {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
   }
-  
+
   .site-nav a {
     padding: 0.9rem 1rem;
     border-bottom: 1px solid var(--line);
   }
-  
+
   .site-nav a:last-child {
     border-bottom: none;
   }
-  
+
   .site-nav a[aria-current="page"]::after {
     display: none;
   }
-  
+
   .site-nav a[aria-current="page"] {
+    margin: 0 -0.5rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
     background: var(--accent-soft);
     border-radius: 0.5rem;
-    margin: 0 -0.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
   }
-  
+
   .nav-highlight {
     margin-top: 0.5rem !important;
     text-align: center;
   }
-  
-  /* Hero adjustments */
+
+  .lang-switcher {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+  }
+
   .hero {
     padding-top: 3rem;
   }
-  
+
   .hero h1,
   .page-hero h1 {
     font-size: clamp(2rem, 8vw, 3rem);
   }
-  
+
   .page-hero {
-    padding: 1.5rem;
     margin-top: 1rem;
+    padding: 1.5rem;
   }
-  
-  /* Footer adjustments */
+
   .footer-grid {
     gap: 2.5rem;
     text-align: center;
   }
-  
+
   .footer-copy {
     max-width: none;
   }
-  
+
   .footer-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.75rem 1.5rem;
   }
-  
+
   .footer-links li + li {
     margin-top: 0;
   }
@@ -732,21 +680,21 @@ img {
   .container {
     width: calc(100% - 1.5rem);
   }
-  
+
   .hero {
     padding-top: 2.5rem;
   }
-  
+
   .hero-actions {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .button,
   .button-secondary {
     width: 100%;
   }
-  
+
   .card {
     padding: 1.25rem;
   }

@@ -1,352 +1,161 @@
 ---
-import "../../styles/global.css";
-import { getCounterpartPath } from "../../lib/i18n";
-
-const baseUrl = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-
-const currentPath = Astro.url.pathname;
-const counterpartPath = getCounterpartPath(currentPath);
-
-const zhBaseUrl = `${baseUrl}zh/`;
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const pillars = [
   {
     title: "以仓库为核心的 Campaign",
-    text: "在结构化的 Campaign 中跟踪长期工作，而非一次性聊天线程。"
+    text: "在结构化的 campaign 中跟踪长期工作，而不是依赖一次性聊天线程。"
   },
   {
     title: "严格的工作流关卡",
-    text: "通过明确的转换进行规划、审查、批准、执行、协调和报告。"
+    text: "通过计划、评审、批准、执行、协调和报告的显式状态转换保持可信度。"
   },
   {
     title: "研究就绪",
-    text: "专为代码、实验、集群运行、指标和证据协同推进而设计。"
+    text: "为代码、实验、集群作业、指标和证据一体化推进而设计。"
   }
 ];
 
 const integrations = ["Trae Solo", "CLI", "飞书", "集群 / HPC", "报告", "仓库模板"];
-
-const title = "面向长期 AI 编程的仓库优先编排 | CodeArmy";
-const description = "CodeArmy 将长期运行的编码和研究转化为结构化 Campaign，支持规划、执行、审查、协调和报告。";
-
-const navItems = [
-  { href: `${zhBaseUrl}`, label: "首页" },
-  { href: `${zhBaseUrl}how-it-works/`, label: "工作原理" },
-  { href: `${zhBaseUrl}research-use-cases/`, label: "研究用例" },
-  { href: `${zhBaseUrl}integrations/`, label: "集成" },
-  { href: `${zhBaseUrl}roadmap/`, label: "路线图" },
-  { href: `${zhBaseUrl}docs/quickstart/`, label: "快速入门", highlight: true },
-];
-
-const footerLinks = {
-  explore: [
-    { href: `${zhBaseUrl}docs/quickstart/`, label: "快速入门" },
-    { href: `${zhBaseUrl}how-it-works/`, label: "工作原理" },
-    { href: `${zhBaseUrl}research-use-cases/`, label: "研究用例" },
-  ],
-  code: [
-    { href: "https://github.com/Alice-space/alice", label: "Alice Runtime 仓库" },
-    { href: "https://github.com/Alice-space/codearmy-site", label: "网站仓库" },
-  ],
-};
 ---
 
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
-  </head>
-  <body>
-    <a href="#main-content" class="skip-link">跳转到主要内容</a>
-    
-    <header class="site-header">
-      <div class="container header-inner">
-        <a class="brand" href={`${zhBaseUrl}`} aria-label="CodeArmy 首页">
-          <span class="brand-mark" aria-hidden="true">CA</span>
-          <span class="brand-text">
-            <strong>CodeArmy</strong>
-            <small>仓库优先编排</small>
-          </span>
-        </a>
-        
-        <button 
-          class="nav-toggle" 
-          aria-label="切换导航" 
-          aria-expanded="false"
-          aria-controls="site-nav"
-        >
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-        </button>
-        
-        <nav class="site-nav" id="site-nav" aria-label="主导航">
-          {navItems.map(item => (
-            <a 
-              href={item.href} 
-              class={item.highlight ? "nav-highlight" : ""}
-            >
-              {item.label}
-            </a>
+<BaseLayout
+  title="面向长期 AI 编程的仓库优先编排"
+  description="CodeArmy 将长期运行的编码和研究工作转化为结构化 campaign，支持规划、执行、评审、协调和报告。"
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">CodeArmy</p>
+        <h1>把长期 AI 编程转化为结构化 campaign。</h1>
+        <p class="lead">
+          CodeArmy 是面向长期编码和研究项目的 repo-first orchestration layer。你可以在
+          Trae、CLI 和团队工作流中推进计划、执行、评审、协调和报告，而不是让状态散落在对话里。
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>阅读快速入门</a>
+          <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>
+            了解工作原理
+          </a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <p class="mini-title">不是另一个一次性 Agent</p>
+        <ul>
+          <li>Campaign 而非一次性 prompt</li>
+          <li>Planner、Reviewer、Executor 的角色纪律</li>
+          <li>依靠 repo 状态而不是聊天记忆漂移</li>
+          <li>面向编码加实验、指标和报告的一体化工作流</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">为什么是 CodeArmy</p>
+      <h2>为比单个 prompt 更持久的工作而构建。</h2>
+      <p class="section-copy">
+        多数自主 agent 更擅长一次性任务。CodeArmy 针对的是跨规划、实施、实验、评审和报告的多阶段
+        campaign，并要求所有产物都能回写到可审计的 repo 状态。
+      </p>
+      <div class="grid-3">
+        {pillars.map((pillar) => (
+          <article class="card">
+            <h3>{pillar.title}</h3>
+            <p>{pillar.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split-grid">
+      <div>
+        <p class="eyebrow">工作流</p>
+        <h2>从 campaign 启动到结案报告。</h2>
+        <p class="section-copy">
+          CodeArmy 把 AI 编码工作组织成闭环，因此每一轮规划、执行和评审都会在仓库中留下持久结构，而不是
+          被新的会话覆盖。
+        </p>
+        <div class="workflow">
+          <div class="workflow-step">
+            <strong>1</strong>
+            <p>创建带有目标、基线和关卡条件的 campaign。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>2</strong>
+            <p>拆成带上下文、write scope 和验收标准的 task package。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>3</strong>
+            <p>运行 planner、reviewer 和 executor 的显式交接回合。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>4</strong>
+            <p>通过 reconcile 刷新状态、决定下一步并暴露 blocker。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>5</strong>
+            <p>从同一套 campaign 事实源派生进度摘要和最终报告。</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="padding: 1.5rem;">
+        <p class="mini-title">入口面</p>
+        <ul class="feature-list">
+          {integrations.map((item) => (
+            <li>{item}</li>
           ))}
-        </nav>
-        <div class="lang-switcher">
-          <button
-            class="lang-switcher-btn"
-            data-counterpart={counterpartPath}
-            aria-label="切换到英文"
-          >
-            <span class="lang-current">中</span>
-            <span class="lang-separator">/</span>
-            <span class="lang-target">English</span>
-          </button>
+        </ul>
+        <div class="callout" style="margin-top: 1.2rem;">
+          <strong>当前切入点</strong>
+          已用于真实研究工作流，包括 JUNO 蒙特卡洛参数调优和 CEPC FastSim DiT 优化。
         </div>
       </div>
-    </header>
+    </div>
+  </section>
 
-    <main id="main-content">
-      <section class="hero">
-        <div class="container hero-grid">
-          <div>
-            <p class="eyebrow">CodeArmy</p>
-            <h1>将长期 AI 编程转化为结构化 Campaign。</h1>
-            <p class="lead">
-              CodeArmy 是面向长期运行的编码和研究项目的仓库优先编排层。
-              在 Trae、CLI 和团队工作流中进行规划、执行、审查、协调和报告。
-            </p>
-            <div class="hero-actions">
-              <a class="button" href={`${zhBaseUrl}docs/quickstart/`}>阅读快速入门</a>
-              <a class="button-secondary" href={`${zhBaseUrl}how-it-works/`}>
-                了解工作原理
-              </a>
-            </div>
-          </div>
-          <aside class="hero-card">
-            <p class="mini-title">不是另一个用完即弃的 Agent</p>
-            <ul>
-              <li>Campaign 而非一次性 Prompt</li>
-              <li>规划者、审阅者和执行者角色规范</li>
-              <li>协调驱动的状态而非聊天记忆漂移</li>
-              <li>专为编码加实验、指标和报告而设计</li>
-            </ul>
-          </aside>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <p class="eyebrow">为什么选择 CodeArmy</p>
-          <h2>为比单个 Prompt 更持久的工作而构建。</h2>
-          <p class="section-copy">
-            大多数自主 Agent 都针对单个任务进行了优化。CodeArmy 为 Campaign 而构建：
-            跨越规划、实施、实验、审查和最终报告的多阶段工作。
-          </p>
-          <div class="grid-3">
-            {pillars.map((pillar) => (
-              <article class="card">
-                <h3>{pillar.title}</h3>
-                <p>{pillar.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container split-grid">
-          <div>
-            <p class="eyebrow">工作流程</p>
-            <h2>从 Campaign 设置到结案报告。</h2>
-            <p class="section-copy">
-              CodeArmy 将 AI 编码工作组织成一个闭环，因此每一轮规划、
-              执行和审查都会在仓库中留下持久的结构。
-            </p>
-            <div class="workflow">
-              <div class="workflow-step">
-                <strong>1</strong>
-                <p>创建具有明确目标、基线和关卡条件的 Campaign。</p>
-              </div>
-              <div class="workflow-step">
-                <strong>2</strong>
-                <p>生成任务包，为每个角色提供有界、可审计的工作单元。</p>
-              </div>
-              <div class="workflow-step">
-                <strong>3</strong>
-                <p>运行规划者、审阅者和执行者循环，并明确交接状态。</p>
-              </div>
-              <div class="workflow-step">
-                <strong>4</strong>
-                <p>协调仓库以刷新实时状态、选择下一步行动并显示阻塞问题。</p>
-              </div>
-              <div class="workflow-step">
-                <strong>5</strong>
-                <p>发布进度和结案报告，而不会丢失证据线索。</p>
-              </div>
-            </div>
-          </div>
-          <div class="panel" style="padding: 1.5rem;">
-            <p class="mini-title">集成</p>
-            <ul class="feature-list">
-              {integrations.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-            <div class="callout" style="margin-top: 1.2rem;">
-              <strong>当前切入点</strong>
-              用于真实研究工作流，包括 JUNO 蒙特卡洛参数调优和 CEPC
-              快速模拟 DiT 优化。
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <p class="eyebrow">入口点</p>
-          <h2>一个核心，多种界面。</h2>
-          <p class="section-copy">
-            CodeArmy 的设计使得相同的 Campaign 状态可以从 Trae Solo、本地 CLI、
-            协作渠道和远程执行环境使用。
-          </p>
-          <div class="grid-2">
-            <article class="card">
-              <h3>Trae Solo</h3>
-              <p>
-                将 CodeArmy 用作自定义 Agent、MCP 工具和 Skills 背后的编排层。
-              </p>
-            </article>
-            <article class="card">
-              <h3>CLI 和自动化</h3>
-              <p>
-                从脚本和计划作业创建 Campaign、协调状态并生成报告。
-              </p>
-            </article>
-            <article class="card">
-              <h3>飞书和团队同步</h3>
-              <p>
-                将摘要、批准和报告产物推送到团队协作渠道。
-              </p>
-            </article>
-            <article class="card">
-              <h3>集群工作流</h3>
-              <p>
-                将实验、训练运行和评估作业连接到同一 Campaign 时间线。
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container callout">
-          <strong>从基础开始</strong>
-          第一个公开发布应该是一个面向长期 AI 编码和研究 Campaign 的聚焦产品，
-          而非另一个通用聊天 Agent。
-          <div class="hero-actions" style="margin-top: 1rem;">
-            <a class="button" href={`${zhBaseUrl}docs/quickstart/`}>打开快速入门</a>
-            <a class="button-secondary" href={`${zhBaseUrl}research-use-cases/`}>
-              探索研究用例
-            </a>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-brand">
-          <p class="eyebrow">CodeArmy</p>
-          <p class="footer-copy">
-            面向长期编码和研究 Campaign 的仓库优先编排层。
-          </p>
-        </div>
-        <div class="footer-section">
-          <p class="footer-title">探索</p>
-          <ul class="footer-links">
-            {footerLinks.explore.map(link => (
-              <li><a href={link.href}>{link.label}</a></li>
-            ))}
-          </ul>
-        </div>
-        <div class="footer-section">
-          <p class="footer-title">当前代码</p>
-          <ul class="footer-links">
-            {footerLinks.code.map(link => (
-              <li><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
-            ))}
-          </ul>
-        </div>
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">入口策略</p>
+      <h2>同一个核心，多种 surface。</h2>
+      <p class="section-copy">
+        共享的是同一套 campaign state，而不是所有入口面都提供等价体验。日常主入口应优先理解为 Trae；
+        CLI、飞书和集群负责自动化、协作和远端执行。
+      </p>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Trae Solo</h3>
+          <p>日常主入口，承接自定义 agents、Skills 和 MCP tools 的产品叙事。</p>
+        </article>
+        <article class="card">
+          <h3>CLI 和自动化</h3>
+          <p>适合初始化 campaign、reconcile 状态和脚本化生成报告。</p>
+        </article>
+        <article class="card">
+          <h3>飞书与团队同步</h3>
+          <p>负责协作摘要、审批信号和团队通知，而不是替代 repo 事实源。</p>
+        </article>
+        <article class="card">
+          <h3>Cluster / HPC</h3>
+          <p>承接真实实验和远端作业，让结果继续回到同一条 campaign 时间线。</p>
+        </article>
       </div>
-      <div class="container footer-meta">
-        <p>为长期 AI 编码和研究工作流而构建。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container callout">
+      <strong>先从聚焦前门开始</strong>
+      首个公开版本要先把长期 AI 编码和研究 campaign 的产品前门讲清楚，而不是急着扩成宽泛平台。
+      <div class="hero-actions" style="margin-top: 1rem;">
+        <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>打开快速入门</a>
+        <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/research-use-cases/`}>
+          查看研究用例
+        </a>
       </div>
-    </footer>
-
-    <script>
-      import { initLocale, storeLocale, getLocaleFromPath, isZhPath, isZhPathAvailable } from "../../lib/i18n";
-
-      // Initialize locale on page load
-      initLocale();
-
-      // Set up language switcher
-      document.addEventListener("DOMContentLoaded", () => {
-        const langBtn = document.querySelector(".lang-switcher-btn") as HTMLButtonElement | null;
-
-        if (langBtn) {
-          langBtn.addEventListener("click", () => {
-            const counterpartPath = langBtn.dataset.counterpart;
-            const currentPath = window.location.pathname;
-
-            if (!counterpartPath) return;
-
-            const currentLocale = getLocaleFromPath(currentPath);
-            const newLocale = currentLocale === "zh" ? "en" : "zh";
-
-            // ALWAYS store user preference first
-            storeLocale(newLocale);
-            console.log(`[i18n] Preference saved: ${newLocale}`);
-
-            // Check if switching to Chinese and the page exists
-            const switchingToZh = isZhPath(counterpartPath);
-            if (switchingToZh && !isZhPathAvailable(counterpartPath)) {
-              console.log("[i18n] Chinese page not yet available, staying on current page.");
-              return;
-            }
-
-            // Navigate to counterpart path
-            window.location.href = counterpartPath;
-          });
-        }
-      });
-
-      // Mobile navigation toggle
-      const navToggle = document.querySelector('.nav-toggle');
-      const siteNav = document.getElementById('site-nav');
-
-      if (navToggle && siteNav) {
-        navToggle.addEventListener('click', () => {
-          const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-          navToggle.setAttribute('aria-expanded', String(!isExpanded));
-          siteNav.classList.toggle('is-open');
-        });
-
-        // Close nav when clicking on a link
-        siteNav.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', () => {
-            navToggle.setAttribute('aria-expanded', 'false');
-            siteNav.classList.remove('is-open');
-          });
-        });
-      }
-    </script>
-  </body>
-</html>
+    </div>
+  </section>
+</BaseLayout>
