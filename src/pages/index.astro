@@ -1,6 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
 const pillars = [
   {
     title: "Repo-First Campaigns",
@@ -16,7 +20,34 @@ const pillars = [
   }
 ];
 
+const workflow = [
+  "Create a campaign with a clear objective, baseline, and gates.",
+  "Generate task packages that give each role a bounded, auditable unit of work.",
+  "Run planner, reviewer, and executor loops with explicit handoff states.",
+  "Reconcile the repo to refresh live status, select next actions, and surface blockers.",
+  "Publish progress and closure reports without losing the evidence trail."
+];
+
 const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", "Repo Templates"];
+
+const entryPoints = [
+  {
+    title: "Trae Solo",
+    text: "Use CodeArmy as the orchestration layer behind custom agents, MCP tools, and Skills."
+  },
+  {
+    title: "CLI and Automation",
+    text: "Create campaigns, reconcile state, and generate reports from scripts and scheduled jobs."
+  },
+  {
+    title: "Feishu and Team Sync",
+    text: "Push summaries, approvals, and report artifacts back into team collaboration channels."
+  },
+  {
+    title: "Cluster Workflows",
+    text: "Connect experiments, training runs, and evaluation jobs to the same campaign timeline."
+  }
+];
 ---
 
 <BaseLayout
@@ -34,19 +65,17 @@ const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", 
           workflows.
         </p>
         <div class="hero-actions">
-          <a class="button" href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Read Quickstart</a>
-          <a class="button-secondary" href={`${import.meta.env.BASE_URL}how-it-works/`}>
-            How It Works
-          </a>
+          <a class="button" href={`${baseUrl}docs/quickstart/`}>Read Quickstart</a>
+          <a class="button-secondary" href={`${baseUrl}how-it-works/`}>How It Works</a>
         </div>
       </div>
       <aside class="hero-card">
-        <p class="mini-title">Not Another Disposable Agent</p>
+        <p class="mini-title">What It Is</p>
         <ul>
-          <li>Campaigns instead of one-off prompts</li>
-          <li>Planner, reviewer, and executor role discipline</li>
+          <li>A campaign system for multi-stage AI coding and research</li>
+          <li>Explicit roles: planner, reviewer, executor</li>
           <li>Reconcile-driven state instead of chat memory drift</li>
-          <li>Designed for coding plus experiments, metrics, and reports</li>
+          <li>Built for code, experiments, metrics, and reports</li>
         </ul>
       </aside>
     </div>
@@ -54,8 +83,8 @@ const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", 
 
   <section class="section">
     <div class="container">
-      <p class="eyebrow">Why CodeArmy</p>
-      <h2>Built for work that lasts longer than a single prompt.</h2>
+      <p class="eyebrow">Differentiation</p>
+      <h2>Not another disposable agent.</h2>
       <p class="section-copy">
         Most autonomous agents are optimized for a single task. CodeArmy is built for campaigns:
         multi-stage efforts that span planning, implementation, experimentation, review, and final
@@ -82,26 +111,12 @@ const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", 
           execution, and review leaves durable structure in the repo.
         </p>
         <div class="workflow">
-          <div class="workflow-step">
-            <strong>1</strong>
-            <p>Create a campaign with a clear objective, baseline, and gates.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>2</strong>
-            <p>Generate task packages that give each role a bounded, auditable unit of work.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>3</strong>
-            <p>Run planner, reviewer, and executor loops with explicit handoff states.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>4</strong>
-            <p>Reconcile the repo to refresh live status, select next actions, and surface blockers.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>5</strong>
-            <p>Publish progress and closure reports without losing the evidence trail.</p>
-          </div>
+          {workflow.map((step, idx) => (
+            <div class="workflow-step">
+              <strong>{idx + 1}</strong>
+              <p>{step}</p>
+            </div>
+          ))}
         </div>
       </div>
       <div class="panel" style="padding: 1.5rem;">
@@ -111,11 +126,38 @@ const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", 
             <li>{item}</li>
           ))}
         </ul>
-        <div class="callout" style="margin-top: 1.2rem;">
-          <strong>Current wedge</strong>
-          Used in real research workflows, including JUNO Monte Carlo parameter tuning and CEPC
-          fast-simulation DiT optimization.
-        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Research Use Cases</p>
+      <h2>Used in real research workflows.</h2>
+      <p class="section-copy">
+        CodeArmy is especially well suited to long-running research workflows where code changes,
+        experiment runs, metrics, cluster jobs, and reports all need to move together.
+      </p>
+      <div class="grid-2">
+        <article class="card">
+          <h3>JUNO Monte Carlo parameter tuning</h3>
+          <p>
+            Treat Monte Carlo parameter optimization as a campaign with hypotheses, scheduled runs,
+            metrics, reviews, and evidence-backed summaries.
+          </p>
+        </article>
+        <article class="card">
+          <h3>CEPC fast-simulation DiT optimization</h3>
+          <p>
+            Manage model architecture changes, training runs, speed-quality tradeoffs, and
+            evaluation results with a single repo-first workflow.
+          </p>
+        </article>
+      </div>
+      <div class="hero-actions" style="margin-top: 1.5rem;">
+        <a class="button-secondary" href={`${baseUrl}research-use-cases/`}>
+          Explore Research Use Cases
+        </a>
       </div>
     </div>
   </section>
@@ -129,30 +171,12 @@ const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", 
         collaboration channels, and remote execution environments.
       </p>
       <div class="grid-2">
-        <article class="card">
-          <h3>Trae Solo</h3>
-          <p>
-            Use CodeArmy as the orchestration layer behind custom agents, MCP tools, and Skills.
-          </p>
-        </article>
-        <article class="card">
-          <h3>CLI and Automation</h3>
-          <p>
-            Create campaigns, reconcile state, and generate reports from scripts and scheduled jobs.
-          </p>
-        </article>
-        <article class="card">
-          <h3>Feishu and Team Sync</h3>
-          <p>
-            Push summaries, approvals, and report artifacts back into team collaboration channels.
-          </p>
-        </article>
-        <article class="card">
-          <h3>Cluster Workflows</h3>
-          <p>
-            Connect experiments, training runs, and evaluation jobs to the same campaign timeline.
-          </p>
-        </article>
+        {entryPoints.map((ep) => (
+          <article class="card">
+            <h3>{ep.title}</h3>
+            <p>{ep.text}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -163,8 +187,8 @@ const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", 
       The first public release should be a focused product for long-running AI coding and research
       campaigns, not another general-purpose chat agent.
       <div class="hero-actions" style="margin-top: 1rem;">
-        <a class="button" href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Open Quickstart</a>
-        <a class="button-secondary" href={`${import.meta.env.BASE_URL}research-use-cases/`}>
+        <a class="button" href={`${baseUrl}docs/quickstart/`}>Open Quickstart</a>
+        <a class="button-secondary" href={`${baseUrl}research-use-cases/`}>
           Explore Research Use Cases
         </a>
       </div>
