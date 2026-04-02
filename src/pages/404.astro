@@ -1,14 +1,22 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Normalize BASE_URL to ensure it ends with a trailing slash (consistent with BaseLayout)
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
-<BaseLayout title="Page Not Found">
+<BaseLayout
+  title="Page Not Found"
+  description="The requested page could not be found on CodeArmy."
+>
   <section class="container page-hero">
     <p class="eyebrow">404</p>
     <h1>That page does not exist.</h1>
     <p class="lead">Head back to the homepage and continue from there.</p>
     <div class="hero-actions">
-      <a class="button" href={`${import.meta.env.BASE_URL}`}>Go Home</a>
+      <a class="button" href={baseUrl}>Go Home</a>
     </div>
   </section>
 </BaseLayout>

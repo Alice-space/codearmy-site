@@ -1,52 +1,373 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const lifecycleStages = [
+  {
+    stage: "Campaign Baseline",
+    description: "Define objective, constraints, and success criteria in campaign.md. The repo becomes the single source of truth.",
+    outputs: "campaign.md, repo structure, initial gates"
+  },
+  {
+    stage: "Planning",
+    description: "Planner generates task packages with explicit context, scope, and acceptance criteria. Each task is bounded and auditable.",
+    outputs: "Task packages (task.md, context.md, plan.md)"
+  },
+  {
+    stage: "Approval",
+    description: "Human or automated review of the plan before execution. Hard gates ensure quality before resources are committed.",
+    outputs: "Approved plan, explicit go/no-go decision"
+  },
+  {
+    stage: "Execution",
+    description: "Executor works within defined scope, updates task state, and produces artifacts. Repo remains the persistent record.",
+    outputs: "Code changes, documentation, test results"
+  },
+  {
+    stage: "Review",
+    description: "Reviewer evaluates outputs against acceptance criteria. Pass, request changes, or reject with explicit reasoning.",
+    outputs: "Review report, approval or revision request"
+  },
+  {
+    stage: "Reconcile & Report",
+    description: "Refresh campaign state, select next actions, surface blockers. Generate structured progress and closure reports.",
+    outputs: "Updated campaign state, reports, next task selection"
+  }
+];
+
+const roles = [
+  {
+    name: "Planner",
+    responsibility: "Decompose objectives into bounded task packages. Define context, scope, acceptance criteria, and dependencies.",
+    handoff: "Delivers: task.md, context.md, plan.md with explicit constraints"
+  },
+  {
+    name: "Reviewer",
+    responsibility: "Evaluate executor outputs against acceptance criteria. Verify scope compliance and artifact quality.",
+    handoff: "Delivers: Review verdict (approve / request changes / reject) with reasoning"
+  },
+  {
+    name: "Executor",
+    responsibility: "Implement within defined scope. Update task state, produce artifacts, and request review when complete.",
+    handoff: "Delivers: Code changes, documentation, and task results"
+  }
+];
+
+const hardGates = [
+  {
+    gate: "Plan Approval",
+    purpose: "Ensure planning quality before execution begins",
+    mechanism: "Human or automated review of planner output; explicit approve/reject"
+  },
+  {
+    gate: "Review Check",
+    purpose: "Verify outputs meet acceptance criteria",
+    mechanism: "Reviewer evaluation against task-defined criteria; no silent passes"
+  },
+  {
+    gate: "Reconcile",
+    purpose: "Refresh state and determine next actions from repo truth",
+    mechanism: "Parse campaign state, check dependencies, select ready tasks, surface blockers"
+  }
+];
+
+const repoFirstBenefits = [
+  "Project state survives new chats, new sessions, and new tools",
+  "Human review inspects durable artifacts instead of reconstructing chat history",
+  "Long-running work resumes without re-explaining the whole project",
+  "Reports become derived outputs, not manual retellings",
+  "Campaign history is queryable, diffable, and version-controlled"
+];
 ---
 
 <BaseLayout
   title="How It Works"
-  description="See how CodeArmy organizes long-running coding and research work as repo-first campaigns."
+  description="Understand CodeArmy's repo-first campaign lifecycle, role boundaries, and hard gates."
 >
+  <!-- Hero Section -->
   <section class="container page-hero">
     <p class="eyebrow">How It Works</p>
-    <h1>Campaigns, task packages, roles, reconcile, reports.</h1>
+    <h1>Repo-first campaigns with explicit lifecycle and role discipline.</h1>
     <p class="lead">
-      CodeArmy manages AI coding work as a persistent campaign. The repo becomes the source of
-      truth for planning, execution, review, and final evidence.
+      CodeArmy manages long-horizon AI coding work as structured campaigns. 
+      The repository is the source of truth for planning, execution, review, and reporting.
     </p>
+    <div class="hero-actions">
+      <a class="button" href={`${baseUrl}docs/quickstart/`}>Start Your First Campaign</a>
+      <a class="button-secondary" href={`${baseUrl}docs/`}>Read Documentation</a>
+    </div>
   </section>
 
-  <section class="container page-body split-grid">
-    <div>
-      <h2>Core loop</h2>
-      <ol class="page-list">
-        <li>Create a campaign with objective, baseline, tags, and gates.</li>
-        <li>Break work into task packages that carry context, scope, and expected outcome.</li>
-        <li>Dispatch planner, reviewer, and executor work in bounded steps.</li>
-        <li>Reconcile the repo to refresh task state and determine next actions.</li>
-        <li>Generate structured progress and closure reports from the same campaign state.</li>
-      </ol>
+  <!-- Lifecycle Section -->
+  <section class="container page-body">
+    <div class="section-header">
+      <p class="eyebrow">Campaign Lifecycle</p>
+      <h2>From baseline to closure report.</h2>
+      <p class="section-copy">
+        Every campaign follows a structured lifecycle. Each stage produces durable artifacts 
+        in the repo, making progress auditable and resumable.
+      </p>
     </div>
 
-    <div>
-      <h2>Why repo-first matters</h2>
-      <ul class="page-list">
-        <li>Project state survives new chats, new sessions, and new tools.</li>
-        <li>Human review can inspect durable artifacts instead of reconstructing chat history.</li>
-        <li>Long-running work can resume without re-explaining the whole project.</li>
-        <li>Reports become derived outputs, not manual retellings.</li>
-      </ul>
+    <div class="lifecycle-flow">
+      {lifecycleStages.map((stage, idx) => (
+        <div class="lifecycle-card">
+          <div class="lifecycle-marker">
+            <span class="stage-number">{idx + 1}</span>
+            {idx < lifecycleStages.length - 1 && <div class="stage-connector" />}
+          </div>
+          <div class="lifecycle-content">
+            <h3>{stage.stage}</h3>
+            <p>{stage.description}</p>
+            <p class="lifecycle-output"><strong>Produces:</strong> {stage.outputs}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Task Package Section -->
+  <section class="container page-body">
+    <div class="split-grid">
+      <div>
+        <p class="eyebrow">Task Package</p>
+        <h2>Bounded, auditable units of work.</h2>
+        <p class="section-copy">
+          Tasks are not vague assignments. Each task package carries everything a role needs 
+          to execute or review without reconstructing context from chat history.
+        </p>
+        <ul class="page-list">
+          <li><strong>task.md</strong> — Goal, acceptance criteria, and deliverables</li>
+          <li><strong>context.md</strong> — Background, constraints, and relevant files</li>
+          <li><strong>plan.md</strong> — Execution steps and validation approach</li>
+        </ul>
+      </div>
+      <div class="callout">
+        <strong>Why this matters</strong>
+        <p>
+          When work is packaged with explicit context and acceptance criteria, 
+          executors know exactly what to build and reviewers know exactly what to check. 
+          Ambiguity becomes a bug that can be caught in planning, not discovered mid-execution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Role Boundaries Section -->
+  <section class="container page-body">
+    <div class="section-header">
+      <p class="eyebrow">Role Boundaries</p>
+      <h2>Planner, Reviewer, Executor — with explicit handoffs.</h2>
+      <p class="section-copy">
+        CodeArmy is strongest when roles are treated as distinct with explicit state transitions, 
+        rather than one agent doing everything invisibly.
+      </p>
     </div>
 
+    <div class="grid-3">
+      {roles.map((role) => (
+        <article class="card role-card">
+          <h3>{role.name}</h3>
+          <p class="role-responsibility">{role.responsibility}</p>
+          <p class="role-handoff">{role.handoff}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="callout" style="margin-top: 2rem;">
+      <strong>Role discipline is a product feature</strong>
+      <p>
+        The separation of planner, reviewer, and executor is not organizational overhead—
+        it is how long-horizon work stays trustworthy. Each handoff is an opportunity to 
+        catch errors early and maintain quality standards.
+      </p>
+    </div>
+  </section>
+
+  <!-- Hard Gates Section -->
+  <section class="container page-body">
+    <div class="section-header">
+      <p class="eyebrow">Hard Gates</p>
+      <h2>Quality checkpoints, not optional niceties.</h2>
+      <p class="section-copy">
+        Hard gates are how CodeArmy ensures that planning quality, execution correctness, 
+        and campaign coherence are verified before proceeding.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      {hardGates.map((gate) => (
+        <article class="card gate-card">
+          <h3>{gate.gate}</h3>
+          <p><strong>Purpose:</strong> {gate.purpose}</p>
+          <p><strong>Mechanism:</strong> {gate.mechanism}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Repo-First Section -->
+  <section class="container page-body">
+    <div class="split-grid">
+      <div>
+        <p class="eyebrow">Repo-First</p>
+        <h2>Why the repository is the source of truth.</h2>
+        <p class="section-copy">
+          CodeArmy is built on a simple premise: durable project state belongs in version control, 
+          not in ephemeral chat contexts.
+        </p>
+        <ul class="page-list">
+          {repoFirstBenefits.map((benefit) => (
+            <li>{benefit}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="panel">
+        <p class="mini-title">The Alternative</p>
+        <p style="color: var(--muted);">
+          Most AI coding tools optimize for single-turn tasks. Context lives in the chat window. 
+          When the session ends, the context fragments. When you return tomorrow, you reconstruct 
+          state from memory and scrollback.
+        </p>
+        <p style="color: var(--muted); margin-top: 1rem;">
+          CodeArmy inverts this: the repo is the memory. Sessions are temporary views onto 
+          persistent campaign state.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="container page-body" style="padding-bottom: 5rem;">
     <div class="callout">
-      <strong>Role discipline</strong>
-      CodeArmy is strongest when planner, reviewer, and executor are treated as distinct roles with
-      explicit handoff states, rather than one agent doing everything invisibly.
-    </div>
-
-    <div class="callout">
-      <strong>Hard gates</strong>
-      Approve-plan, review checks, and reconcile are product features, not optional niceties. They
-      are how long-horizon work stays trustworthy.
+      <strong>Ready to start?</strong>
+      <p>
+        The Quickstart guide covers prerequisites, the Alice/CodeArmy relationship, 
+        and your first concrete steps toward running a campaign.
+      </p>
+      <div class="hero-actions" style="margin-top: 1.5rem;">
+        <a class="button" href={`${baseUrl}docs/quickstart/`}>Open Quickstart</a>
+        <a class="button-secondary" href={`${baseUrl}research-use-cases/`}>See Research Use Cases</a>
+        <a class="button-secondary" href={`${baseUrl}integrations/`}>Explore Integrations</a>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .lifecycle-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .lifecycle-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lifecycle-card:last-child {
+    border-bottom: none;
+  }
+
+  .lifecycle-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 2.5rem;
+  }
+
+  .stage-number {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  .stage-connector {
+    width: 2px;
+    flex: 1;
+    min-height: 2rem;
+    background: var(--line-strong);
+    margin-top: 0.75rem;
+  }
+
+  .lifecycle-content h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .lifecycle-content p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .lifecycle-output {
+    margin-top: 0.75rem !important;
+    font-size: 0.9rem;
+    color: var(--ink) !important;
+  }
+
+  .role-card h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+  }
+
+  .role-responsibility {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .role-handoff {
+    margin: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+
+  .gate-card h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .gate-card p {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .gate-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 900px) {
+    .lifecycle-card {
+      gap: 1rem;
+    }
+  }
+</style>
