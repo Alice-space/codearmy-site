@@ -4,20 +4,87 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="Docs"
-  description="Documentation entry point for CodeArmy."
+  description="Documentation for CodeArmy: repo-first orchestration for long-horizon AI coding and research campaigns."
 >
   <section class="container page-hero">
-    <p class="eyebrow">Docs</p>
-    <h1>Start with the quick narrative, then deepen the product story.</h1>
+    <p class="eyebrow">Documentation</p>
+    <h1>Start here, then go deeper.</h1>
     <p class="lead">
-      The first public docs set should stay small and clear: what CodeArmy is, why it exists, and
-      how to start shaping it into a product.
+      CodeArmy documentation is designed for first-time users and returning practitioners. 
+      Pick your path based on where you are in the journey.
     </p>
     <div class="hero-actions">
-      <a class="button" href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Open Quickstart</a>
-      <a class="button-secondary" href={`${import.meta.env.BASE_URL}how-it-works/`}>
-        Read How It Works
+      <a class="button" href={`${import.meta.env.BASE_URL}/docs/quickstart/`}>Start Quickstart</a>
+      <a class="button-secondary" href="https://github.com/Alice-space/alice">
+        View Alice Runtime Repo
       </a>
+    </div>
+  </section>
+
+  <section class="container page-body">
+    <div class="split-grid">
+      <div>
+        <h2>Documentation scope</h2>
+        <p class="section-copy">
+          These docs cover what CodeArmy is, how to start using it, and where to go next. 
+          Detailed workflow guides, integration specifics, and research case studies live in separate pages.
+        </p>
+        <ul class="page-list">
+          <li><strong>Quickstart</strong> — Prerequisites, first steps, and Alice/CodeArmy relationship</li>
+          <li><strong>How It Works</strong> — Core concepts: campaigns, roles, reconcile, reports</li>
+          <li><strong>Integrations</strong> — Trae, CLI, Feishu, and cluster workflows</li>
+          <li><strong>Research Use Cases</strong> — Real applications in physics and ML optimization</li>
+          <li><strong>Roadmap</strong> — Current state and near-term priorities</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2>Recommended reading order</h2>
+        <ol class="page-list">
+          <li>
+            <a href={`${import.meta.env.BASE_URL}/docs/quickstart/`}>Quickstart</a> — 
+            Get oriented and verify prerequisites (5 minutes)
+          </li>
+          <li>
+            <a href={`${import.meta.env.BASE_URL}/how-it-works/`}>How It Works</a> — 
+            Understand the campaign model and role discipline (10 minutes)
+          </li>
+          <li>
+            <a href={`${import.meta.env.BASE_URL}/integrations/`}>Integrations</a> — 
+            Choose your entry point: Trae, CLI, or team channels
+          </li>
+          <li>
+            <a href={`${import.meta.env.BASE_URL}/research-use-cases/`}>Research Use Cases</a> — 
+            See how it works in practice (optional, for context)
+          </li>
+        </ol>
+        <div class="callout" style="margin-top: 1.5rem;">
+          <strong>Time to first experiment</strong>
+          Most users can complete Quickstart and run their first reconcile within 30 minutes 
+          if they have Git and a compatible editor (Trae Solo recommended).
+        </div>
+      </div>
+    </div>
+
+    <div class="split-grid" style="margin-top: 2rem;">
+      <div class="callout">
+        <strong>What you need before starting</strong>
+        <ul class="page-list">
+          <li>Git and a GitHub account</li>
+          <li>Trae Solo (recommended) or VS Code with agent support</li>
+          <li>Basic familiarity with command-line workflows</li>
+          <li>A project idea that spans multiple sessions (this is what CodeArmy is built for)</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Alice and CodeArmy</strong>
+        <p style="margin: 0;">
+          Alice is the runtime foundation. CodeArmy is the product and workflow layer built on top. 
+          You interact with CodeArmy; Alice handles the underlying orchestration. 
+          <a href={`${import.meta.env.BASE_URL}/docs/quickstart/`}>Quickstart explains the split</a>.
+        </p>
+      </div>
     </div>
   </section>
 </BaseLayout>
