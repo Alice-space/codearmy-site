@@ -28,10 +28,10 @@ export const PATH_MAPPINGS: Record<string, string> = {
 };
 
 // Set of available Chinese paths that actually exist in the build.
-// T401: Added /zh/ (homepage); T402/T403 will add more pages.
+// T402/T403 will add pages here. T401 only establishes the shared infrastructure.
 // This controls auto-redirect behavior - we only redirect to paths that exist.
 export const AVAILABLE_ZH_PATHS: Set<string> = new Set([
-  "/zh/",
+  // No Chinese pages yet - T401 is infrastructure-only
 ]);
 
 // Reverse mapping for Chinese to English

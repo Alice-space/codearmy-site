@@ -3,6 +3,6 @@ import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://alice-space.github.io",
-  base: "/codearmy-site/",
+  base: "/codearmy-site",
   integrations: [sitemap()]
 });
