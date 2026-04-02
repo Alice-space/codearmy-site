@@ -13,20 +13,25 @@ const {
 
 const pageTitle = `${title} | CodeArmy`;
 
+// Normalize BASE_URL to ensure it ends with a trailing slash
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
+  ? import.meta.env.BASE_URL 
+  : `${import.meta.env.BASE_URL}/`;
+
 const navItems = [
-  { href: `${import.meta.env.BASE_URL}`, label: "Home" },
-  { href: `${import.meta.env.BASE_URL}how-it-works/`, label: "How It Works" },
-  { href: `${import.meta.env.BASE_URL}research-use-cases/`, label: "Research" },
-  { href: `${import.meta.env.BASE_URL}integrations/`, label: "Integrations" },
-  { href: `${import.meta.env.BASE_URL}roadmap/`, label: "Roadmap" },
-  { href: `${import.meta.env.BASE_URL}docs/quickstart/`, label: "Quickstart", highlight: true },
+  { href: `${baseUrl}`, label: "Home" },
+  { href: `${baseUrl}how-it-works/`, label: "How It Works" },
+  { href: `${baseUrl}research-use-cases/`, label: "Research" },
+  { href: `${baseUrl}integrations/`, label: "Integrations" },
+  { href: `${baseUrl}roadmap/`, label: "Roadmap" },
+  { href: `${baseUrl}docs/quickstart/`, label: "Quickstart", highlight: true },
 ];
 
 const footerLinks = {
   explore: [
-    { href: `${import.meta.env.BASE_URL}docs/quickstart/`, label: "Quickstart" },
-    { href: `${import.meta.env.BASE_URL}how-it-works/`, label: "How It Works" },
-    { href: `${import.meta.env.BASE_URL}research-use-cases/`, label: "Research Use Cases" },
+    { href: `${baseUrl}docs/quickstart/`, label: "Quickstart" },
+    { href: `${baseUrl}how-it-works/`, label: "How It Works" },
+    { href: `${baseUrl}research-use-cases/`, label: "Research Use Cases" },
   ],
   code: [
     { href: "https://github.com/Alice-space/alice", label: "Alice Runtime Repo" },
@@ -47,7 +52,7 @@ const footerLinks = {
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
     <link rel="canonical" href={Astro.url.href} />
   </head>
   <body>
@@ -55,7 +60,7 @@ const footerLinks = {
     
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href={`${import.meta.env.BASE_URL}`} aria-label="CodeArmy Home">
+        <a class="brand" href={`${baseUrl}`} aria-label="CodeArmy Home">
           <span class="brand-mark" aria-hidden="true">CA</span>
           <span class="brand-text">
             <strong>CodeArmy</strong>
@@ -79,7 +84,7 @@ const footerLinks = {
             <a 
               href={item.href} 
               class={item.highlight ? "nav-highlight" : ""}
-              aria-current={Astro.url.pathname === item.href.replace(import.meta.env.BASE_URL, "/") ? "page" : undefined}
+              aria-current={Astro.url.pathname === item.href || (Astro.url.pathname === baseUrl && item.href === baseUrl) ? "page" : undefined}
             >
               {item.label}
             </a>
