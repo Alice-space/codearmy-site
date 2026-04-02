@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { getCounterpartPath, isZhPath } from "../lib/i18n";
 
 interface Props {
   title: string;
@@ -15,45 +16,9 @@ const pageTitle = `${title} | CodeArmy`;
 
 // Determine current locale from URL path
 const currentPath = Astro.url.pathname;
-const isZhPath = currentPath.startsWith("/zh/") || currentPath === "/zh";
-const currentLocale = isZhPath ? "zh" : "en";
+const currentLocale = isZhPath(currentPath) ? "zh" : "en";
 
-// Get counterpart path for language switching
-function getCounterpartPath(path: string): string {
-  const mappings: Record<string, string> = {
-    "/": "/zh/",
-    "/how-it-works/": "/zh/how-it-works/",
-    "/research-use-cases/": "/zh/research-use-cases/",
-    "/integrations/": "/zh/integrations/",
-    "/roadmap/": "/zh/roadmap/",
-    "/docs/": "/zh/docs/",
-    "/docs/quickstart/": "/zh/docs/quickstart/",
-  };
-  
-  // Check exact match
-  if (mappings[path]) {
-    return mappings[path];
-  }
-  
-  // Check reverse mappings
-  const reverseMappings: Record<string, string> = Object.fromEntries(
-    Object.entries(mappings).map(([en, zh]) => [zh, en])
-  );
-  if (reverseMappings[path]) {
-    return reverseMappings[path];
-  }
-  
-  // Handle generic /zh/* paths
-  if (path.startsWith("/zh/")) {
-    const enPath = "/" + path.slice(4);
-    return enPath.endsWith("/") ? enPath : enPath + "/";
-  }
-  
-  // Add /zh/ prefix for English paths
-  const zhPath = "/zh" + path;
-  return zhPath.endsWith("/") ? zhPath : zhPath + "/";
-}
-
+// Get counterpart path for language switching (reuse shared mapping)
 const counterpartPath = getCounterpartPath(currentPath);
 const switchLabel = currentLocale === "zh" ? "English" : "中文";
 ---
@@ -136,7 +101,7 @@ const switchLabel = currentLocale === "zh" ? "English" : "中文";
     </footer>
 
     <script>
-      import { initLocale, switchLanguage, storeLocale, getLocaleFromPath } from "../lib/i18n";
+      import { initLocale, storeLocale } from "../lib/i18n";
       
       // Initialize locale on page load
       initLocale();

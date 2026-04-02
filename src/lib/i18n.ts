@@ -65,7 +65,7 @@ export function getCounterpartPath(currentPath: string): string {
     return PATH_MAPPINGS[currentPath];
   }
   if (REVERSE_PATH_MAPPINGS[currentPath]) {
-    return RVERSE_PATH_MAPPINGS[currentPath];
+    return REVERSE_PATH_MAPPINGS[currentPath];
   }
   
   // Handle /zh/* prefix for reverse lookup
@@ -175,6 +175,17 @@ export function initLocale(): void {
   // Handle redirect for stored preference mismatch
   const stored = getStoredLocale();
   if (stored && stored !== currentLocale) {
+    const targetPath = getCounterpartPath(path);
+    // Avoid redirect loops
+    if (targetPath !== path && !sessionStorage.getItem("codearmy-locale-redirect")) {
+      sessionStorage.setItem("codearmy-locale-redirect", "1");
+      window.location.href = targetPath;
+      return;
+    }
+  }
+  
+  // Handle first-time visit based on browser locale (no stored preference)
+  if (!stored && effectiveLocale !== currentLocale) {
     const targetPath = getCounterpartPath(path);
     // Avoid redirect loops
     if (targetPath !== path && !sessionStorage.getItem("codearmy-locale-redirect")) {
