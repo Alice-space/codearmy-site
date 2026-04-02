@@ -1,36 +1,60 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteContent } from "../lib/site-content";
 
-const home = `${import.meta.env.BASE_URL}`;
-const homeZh = `${import.meta.env.BASE_URL}zh/`;
-const homeDocs = `${import.meta.env.BASE_URL}#docs`;
-const homeDocsZh = `${import.meta.env.BASE_URL}zh/#docs`;
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const addBase = (path: string) => {
+  if (baseUrl === "/") return path;
+  return `${baseUrl.replace(/\/$/, "")}${path}`;
+};
+
+const englishHome = addBase("/");
+const chineseHome = addBase("/zh/");
+const englishFlow = `${englishHome}#flow`;
+const chineseCases = `${chineseHome}#cases`;
+const content = siteContent.en;
 ---
 
 <BaseLayout
-  title="Page Not Found"
-  description="Bilingual 404 fallback for the CodeArmy site. Return to the English or Chinese home pages and continue from there."
+  locale="en"
+  title="Page not found"
+  description="Return to the current CodeArmy single-page site in English or Chinese."
+  navItems={content.navItems}
+  footerNote={content.footer.note}
 >
-  <section class="container page-hero">
-    <p class="eyebrow">404</p>
-    <h1>That page does not exist.</h1>
-    <p class="lead">
-      Return to the English or Chinese entry points and continue from the homepage sections.
-    </p>
-    <div class="hero-actions">
-      <a class="button" href={home}>Go Home</a>
-      <a class="button-secondary" href={homeDocs}>English Docs section</a>
-      <a class="button-secondary" href={homeZh}>前往中文首页</a>
-      <a class="button-secondary" href={homeDocsZh}>中文快速入门区块</a>
-    </div>
-    <div class="not-found-copy">
-      <div class="callout">
-        <strong>English</strong>
-        This site now ships paired English and Chinese routes for the core pages. Start again from the homepage, docs, or quickstart if you landed on a stale link.
+  <section class="section-block">
+    <div class="container not-found-shell">
+      <p class="eyebrow">404</p>
+      <h1>That page no longer exists as a standalone route.</h1>
+      <p class="lead">
+        CodeArmy now uses one English page and one Chinese page. If you opened an old route,
+        jump back to the current single-page entry.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href={englishHome}>English Home</a>
+        <a class="button-secondary" href={englishFlow}>English Workflow</a>
+        <a class="button-secondary" href={chineseHome}>中文首页</a>
+        <a class="button-secondary" href={chineseCases}>中文案例</a>
       </div>
-      <div class="callout">
-        <strong>中文</strong>
-        站点的核心页面已经提供中英文对应路由。如果你打开了旧链接或错误路径，请返回中文首页、文档入口或快速入门重新进入。
+      <div class="not-found-grid">
+        <article class="case-card">
+          <span class="case-status">English</span>
+          <h2>Use the single-page entry</h2>
+          <p>
+            The current site is organized as anchors on the homepage: architecture, workflow,
+            capabilities, cases, roadmap, and quickstart.
+          </p>
+        </article>
+        <article class="case-card">
+          <span class="case-status">中文</span>
+          <h2>请回到单页入口</h2>
+          <p>
+            现在站点统一收敛为单页结构，包含架构、流程图、能力、案例、路线图和快速入门几个区块。
+          </p>
+        </article>
       </div>
     </div>
   </section>

@@ -1,0 +1,247 @@
+---
+import type { SiteContent } from "../lib/site-content";
+
+interface Props {
+  content: SiteContent;
+}
+
+const { content } = Astro.props;
+
+const isExternal = (href: string) => /^https?:\/\//.test(href);
+---
+
+<section id="overview" class="hero section-block">
+  <div class="container hero-shell">
+    <div class="hero-copy">
+      <p class="eyebrow">{content.hero.eyebrow}</p>
+      <h1>{content.hero.title}</h1>
+      <p class="lead">{content.hero.body}</p>
+      <div class="badge-row">
+        {content.hero.badges.map((badge) => (
+          <span class="badge">{badge}</span>
+        ))}
+      </div>
+      <div class="hero-actions">
+        {content.hero.actions.map((action, index) => (
+          <a
+            class={index === 0 ? "button" : "button-secondary"}
+            href={action.href}
+            target={isExternal(action.href) ? "_blank" : undefined}
+            rel={isExternal(action.href) ? "noreferrer" : undefined}
+          >
+            {action.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <aside class="hero-panel">
+      <p class="mini-title">{content.hero.terminalLabel}</p>
+      <div class="terminal-shell">
+        <div class="terminal-header">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="terminal-body">
+          {content.hero.terminalLines.map((line) => (
+            <div class="terminal-line">{line}</div>
+          ))}
+        </div>
+      </div>
+      <div class="metric-grid">
+        {content.hero.metrics.map((metric) => (
+          <article class="metric-card">
+            <strong>{metric.value}</strong>
+            <span>{metric.label}</span>
+            <p>{metric.detail}</p>
+          </article>
+        ))}
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="architecture" class="section-block">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{content.architecture.eyebrow}</p>
+      <h2>{content.architecture.title}</h2>
+      <p>{content.architecture.body}</p>
+    </div>
+    <div class="architecture-shell">
+      <div class="stack-grid">
+        {content.architecture.layers.map((layer) => (
+          <article class="stack-card">
+            <span class="stack-tag">{layer.tag}</span>
+            <h3>{layer.title}</h3>
+            <p>{layer.body}</p>
+          </article>
+        ))}
+      </div>
+      <aside class="repo-panel">
+        <p class="mini-title">{content.architecture.repoPanelTitle}</p>
+        <p>{content.architecture.repoPanelBody}</p>
+        <ul class="bullet-list">
+          {content.architecture.repoBullets.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="flow" class="section-block">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{content.flow.eyebrow}</p>
+      <h2>{content.flow.title}</h2>
+      <p>{content.flow.body}</p>
+    </div>
+    <div class="flow-grid">
+      {content.flow.nodes.map((node) => (
+        <article class="flow-card">
+          <span class="flow-step">{node.step}</span>
+          <h3>{node.title}</h3>
+          <p>{node.body}</p>
+          <span class="flow-artifact">{node.artifact}</span>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="capabilities" class="section-block">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{content.capabilities.eyebrow}</p>
+      <h2>{content.capabilities.title}</h2>
+      <p>{content.capabilities.body}</p>
+    </div>
+    <div class="feature-grid">
+      {content.capabilities.features.map((feature) => (
+        <article class="feature-card">
+          <h3>{feature.title}</h3>
+          <p>{feature.body}</p>
+        </article>
+      ))}
+    </div>
+    <div class="capability-lower">
+      <article class="artifact-shell">
+        <p class="mini-title">{content.capabilities.artifactTitle}</p>
+        <p>{content.capabilities.artifactIntro}</p>
+        <div class="artifact-code">
+          {content.capabilities.artifactLines.map((line) => (
+            <div>{line}</div>
+          ))}
+        </div>
+      </article>
+      <div>
+        <p class="mini-title">{content.capabilities.surfacesTitle}</p>
+        <div class="surface-grid">
+          {content.capabilities.surfaces.map((surface) => (
+            <article class="surface-card">
+              <h3>{surface.title}</h3>
+              <p>{surface.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cases" class="section-block">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{content.cases.eyebrow}</p>
+      <h2>{content.cases.title}</h2>
+      <p>{content.cases.body}</p>
+    </div>
+    <div class="case-grid">
+      {content.cases.items.map((item) => (
+        <article class="case-card">
+          <span class="case-status">{item.status}</span>
+          <h3>{item.title}</h3>
+          <p>{item.summary}</p>
+          <ul class="case-list">
+            {item.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="roadmap" class="section-block">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{content.roadmap.eyebrow}</p>
+      <h2>{content.roadmap.title}</h2>
+      <p>{content.roadmap.body}</p>
+    </div>
+    <div class="roadmap-grid">
+      {content.roadmap.items.map((item) => (
+        <article class="roadmap-item">
+          <span class="roadmap-stage">{item.stage}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="quickstart" class="section-block">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{content.quickstart.eyebrow}</p>
+      <h2>{content.quickstart.title}</h2>
+      <p>{content.quickstart.body}</p>
+    </div>
+    <div class="runbook-grid">
+      {content.quickstart.steps.map((step) => (
+        <article class="runbook-card">
+          <span class="runbook-step">{step.step}</span>
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+          <pre class="command-block"><code>{step.command}</code></pre>
+        </article>
+      ))}
+    </div>
+    <div class="callout">
+      <p>{content.quickstart.callout}</p>
+      <div class="resource-links">
+        {content.quickstart.links.map((link) => (
+          <a href={link.href} target="_blank" rel="noreferrer">
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-block section-callout">
+  <div class="container closing-shell">
+    <div>
+      <p class="eyebrow">CodeArmy</p>
+      <h2>{content.closing.title}</h2>
+      <p>{content.closing.body}</p>
+    </div>
+    <div class="hero-actions">
+      <a class="button" href={content.closing.primary.href}>{content.closing.primary.label}</a>
+      <a
+        class="button-secondary"
+        href={content.closing.secondary.href}
+        target={isExternal(content.closing.secondary.href) ? "_blank" : undefined}
+        rel={isExternal(content.closing.secondary.href) ? "noreferrer" : undefined}
+      >
+        {content.closing.secondary.label}
+      </a>
+    </div>
+  </div>
+</section>
