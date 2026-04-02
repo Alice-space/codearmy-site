@@ -15,6 +15,8 @@ export const DEFAULT_LOCALE: Locale = "en";
 export const LOCALE_STORAGE_KEY = "codearmy-locale-pref";
 
 // Path mappings between English and Chinese versions (without base prefix)
+// NOTE: These are forward mappings for planned /zh/* routes.
+// Auto-redirect and language switching only work for paths in AVAILABLE_ZH_PATHS.
 export const PATH_MAPPINGS: Record<string, string> = {
   "/": "/zh/",
   "/how-it-works/": "/zh/how-it-works/",
@@ -24,6 +26,13 @@ export const PATH_MAPPINGS: Record<string, string> = {
   "/docs/": "/zh/docs/",
   "/docs/quickstart/": "/zh/docs/quickstart/",
 };
+
+// Set of available Chinese paths that actually exist in the build.
+// T401: Currently empty; T402/T403 will populate this as they create /zh/* pages.
+// This controls auto-redirect behavior - we only redirect to paths that exist.
+export const AVAILABLE_ZH_PATHS: Set<string> = new Set([
+  // Example: "/zh/how-it-works/" will be added when T402 creates the page
+]);
 
 // Reverse mapping for Chinese to English
 export const REVERSE_PATH_MAPPINGS: Record<string, string> = Object.fromEntries(
@@ -167,8 +176,17 @@ export function detectEffectiveLocale(currentPath: string): Locale {
 }
 
 /**
+ * Check if a Chinese path is actually available (exists in the build)
+ */
+export function isZhPathAvailable(zhPath: string): boolean {
+  const stripped = stripBase(zhPath);
+  return AVAILABLE_ZH_PATHS.has(stripped);
+}
+
+/**
  * Check if redirect is needed based on locale rules
  * Returns the target path if redirect needed, null otherwise
+ * NOTE: Only redirects to /zh/* paths if they exist in AVAILABLE_ZH_PATHS
  */
 export function getRedirectPath(currentPath: string): string | null {
   const stored = getStoredLocale();
@@ -177,6 +195,10 @@ export function getRedirectPath(currentPath: string): string | null {
   // If user has explicit preference and current path doesn't match
   if (stored && stored !== currentLocale) {
     const targetPath = getCounterpartPath(currentPath);
+    // Only redirect if target Chinese path exists
+    if (stored === "zh" && !isZhPathAvailable(targetPath)) {
+      return null;
+    }
     return targetPath;
   }
 
@@ -186,18 +208,29 @@ export function getRedirectPath(currentPath: string): string | null {
 /**
  * Initialize locale handling on page load
  * Should be called in client-side script
+ * 
+ * NOTE on auto-redirect (T401): 
+ * - Stored preference mismatch: Only redirects if target /zh/* path exists
+ * - First-time browser locale: Disabled until /zh/* pages are available (T402/T403)
+ * - T402/T403 should add paths to AVAILABLE_ZH_PATHS and test before enabling full auto-redirect
  */
 export function initLocale(): void {
   if (typeof window === "undefined") return;
 
   const path = window.location.pathname;
-  const effectiveLocale = detectEffectiveLocale(path);
   const currentLocale = getLocaleFromPath(path);
 
   // Handle redirect for stored preference mismatch
   const stored = getStoredLocale();
   if (stored && stored !== currentLocale) {
     const targetPath = getCounterpartPath(path);
+    // Only redirect if target Chinese path exists (avoid 404)
+    if (stored === "zh" && !isZhPathAvailable(targetPath)) {
+      // Stay on current page, just update lang attribute
+      document.documentElement.lang = currentLocale === "zh" ? "zh-CN" : "en";
+      sessionStorage.removeItem("codearmy-locale-redirect");
+      return;
+    }
     // Avoid redirect loops
     if (targetPath !== path && !sessionStorage.getItem("codearmy-locale-redirect")) {
       sessionStorage.setItem("codearmy-locale-redirect", "1");
@@ -206,28 +239,30 @@ export function initLocale(): void {
     }
   }
 
-  // Handle first-time visit based on browser locale (no stored preference)
-  if (!stored && effectiveLocale !== currentLocale) {
-    const targetPath = getCounterpartPath(path);
-    // Avoid redirect loops
-    if (targetPath !== path && !sessionStorage.getItem("codearmy-locale-redirect")) {
-      sessionStorage.setItem("codearmy-locale-redirect", "1");
-      window.location.href = targetPath;
-      return;
-    }
-  }
+  // NOTE: First-time browser locale auto-redirect is DISABLED in T401
+  // because /zh/* pages don't exist yet. Will be enabled in T402/T403
+  // when AVAILABLE_ZH_PATHS is populated.
+  // 
+  // if (!stored && effectiveLocale !== currentLocale) {
+  //   const targetPath = getCounterpartPath(path);
+  //   if (isZhPathAvailable(targetPath) && ...avoid loops...) {
+  //     window.location.href = targetPath;
+  //     return;
+  //   }
+  // }
 
   // Clear redirect flag after successful load
   sessionStorage.removeItem("codearmy-locale-redirect");
 
-  // Update html lang attribute
-  document.documentElement.lang = effectiveLocale === "zh" ? "zh-CN" : "en";
+  // Update html lang attribute based on current path
+  document.documentElement.lang = currentLocale === "zh" ? "zh-CN" : "en";
 }
 
 /**
  * Handle language switch click
+ * NOTE: Switching to Chinese only works if the target /zh/* path exists
  */
-export function switchLanguage(currentPath: string): void {
+export function switchLanguage(currentPath: string): string | null {
   const currentLocale = getLocaleFromPath(currentPath);
   const newLocale: Locale = currentLocale === "zh" ? "en" : "zh";
 
@@ -236,7 +271,15 @@ export function switchLanguage(currentPath: string): void {
 
   // Navigate to counterpart path
   const targetPath = getCounterpartPath(currentPath);
+  
+  // If switching to Chinese but path doesn't exist yet, stay on current page
+  if (newLocale === "zh" && !isZhPathAvailable(targetPath)) {
+    console.log(`[i18n] Chinese page not yet available: ${targetPath}`);
+    return null;
+  }
+  
   if (typeof window !== "undefined") {
     window.location.href = targetPath;
   }
+  return targetPath;
 }

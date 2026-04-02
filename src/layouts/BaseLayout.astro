@@ -101,7 +101,7 @@ const switchLabel = currentLocale === "zh" ? "English" : "中文";
     </footer>
 
     <script>
-      import { initLocale, storeLocale, isZhPath } from "../lib/i18n";
+      import { initLocale, switchLanguage, isZhPath, isZhPathAvailable } from "../lib/i18n";
 
       // Initialize locale on page load
       initLocale();
@@ -114,17 +114,20 @@ const switchLabel = currentLocale === "zh" ? "English" : "中文";
           langBtn.addEventListener("click", () => {
             const counterpartPath = langBtn.dataset.counterpart;
             const currentPath = window.location.pathname;
+            
+            if (!counterpartPath) return;
 
-            // Determine new locale from target path
-            const newLocale = counterpartPath && isZhPath(counterpartPath) ? "zh" : "en";
-
-            // Store preference
-            storeLocale(newLocale);
-
-            // Navigate
-            if (counterpartPath && counterpartPath !== currentPath) {
-              window.location.href = counterpartPath;
+            // Check if switching to Chinese and the page exists
+            const switchingToZh = isZhPath(counterpartPath);
+            if (switchingToZh && !isZhPathAvailable(counterpartPath)) {
+              // Chinese page not available yet - show visual feedback but stay
+              console.log("[i18n] Chinese page will be available in T402/T403");
+              // Could add UI notification here in the future
+              return;
             }
+
+            // Use shared switchLanguage helper
+            switchLanguage(currentPath);
           });
         }
       });
