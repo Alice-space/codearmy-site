@@ -1,95 +1,50 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const baseUrl = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout
   title="Roadmap"
-  description="A focused roadmap for CodeArmy: current priorities, next steps, and explicit non-goals."
+  description="A practical roadmap for shaping CodeArmy into a focused product."
 >
   <section class="container page-hero">
     <p class="eyebrow">Roadmap</p>
     <h1>Ship a focused product before a broad platform.</h1>
     <p class="lead">
-      CodeArmy is being built in stages. Each version has a clear boundary: what we are
-      committing to now, what comes next, and what we are explicitly not doing yet.
+      CodeArmy should start as a clear, narrow product for long-running AI coding and research
+      campaigns. Breadth comes later.
     </p>
   </section>
 
-  <section class="container page-body">
-    <div class="grid-3">
-      <article class="card">
-        <h3>v0.1 — Now</h3>
-        <p class="text-secondary">Focused front door</p>
-        <ul class="page-list">
-          <li>Landing page that explains the product in 10 seconds</li>
-          <li>Docs entry and practical Quickstart</li>
-          <li>Clear narrative: repo-first campaigns, not generic agents</li>
-          <li>Research credibility (real use cases mentioned)</li>
-        </ul>
-        <p class="text-secondary" style="margin-top: 0.75rem; font-size: 0.875rem;">
-          <strong>Why first:</strong> Without a credible front door, nothing else matters.
-        </p>
-      </article>
-
-      <article class="card">
-        <h3>v0.2 — Next</h3>
-        <p class="text-secondary">Runnable workflow</p>
-        <ul class="page-list">
-          <li>CLI for campaign create/reconcile/report</li>
-          <li>MCP server for Trae Solo integration</li>
-          <li>Starter Skills pack</li>
-          <li>Case studies from real research workflows</li>
-        </ul>
-        <p class="text-secondary" style="margin-top: 0.75rem; font-size: 0.875rem;">
-          <strong>Why second:</strong> Make the narrative executable before adding breadth.
-        </p>
-      </article>
-
-      <article class="card">
-        <h3>v0.3 — Later</h3>
-        <p class="text-secondary">Team scale</p>
-        <ul class="page-list">
-          <li>Feishu sync for approvals and reports</li>
-          <li>Multi-member campaign visibility</li>
-          <li>Extended examples and templates</li>
-          <li>Optional self-hosted routing</li>
-        </ul>
-        <p class="text-secondary" style="margin-top: 0.75rem; font-size: 0.875rem;">
-          <strong>Why third:</strong> Team features only after solo workflow is solid.
-        </p>
-      </article>
-    </div>
-  </section>
-
-  <section class="container page-body">
-    <div class="callout" style="border-left: 3px solid var(--accent);">
-      <h3 style="margin-top: 0;">Explicit Non-Goals</h3>
-      <p>These are intentionally out of scope for the current phase:</p>
+  <section class="container page-body grid-3">
+    <article class="card">
+      <h3>v0.1</h3>
+      <p>Trae-first product package.</p>
       <ul class="page-list">
-        <li><strong>Generic chatbot:</strong> CodeArmy is not competing with conversational AI interfaces.</li>
-        <li><strong>Heavy web infrastructure:</strong> No backends, databases, or dynamic forms in v1.</li>
-        <li><strong>App-like complexity:</strong> The site stays static and GitHub Pages-friendly.</li>
-        <li><strong>Platform promises before product:</strong> We will not publish feature matrices with dates we cannot commit to.</li>
+        <li>Landing page and docs</li>
+        <li>Campaign lifecycle narrative</li>
+        <li>Trae integration path</li>
+        <li>Quickstart and current runtime repo links</li>
       </ul>
-    </div>
-  </section>
-
-  <section class="container page-body">
-    <div class="split-grid">
-      <div class="callout">
-        <strong>Current focus</strong>
-        <p style="margin: 0.5rem 0 0 0;">
-          v0.1 is the only commitment right now. Everything else is directional, not promised.
-        </p>
-      </div>
-      <div style="display: flex; align-items: center; gap: 1rem; justify-content: flex-end;">
-        <a class="button" href={`${baseUrl}docs/quickstart/`}>Read Quickstart</a>
-        <a class="button-secondary" href={`${baseUrl}`}>Back to Home</a>
-      </div>
-    </div>
+    </article>
+    <article class="card">
+      <h3>v0.2</h3>
+      <p>Operational bundle.</p>
+      <ul class="page-list">
+        <li>CodeArmy CLI</li>
+        <li>MCP server for Trae Solo</li>
+        <li>Custom agents and Skills pack</li>
+        <li>Research case studies</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>v0.3</h3>
+      <p>Team workflow expansion.</p>
+      <ul class="page-list">
+        <li>Feishu sync</li>
+        <li>Approval/reporting polish</li>
+        <li>More durable docs and examples</li>
+        <li>Optional custom domain</li>
+      </ul>
+    </article>
   </section>
 </BaseLayout>
