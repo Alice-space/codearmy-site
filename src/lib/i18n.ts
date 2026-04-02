@@ -6,12 +6,15 @@
 // 3. Browser locale detection
 // 4. Default: English
 
+// Must match astro.config.mjs `base`
+export const BASE_PATH = "/codearmy-site";
+
 export type Locale = "en" | "zh";
 
 export const DEFAULT_LOCALE: Locale = "en";
 export const LOCALE_STORAGE_KEY = "codearmy-locale-pref";
 
-// Path mappings between English and Chinese versions
+// Path mappings between English and Chinese versions (without base prefix)
 export const PATH_MAPPINGS: Record<string, string> = {
   "/": "/zh/",
   "/how-it-works/": "/zh/how-it-works/",
@@ -27,11 +30,28 @@ export const REVERSE_PATH_MAPPINGS: Record<string, string> = Object.fromEntries(
   Object.entries(PATH_MAPPINGS).map(([en, zh]) => [zh, en])
 );
 
+function stripBase(path: string, base: string = BASE_PATH): string {
+  if (base && base !== "/" && path.startsWith(base)) {
+    const remainder = path.slice(base.length);
+    return remainder || "/";
+  }
+  return path;
+}
+
+function addBase(path: string, base: string = BASE_PATH): string {
+  if (!base || base === "/") return path;
+  if (path.startsWith(base)) return path;
+  const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
+  const normalizedPath = path.startsWith("/") ? path : "/" + path;
+  return normalizedBase + normalizedPath;
+}
+
 /**
  * Check if the current path is a Chinese path (/zh/*)
  */
 export function isZhPath(path: string): boolean {
-  return path.startsWith("/zh/") || path === "/zh";
+  const stripped = stripBase(path);
+  return stripped.startsWith("/zh/") || stripped === "/zh";
 }
 
 /**
@@ -46,11 +66,11 @@ export function getLocaleFromPath(path: string): Locale {
  */
 export function isBrowserLocaleChinese(): boolean {
   if (typeof navigator === "undefined") return false;
-  
+
   const lang = navigator.language || (navigator as any).userLanguage || "en";
   const chineseLocales = ["zh", "zh-CN", "zh-TW", "zh-HK", "zh-SG", "zh-MO"];
-  
-  return chineseLocales.some(locale => 
+
+  return chineseLocales.some((locale) =>
     lang.toLowerCase().startsWith(locale.toLowerCase())
   );
 }
@@ -60,29 +80,31 @@ export function isBrowserLocaleChinese(): boolean {
  * English -> Chinese, Chinese -> English
  */
 export function getCounterpartPath(currentPath: string): string {
+  const stripped = stripBase(currentPath);
+
   // Exact match first
-  if (PATH_MAPPINGS[currentPath]) {
-    return PATH_MAPPINGS[currentPath];
+  if (PATH_MAPPINGS[stripped]) {
+    return addBase(PATH_MAPPINGS[stripped]);
   }
-  if (REVERSE_PATH_MAPPINGS[currentPath]) {
-    return REVERSE_PATH_MAPPINGS[currentPath];
+  if (REVERSE_PATH_MAPPINGS[stripped]) {
+    return addBase(REVERSE_PATH_MAPPINGS[stripped]);
   }
-  
+
   // Handle /zh/* prefix for reverse lookup
-  if (currentPath.startsWith("/zh/")) {
-    const enPath = "/" + currentPath.slice(4); // Remove /zh/
-    // Check if there's a direct mapping
-    const mapped = Object.entries(PATH_MAPPINGS).find(([_, zh]) => 
-      zh === currentPath || zh === currentPath + "/"
+  if (stripped.startsWith("/zh/")) {
+    const mapped = Object.entries(PATH_MAPPINGS).find(
+      ([_, zh]) => zh === stripped || zh === stripped + "/"
     );
-    if (mapped) return mapped[0];
+    if (mapped) return addBase(mapped[0]);
     // Default: remove /zh/ prefix
-    return enPath.endsWith("/") ? enPath : enPath + "/";
+    const enPath = "/" + stripped.slice(4);
+    return addBase(enPath.endsWith("/") ? enPath : enPath + "/");
   }
-  
+
   // Add /zh/ prefix for English paths
-  const zhPath = "/zh" + (currentPath.startsWith("/") ? currentPath : "/" + currentPath);
-  return zhPath.endsWith("/") ? zhPath : zhPath + "/";
+  const zhPath =
+    "/zh" + (stripped.startsWith("/") ? stripped : "/" + stripped);
+  return addBase(zhPath.endsWith("/") ? zhPath : zhPath + "/");
 }
 
 /**
@@ -90,7 +112,7 @@ export function getCounterpartPath(currentPath: string): string {
  */
 export function getStoredLocale(): Locale | null {
   if (typeof localStorage === "undefined") return null;
-  
+
   try {
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY);
     if (stored === "en" || stored === "zh") {
@@ -107,7 +129,7 @@ export function getStoredLocale(): Locale | null {
  */
 export function storeLocale(locale: Locale): void {
   if (typeof localStorage === "undefined") return;
-  
+
   try {
     localStorage.setItem(LOCALE_STORAGE_KEY, locale);
   } catch (e) {
@@ -128,18 +150,18 @@ export function detectEffectiveLocale(currentPath: string): Locale {
   if (stored) {
     return stored;
   }
-  
+
   // Priority 2: Current path
   const pathLocale = getLocaleFromPath(currentPath);
   if (pathLocale === "zh") {
     return "zh";
   }
-  
+
   // Priority 3: Browser locale
   if (isBrowserLocaleChinese()) {
     return "zh";
   }
-  
+
   // Priority 4: Default
   return DEFAULT_LOCALE;
 }
@@ -151,13 +173,13 @@ export function detectEffectiveLocale(currentPath: string): Locale {
 export function getRedirectPath(currentPath: string): string | null {
   const stored = getStoredLocale();
   const currentLocale = getLocaleFromPath(currentPath);
-  
+
   // If user has explicit preference and current path doesn't match
   if (stored && stored !== currentLocale) {
     const targetPath = getCounterpartPath(currentPath);
     return targetPath;
   }
-  
+
   return null;
 }
 
@@ -167,11 +189,11 @@ export function getRedirectPath(currentPath: string): string | null {
  */
 export function initLocale(): void {
   if (typeof window === "undefined") return;
-  
+
   const path = window.location.pathname;
   const effectiveLocale = detectEffectiveLocale(path);
   const currentLocale = getLocaleFromPath(path);
-  
+
   // Handle redirect for stored preference mismatch
   const stored = getStoredLocale();
   if (stored && stored !== currentLocale) {
@@ -183,7 +205,7 @@ export function initLocale(): void {
       return;
     }
   }
-  
+
   // Handle first-time visit based on browser locale (no stored preference)
   if (!stored && effectiveLocale !== currentLocale) {
     const targetPath = getCounterpartPath(path);
@@ -194,10 +216,10 @@ export function initLocale(): void {
       return;
     }
   }
-  
+
   // Clear redirect flag after successful load
   sessionStorage.removeItem("codearmy-locale-redirect");
-  
+
   // Update html lang attribute
   document.documentElement.lang = effectiveLocale === "zh" ? "zh-CN" : "en";
 }
@@ -208,10 +230,10 @@ export function initLocale(): void {
 export function switchLanguage(currentPath: string): void {
   const currentLocale = getLocaleFromPath(currentPath);
   const newLocale: Locale = currentLocale === "zh" ? "en" : "zh";
-  
+
   // Store preference
   storeLocale(newLocale);
-  
+
   // Navigate to counterpart path
   const targetPath = getCounterpartPath(currentPath);
   if (typeof window !== "undefined") {

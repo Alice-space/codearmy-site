@@ -101,27 +101,26 @@ const switchLabel = currentLocale === "zh" ? "English" : "中文";
     </footer>
 
     <script>
-      import { initLocale, storeLocale } from "../lib/i18n";
-      
+      import { initLocale, storeLocale, isZhPath } from "../lib/i18n";
+
       // Initialize locale on page load
       initLocale();
-      
+
       // Set up language switcher
       document.addEventListener("DOMContentLoaded", () => {
         const langBtn = document.querySelector(".lang-switcher-btn") as HTMLButtonElement | null;
-        
+
         if (langBtn) {
           langBtn.addEventListener("click", () => {
             const counterpartPath = langBtn.dataset.counterpart;
             const currentPath = window.location.pathname;
-            
+
             // Determine new locale from target path
-            const isZhTarget = counterpartPath?.startsWith("/zh/") || counterpartPath === "/zh";
-            const newLocale = isZhTarget ? "zh" : "en";
-            
+            const newLocale = counterpartPath && isZhPath(counterpartPath) ? "zh" : "en";
+
             // Store preference
             storeLocale(newLocale);
-            
+
             // Navigate
             if (counterpartPath && counterpartPath !== currentPath) {
               window.location.href = counterpartPath;
