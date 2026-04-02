@@ -20,91 +20,73 @@ const currentPath = Astro.url.pathname;
 
 const stripBase = (path: string) => {
   if (baseUrl !== "/" && path.startsWith(baseUrl.slice(0, -1))) {
-    const remainder = path.slice(baseUrl.length - 1);
-    return remainder || "/";
+    return path.slice(baseUrl.length - 1) || "/";
   }
   return path || "/";
 };
 
 const addBase = (path: string) => {
-  if (baseUrl === "/") {
-    return path;
-  }
-  const normalized = path.startsWith("/") ? path.slice(1) : path;
-  return `${baseUrl}${normalized}`;
+  if (baseUrl === "/") return path;
+  return `${baseUrl.replace(/\/$/, "")}${path}`;
 };
-
-const routeMap: Record<string, string> = {
-  "/": "/zh/",
-  "/docs/": "/zh/docs/",
-  "/docs/quickstart/": "/zh/docs/quickstart/",
-  "/how-it-works/": "/zh/how-it-works/",
-  "/integrations/": "/zh/integrations/",
-  "/research-use-cases/": "/zh/research-use-cases/",
-  "/roadmap/": "/zh/roadmap/"
-};
-
-const reverseRouteMap = Object.fromEntries(
-  Object.entries(routeMap).map(([enPath, zhPath]) => [zhPath, enPath])
-);
 
 const normalizePath = (path: string) => {
-  if (path === "/zh") {
-    return "/zh/";
-  }
-  if (path !== "/" && !path.endsWith("/")) {
-    return `${path}/`;
-  }
+  if (path === "/zh") return "/zh/";
+  if (path !== "/" && !path.endsWith("/")) return `${path}/`;
   return path;
+};
+
+const routeSectionMap: Record<string, string> = {
+  "/": "#hero",
+  "/how-it-works/": "#workflow",
+  "/research-use-cases/": "#cases",
+  "/integrations/": "#entry",
+  "/roadmap/": "#roadmap",
+  "/docs/": "#docs",
+  "/docs/quickstart/": "#docs",
+  "/zh/": "#hero",
+  "/zh/how-it-works/": "#workflow",
+  "/zh/research-use-cases/": "#cases",
+  "/zh/integrations/": "#entry",
+  "/zh/roadmap/": "#roadmap",
+  "/zh/docs/": "#docs",
+  "/zh/docs/quickstart/": "#docs"
 };
 
 const strippedPath = normalizePath(stripBase(currentPath));
 const currentLocale = strippedPath.startsWith("/zh/") ? "zh" : "en";
+const sectionAnchor = routeSectionMap[strippedPath] ?? "#hero";
 
-const getCounterpartPath = (path: string) => {
-  if (routeMap[path]) {
-    return routeMap[path];
-  }
-  if (reverseRouteMap[path]) {
-    return reverseRouteMap[path];
-  }
-  if (path.startsWith("/zh/")) {
-    const fallback = path.slice(3);
-    return normalizePath(fallback.startsWith("/") ? fallback : `/${fallback}`);
-  }
-  return normalizePath(`/zh${path === "/" ? "/" : path}`);
-};
-
-const counterpartStrippedPath = getCounterpartPath(strippedPath);
-const counterpartHref = addBase(counterpartStrippedPath);
-const hasCounterpart = Boolean(routeMap[strippedPath] || reverseRouteMap[strippedPath]);
-const localeRoot = currentLocale === "zh" ? addBase("/zh/") : baseUrl;
+const localeRoot = currentLocale === "zh" ? addBase("/zh/") : addBase("/");
+const counterpartRoot = currentLocale === "zh" ? addBase("/") : addBase("/zh/");
+const counterpartHref = `${counterpartRoot}${sectionAnchor}`;
+const activeAnchor = sectionAnchor.replace("#", "");
 
 const labels =
   currentLocale === "zh"
     ? {
-        home: "首页",
-        howItWorks: "工作原理",
-        research: "研究用例",
-        integrations: "集成",
+        home: "总览",
+        workflow: "工作原理",
+        cases: "研究场景",
+        entry: "接入面",
         roadmap: "路线图",
         quickstart: "快速入门",
         switchTarget: "English",
         switchAria: "切换到英文",
         currentBadge: "中",
-        footerExplore: "继续阅读",
+        footerExplore: "探索",
         footerCode: "当前代码",
-        footerCopy: "面向长期 AI 编程与研究 campaign 的 repo-first orchestration layer。",
-        brandSubline: "Repo-First Orchestration",
+        footerCopy: "面向长期 AI 编码与研究 campaign 的 repo-first orchestration layer。",
+        brandSubline: "Repo-first Orchestration",
         skipLink: "跳到主要内容",
         menuLabel: "主导航",
         menuToggle: "切换导航"
       }
     : {
-        home: "Home",
-        howItWorks: "How It Works",
-        research: "Research",
-        integrations: "Integrations",
+        home: "Overview",
+        workflow: "Workflow",
+        cases: "Use Cases",
+        entry: "Entry Surfaces",
         roadmap: "Roadmap",
         quickstart: "Quickstart",
         switchTarget: "中文",
@@ -113,7 +95,7 @@ const labels =
         footerExplore: "Explore",
         footerCode: "Current Code",
         footerCopy: "A repo-first orchestration layer for long-horizon coding and research campaigns.",
-        brandSubline: "Repo-First Orchestration",
+        brandSubline: "Repo-first Orchestration",
         skipLink: "Skip to main content",
         menuLabel: "Primary",
         menuToggle: "Toggle navigation"
@@ -122,20 +104,33 @@ const labels =
 const navItems =
   currentLocale === "zh"
     ? [
-        { href: addBase("/zh/"), label: labels.home },
-        { href: addBase("/zh/how-it-works/"), label: labels.howItWorks },
-        { href: addBase("/zh/research-use-cases/"), label: labels.research },
-        { href: addBase("/zh/integrations/"), label: labels.integrations },
-        { href: addBase("/zh/roadmap/"), label: labels.roadmap },
-        { href: addBase("/zh/docs/quickstart/"), label: labels.quickstart, highlight: true }
+        { href: `${localeRoot}#hero`, label: labels.home, anchor: "hero" },
+        { href: `${localeRoot}#workflow`, label: labels.workflow, anchor: "workflow" },
+        { href: `${localeRoot}#cases`, label: labels.cases, anchor: "cases" },
+        { href: `${localeRoot}#entry`, label: labels.entry, anchor: "entry" },
+        { href: `${localeRoot}#roadmap`, label: labels.roadmap, anchor: "roadmap" },
+        { href: `${localeRoot}#docs`, label: labels.quickstart, anchor: "docs" }
       ]
     : [
-        { href: baseUrl, label: labels.home },
-        { href: addBase("/how-it-works/"), label: labels.howItWorks },
-        { href: addBase("/research-use-cases/"), label: labels.research },
-        { href: addBase("/integrations/"), label: labels.integrations },
-        { href: addBase("/roadmap/"), label: labels.roadmap },
-        { href: addBase("/docs/quickstart/"), label: labels.quickstart, highlight: true }
+        { href: `${localeRoot}#hero`, label: labels.home, anchor: "hero" },
+        { href: `${localeRoot}#workflow`, label: labels.workflow, anchor: "workflow" },
+        { href: `${localeRoot}#cases`, label: labels.cases, anchor: "cases" },
+        { href: `${localeRoot}#entry`, label: labels.entry, anchor: "entry" },
+        { href: `${localeRoot}#roadmap`, label: labels.roadmap, anchor: "roadmap" },
+        { href: `${localeRoot}#docs`, label: labels.quickstart, anchor: "docs" }
+      ];
+
+const footerLinks =
+  currentLocale === "zh"
+    ? [
+        { href: `${localeRoot}#docs`, label: "快速入门" },
+        { href: `${localeRoot}#workflow`, label: "工作原理" },
+        { href: `${localeRoot}#cases`, label: "研究场景" }
+      ]
+    : [
+        { href: `${localeRoot}#docs`, label: "Quickstart" },
+        { href: `${localeRoot}#workflow`, label: "Workflow" },
+        { href: `${localeRoot}#cases`, label: "Research" }
       ];
 ---
 
@@ -154,15 +149,11 @@ const navItems =
     <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
     <link rel="canonical" href={Astro.url.href} />
     <link rel="alternate" hreflang={currentLocale === "zh" ? "zh-CN" : "en"} href={Astro.url.href} />
-    {
-      hasCounterpart && (
-        <link
-          rel="alternate"
-          hreflang={currentLocale === "zh" ? "en" : "zh-CN"}
-          href={new URL(counterpartHref, Astro.site)}
-        />
-      )
-    }
+    <link
+      rel="alternate"
+      hreflang={currentLocale === "zh" ? "en" : "zh-CN"}
+      href={new URL(counterpartHref, Astro.site)}
+    />
     <link rel="alternate" hreflang="x-default" href={new URL(baseUrl, Astro.site)} />
   </head>
   <body>
@@ -179,6 +170,7 @@ const navItems =
         </a>
 
         <button
+          type="button"
           class="nav-toggle"
           aria-label={labels.menuToggle}
           aria-expanded="false"
@@ -193,29 +185,31 @@ const navItems =
           {navItems.map((item) => (
             <a
               href={item.href}
-              class={item.highlight ? "nav-highlight" : undefined}
-              aria-current={strippedPath === stripBase(item.href) ? "page" : undefined}
+              class:list={[
+                "nav-link",
+                item.anchor === activeAnchor ? "is-active" : "",
+                item.anchor === "docs" ? "nav-highlight" : ""
+              ]}
+              aria-current={item.anchor === activeAnchor ? "page" : undefined}
             >
               {item.label}
             </a>
           ))}
         </nav>
 
-        {
-          hasCounterpart && (
-            <div class="lang-switcher">
-              <button
-                class="lang-switcher-btn"
-                data-counterpart={counterpartHref}
-                aria-label={labels.switchAria}
-              >
-                <span class="lang-current">{labels.currentBadge}</span>
-                <span class="lang-separator">/</span>
-                <span class="lang-target">{labels.switchTarget}</span>
-              </button>
-            </div>
-          )
-        }
+        <div class="lang-switcher">
+          <button
+            type="button"
+            class="lang-switcher-btn"
+            data-counterpart={counterpartHref}
+            data-next-locale={currentLocale === "zh" ? "en" : "zh"}
+            aria-label={labels.switchAria}
+          >
+            <span class="lang-current">{labels.currentBadge}</span>
+            <span class="lang-separator">/</span>
+            <span class="lang-target">{labels.switchTarget}</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -232,9 +226,9 @@ const navItems =
         <div class="footer-section">
           <p class="footer-title">{labels.footerExplore}</p>
           <ul class="footer-links">
-            <li><a href={navItems[5].href}>{labels.quickstart}</a></li>
-            <li><a href={navItems[1].href}>{labels.howItWorks}</a></li>
-            <li><a href={navItems[2].href}>{labels.research}</a></li>
+            {footerLinks.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
           </ul>
         </div>
         <div class="footer-section">
@@ -252,117 +246,28 @@ const navItems =
 
     <script is:inline>
       (() => {
-        const BASE_URL = "{baseUrl}";
-        const BASE_PATH = BASE_URL === "/" ? "" : BASE_URL.replace(/\/$/, "");
         const STORAGE_KEY = "codearmy-locale-pref";
-        const routeMap = {
-          "/": "/zh/",
-          "/docs/": "/zh/docs/",
-          "/docs/quickstart/": "/zh/docs/quickstart/",
-          "/how-it-works/": "/zh/how-it-works/",
-          "/integrations/": "/zh/integrations/",
-          "/research-use-cases/": "/zh/research-use-cases/",
-          "/roadmap/": "/zh/roadmap/"
-        };
-        const reverseRouteMap = Object.fromEntries(
-          Object.entries(routeMap).map(([enPath, zhPath]) => [zhPath, enPath])
-        );
-        const availableZhPaths = new Set(Object.values(routeMap));
 
-        const stripBase = (path) => {
-          if (BASE_PATH && path.startsWith(BASE_PATH)) {
-            const remainder = path.slice(BASE_PATH.length);
-            return remainder || "/";
-          }
-          return path || "/";
-        };
-
-        const addBase = (path) => {
-          if (!BASE_PATH) return path;
-          return `${BASE_PATH}${path}`;
-        };
-
-        const normalizePath = (path) => {
-          if (path === "/zh") return "/zh/";
-          if (path !== "/" && !path.endsWith("/")) return `${path}/`;
-          return path;
-        };
-
-        const isZhPath = (path) => normalizePath(stripBase(path)).startsWith("/zh/");
-        const getLocaleFromPath = (path) => (isZhPath(path) ? "zh" : "en");
-
-        const getCounterpartPath = (path) => {
-          const stripped = normalizePath(stripBase(path));
-          if (routeMap[stripped]) return addBase(routeMap[stripped]);
-          if (reverseRouteMap[stripped]) return addBase(reverseRouteMap[stripped]);
-          if (stripped.startsWith("/zh/")) {
-            const fallback = stripped.slice(3);
-            return addBase(normalizePath(fallback.startsWith("/") ? fallback : `/${fallback}`));
-          }
-          return addBase(normalizePath(`/zh${stripped === "/" ? "/" : stripped}`));
-        };
-
-        const getStoredLocale = () => {
-          try {
-            const value = window.localStorage.getItem(STORAGE_KEY);
-            return value === "zh" || value === "en" ? value : null;
-          } catch {
-            return null;
-          }
-        };
-
-        const storeLocale = (locale) => {
+        const storeLocale = (locale: string) => {
           try {
             window.localStorage.setItem(STORAGE_KEY, locale);
-          } catch {}
-        };
-
-        const isBrowserLocaleChinese = () =>
-          (navigator.language || "").toLowerCase().startsWith("zh");
-
-        const maybeRedirect = () => {
-          const currentPath = window.location.pathname;
-          const currentLocale = getLocaleFromPath(currentPath);
-          const storedLocale = getStoredLocale();
-          const redirectFlag = window.sessionStorage.getItem("codearmy-locale-redirect");
-
-          if (storedLocale && storedLocale !== currentLocale) {
-            const target = getCounterpartPath(currentPath);
-            const strippedTarget = normalizePath(stripBase(target));
-            if (storedLocale === "zh" && !availableZhPaths.has(strippedTarget)) {
-              return;
-            }
-            if (!redirectFlag && target !== currentPath) {
-              window.sessionStorage.setItem("codearmy-locale-redirect", "1");
-              window.location.href = target;
-            }
-            return;
+          } catch (_err) {
+            // ignore localStorage exceptions in restricted environments
           }
-
-          if (!storedLocale && currentLocale === "en" && isBrowserLocaleChinese()) {
-            const target = getCounterpartPath(currentPath);
-            const strippedTarget = normalizePath(stripBase(target));
-            if (availableZhPaths.has(strippedTarget) && !redirectFlag) {
-              window.sessionStorage.setItem("codearmy-locale-redirect", "1");
-              window.location.href = target;
-              return;
-            }
-          }
-
-          window.sessionStorage.removeItem("codearmy-locale-redirect");
         };
 
         document.addEventListener("DOMContentLoaded", () => {
-          maybeRedirect();
-
           const langButton = document.querySelector(".lang-switcher-btn");
           if (langButton instanceof HTMLButtonElement) {
             langButton.addEventListener("click", () => {
-              const currentLocale = getLocaleFromPath(window.location.pathname);
-              const nextLocale = currentLocale === "zh" ? "en" : "zh";
-              storeLocale(nextLocale);
-              const target = langButton.dataset.counterpart || getCounterpartPath(window.location.pathname);
-              window.location.href = target;
+              const target = langButton.dataset.counterpart;
+              const nextLocale = langButton.dataset.nextLocale;
+              if (nextLocale) {
+                storeLocale(nextLocale);
+              }
+              if (target) {
+                window.location.href = target;
+              }
             });
           }
 
@@ -382,6 +287,23 @@ const navItems =
               });
             });
           }
+
+          const updateActive = () => {
+            const hash = window.location.hash || "#hero";
+            document.querySelectorAll(".site-nav a").forEach((link) => {
+              const href = link.getAttribute("href") || "";
+              const active = href.endsWith(hash);
+              link.classList.toggle("is-active", active);
+              if (active) {
+                link.setAttribute("aria-current", "page");
+              } else {
+                link.removeAttribute("aria-current");
+              }
+            });
+          };
+
+          updateActive();
+          window.addEventListener("hashchange", updateActive);
         });
       })();
     </script>

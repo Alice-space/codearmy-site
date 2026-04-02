@@ -1,158 +1,23 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const lifecycle = [
-  {
-    title: "1. 建立 campaign 基线",
-    text: "先把目标、source repos、约束、阶段和关卡写进 campaign repo，让后续动作有持久事实源。"
-  },
-  {
-    title: "2. 规划并拆出 task package",
-    text: "Planner 生成 phase 和任务包，把上下文、write scope、验收标准和交接要求固定下来。"
-  },
-  {
-    title: "3. 审阅并批准计划",
-    text: "Planner reviewer 与人类审批在进入执行前确认任务切分、依赖和产品边界。"
-  },
-  {
-    title: "4. 执行者按 scope 落代码",
-    text: "Executor 只在指定 worktree 和 write scope 内修改 source repo，并补齐结果与验证证据。"
-  },
-  {
-    title: "5. 审阅与 reconcile 推进状态",
-    text: "Reviewer 只写审阅结论；Alice Runtime 再根据 review、wake 和 repo 状态决定下一步。"
-  },
-  {
-    title: "6. 报告与结案收敛",
-    text: "进度摘要、phase report 和最终 evidence 都从同一套 campaign 状态派生，而不是事后回忆。"
-  }
-];
-
-const taskPackageFields = [
-  "目标与验收标准，说明这一轮为什么存在以及做到什么才算完成。",
-  "相关上下文与依赖，把需要读的 repo、页面和前序事实边界写清楚。",
-  "write scope 与 worktree，限制 executor 真正可改的文件，降低并行冲突。",
-  "results / reviews 路径，要求每一轮把证据、结论和 reviewer 关注点沉淀回 task 目录。"
-];
-
-const roles = [
-  {
-    title: "Planner",
-    text: "负责 proposal、phase 拆分和 task package 设计，定义 scope、依赖和 handoff。"
-  },
-  {
-    title: "Executor",
-    text: "负责在目标 repo 中实施改动、运行验证、更新结果，并以合法交接态结束回合。"
-  },
-  {
-    title: "Reviewer",
-    text: "负责指出越界、回归风险和验收缺口；只写 review，不直接修改 source repo。"
-  },
-  {
-    title: "Alice Runtime / Judge",
-    text: "负责 dispatch、reconcile、wake task 与 review verdict 应用，把长期流程串起来。"
-  }
-];
-
-const hardGates = [
-  "没有 planner review 和 human approval，就不该跳过到正式执行。",
-  "Executor 回合必须留下合法交接状态，不能停在 executing 或 reviewing。",
-  "Reviewer 不能越过角色边界直接改代码；source repo 变更必须由 executor 完成。",
-  "Reconcile、自检和结果文件不是附属流程，而是保证 campaign 可恢复和可审计的核心机制。"
-];
+const redirectTo = `${import.meta.env.BASE_URL}zh/#workflow`;
 ---
 
 <BaseLayout
   title="工作原理"
-  description="了解 CodeArmy 如何把长期 AI 编程和研究工作组织成 repo-first campaign，覆盖 lifecycle、task package、角色边界和 hard gates。"
+  description="本页已并入单页，自动跳转到工作原理区块。"
 >
-  <section class="container page-hero">
-    <p class="eyebrow">工作原理</p>
-    <h1>把长期 AI 编程组织成可审计的 repo-first workflow。</h1>
+  <section class="container page-hero redirect-note">
+    <p class="eyebrow">跳转中</p>
+    <h1>工作原理已并入单页官网。</h1>
     <p class="lead">
-      CodeArmy 不是把所有事情都塞进一次对话，而是把规划、执行、审阅、协调和报告都写回 campaign repo。这样中文用户也能完整理解工作流如何闭环。
+      页面已跳转至<a href={redirectTo}>工作原理区块</a>，请继续查看。
     </p>
-    <div class="hero-actions">
-      <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>回到快速入门</a>
-      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/docs/`}>查看文档入口</a>
-    </div>
-  </section>
-
-  <section class="container page-body split-grid">
-    <div>
-      <h2>完整生命周期</h2>
-      <ol class="page-list">
-        {lifecycle.map((step) => (
-          <li>
-            <strong>{step.title}</strong>
-            <p style="margin: 0.35rem 0 0 0;">{step.text}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-
-    <div>
-      <h2>为什么必须是仓库优先</h2>
-      <ul class="page-list">
-        <li>任务状态不会随着聊天窗口关闭而消失，新会话也能继续推进。</li>
-        <li>人类与 reviewer 可以直接检查 repo 中的任务包、结果文件和 review。</li>
-        <li>实验、文档、代码和报告共享同一条证据链，适合长周期工程与科研协作。</li>
-        <li>reconcile 与 wake task 让长期工作真正可恢复，而不是靠聊天记忆。</li>
-      </ul>
-      <div class="callout" style="margin-top: 1.5rem;">
-        <strong>中文闭环</strong>
-        本页把中文首页和快速入门中提到的 repo-first、task package、review、reconcile 展开说明；下一步继续从中文路径深入即可。
-      </div>
-    </div>
-  </section>
-
-  <section class="container page-body">
-    <h2>Task Package 是执行合同，不是备注</h2>
-    <div class="split-grid">
-      <div class="callout">
-        <strong>一个可执行 task package 至少应包含：</strong>
-        <ul class="page-list" style="margin-top: 0.75rem;">
-          {taskPackageFields.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </div>
-      <div class="callout">
-        <strong>它解决了什么</strong>
-        <p style="margin: 0.6rem 0 0 0;">
-          执行者不必重新猜“这轮该改哪里、验收到哪、该交给谁”，审阅者也不用从零重建背景。任务包把工作范围、依赖和交接契约固定在 repo 里。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="container page-body">
-    <h2>角色边界</h2>
-    <div class="grid-2">
-      {roles.map((role) => (
-        <article class="card">
-          <h3>{role.title}</h3>
-          <p>{role.text}</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="container page-body split-grid">
-    <div>
-      <h2>Hard Gates</h2>
-      <ul class="page-list">
-        {hardGates.map((gate) => (
-          <li>{gate}</li>
-        ))}
-      </ul>
-    </div>
-
-    <div class="callout">
-      <strong>这些关卡不是流程负担</strong>
-      <p style="margin: 0.6rem 0 0 0;">
-        approve-plan、review verdict、task self-check 和 repo reconcile 一起保证“长期运行”不是黑箱。你能追溯谁做了什么、证据在哪里、为什么进入下一步。
-      </p>
-    </div>
+    <a class="button" href={redirectTo}>前往区块</a>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  window.location.replace("{redirectTo}");
+</script>

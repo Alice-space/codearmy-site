@@ -1,172 +1,262 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const pillars = [
+const metrics = [
+  { label: "Campaign Stages", value: "5+" },
+  { label: "Operational Surfaces", value: "4" },
+  { label: "Lang-Ready Surface", value: "EN / 中文" },
+  { label: "Runtime Origin", value: "Alice Repo" }
+];
+
+const principles = [
   {
     title: "Repo-First Campaigns",
-    text: "Track long-horizon work in a structured campaign, not a disposable chat thread."
+    text: "Treat long-running AI coding and research as campaign state, not transient chat history."
   },
   {
     title: "Hard Workflow Gates",
-    text: "Plan, review, approve, execute, reconcile, and report with explicit transitions."
+    text: "Explicit plan, review, execution, reconcile, and report transitions keep teams auditable."
   },
   {
     title: "Research-Ready",
-    text: "Designed for code, experiments, cluster runs, metrics, and evidence to move together."
+    text: "Model runs, experiment metrics, and code changes are kept in one continuous evidence stream."
   }
 ];
 
-const integrations = ["Trae Solo", "CLI", "Feishu", "Cluster / HPC", "Reports", "Repo Templates"];
+const workflow = [
+  {
+    title: "1 · Set objective",
+    text: "Create campaign context, baseline, constraints, and entry rules."
+  },
+  {
+    title: "2 · Split tasks",
+    text: "Build bounded task packages with acceptance criteria and a deterministic handoff contract."
+  },
+  {
+    title: "3 · Execute with roles",
+    text: "Planner, Executor, Reviewer operate with clear scope and transition contracts."
+  },
+  {
+    title: "4 · Reconcile state",
+    text: "Repo-based snapshots refresh what should be done next and what is blocked."
+  },
+  {
+    title: "5 · Close with evidence",
+    text: "Summary, phase report, and closure report are derived from the same campaign source."
+  }
+];
+
+const entrypoints = [
+  {
+    title: "Trae Solo",
+    body: "The primary entry for day-to-day product usage and product storytelling."
+  },
+  {
+    title: "CLI Automation",
+    body: "Scheduling, reconciliation, and batch reporting through scripts and jobs."
+  },
+  {
+    title: "Feishu Sync",
+    body: "Team summaries, approvals, and notifications without replacing the repo as source."
+  },
+  {
+    title: "Cluster / HPC",
+    body: "Experiment runs and compute jobs remain linked to campaign state over time."
+  }
+];
+
+const useCases = [
+  {
+    title: "JUNO Monte Carlo tuning",
+    body: "Track hypothesis sets, run plans, and benchmark evidence inside one campaign timeline."
+  },
+  {
+    title: "CEPC fast-sim DiT optimization",
+    body: "Keep architecture variants and evaluation evidence in structured, replayable campaign states."
+  }
+];
+
+const roadmap = [
+  {
+    version: "v0.1",
+    title: "Focused Product Front Door",
+    text: "Landing page, product narrative, and execution loop are polished first."
+  },
+  {
+    version: "v0.2",
+    title: "Operational Toolkit",
+    text: "CLI + secondary integrations are expanded once the front door behavior is stable."
+  },
+  {
+    version: "v0.3",
+    title: "Team Collaboration",
+    text: "Only after reliability and boundaries are validated, collaboration workflows are widened."
+  }
+];
 ---
 
 <BaseLayout
   title="Repo-First Orchestration for Long-Horizon AI Coding"
-  description="CodeArmy turns long-running coding and research efforts into structured campaigns with planning, review, reconcile, and reporting."
+  description="CodeArmy turns long-running coding and research into structured campaigns with repo-first state, explicit gates, and evidence-first reporting."
 >
-  <section class="hero">
+  <section id="hero" class="hero page-shell">
     <div class="container hero-grid">
       <div>
         <p class="eyebrow">CodeArmy</p>
-        <h1>Turn long-horizon AI coding into structured campaigns.</h1>
+        <h1>Make long-horizon AI coding deterministic.</h1>
         <p class="lead">
-          CodeArmy is a repo-first orchestration layer for long-running coding and research
-          projects. Plan, execute, review, reconcile, and report across Trae, CLI, and team
-          workflows.
+          CodeArmy is a repo-first orchestration layer for coding and research campaigns.
+          Define plans, execute bounded roles, reconcile state, and generate reports from
+          durable artifacts.
         </p>
         <div class="hero-actions">
-          <a class="button" href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Read Quickstart</a>
-          <a class="button-secondary" href={`${import.meta.env.BASE_URL}how-it-works/`}>
-            How It Works
-          </a>
+          <a class="button" href="#docs">Start Quickstart</a>
+          <a class="button-secondary" href="#workflow">How It Works</a>
         </div>
       </div>
       <aside class="hero-card">
-        <p class="mini-title">Not Another Disposable Agent</p>
-        <ul>
-          <li>Campaigns instead of one-off prompts</li>
-          <li>Planner, reviewer, and executor role discipline</li>
-          <li>Reconcile-driven state instead of chat memory drift</li>
-          <li>Designed for coding plus experiments, metrics, and reports</li>
-        </ul>
+        <p class="mini-title">Core Signals</p>
+        <div class="metric-grid">
+          {metrics.map((item) => (
+            <div class="metric-card">
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
       </aside>
     </div>
   </section>
 
-  <section class="section">
+  <section id="why" class="section">
     <div class="container">
       <p class="eyebrow">Why CodeArmy</p>
-      <h2>Built for work that lasts longer than a single prompt.</h2>
-      <p class="section-copy">
-        Most autonomous agents are optimized for a single task. CodeArmy is built for campaigns:
-        multi-stage efforts that span planning, implementation, experimentation, review, and final
-        reporting.
-      </p>
+      <h2>Built for work that outlives one chat.</h2>
       <div class="grid-3">
-        {pillars.map((pillar) => (
+        {principles.map((item) => (
           <article class="card">
-            <h3>{pillar.title}</h3>
-            <p>{pillar.text}</p>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section id="workflow" class="section">
     <div class="container split-grid">
       <div>
-        <p class="eyebrow">Workflow</p>
-        <h2>From campaign setup to closure report.</h2>
+        <p class="eyebrow">Workflow Loop</p>
+        <h2>Plan → Execute → Reconcile → Report.</h2>
         <p class="section-copy">
-          CodeArmy organizes AI coding work as a closed loop, so every round of planning,
-          execution, and review leaves durable structure in the repo.
+          The system keeps campaign state explicit from first objective to final closure.
         </p>
         <div class="workflow">
-          <div class="workflow-step">
-            <strong>1</strong>
-            <p>Create a campaign with a clear objective, baseline, and gates.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>2</strong>
-            <p>Generate task packages that give each role a bounded, auditable unit of work.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>3</strong>
-            <p>Run planner, reviewer, and executor loops with explicit handoff states.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>4</strong>
-            <p>Reconcile the repo to refresh live status, select next actions, and surface blockers.</p>
-          </div>
-          <div class="workflow-step">
-            <strong>5</strong>
-            <p>Publish progress and closure reports without losing the evidence trail.</p>
-          </div>
-        </div>
-      </div>
-      <div class="panel" style="padding: 1.5rem;">
-        <p class="mini-title">Integrations</p>
-        <ul class="feature-list">
-          {integrations.map((item) => (
-            <li>{item}</li>
+          {workflow.map((step) => (
+            <div class="workflow-step">
+              <strong>{step.title}</strong>
+              <p>{step.text}</p>
+            </div>
           ))}
-        </ul>
-        <div class="callout" style="margin-top: 1.2rem;">
-          <strong>Current wedge</strong>
-          Used in real research workflows, including JUNO Monte Carlo parameter tuning and CEPC
-          fast-simulation DiT optimization.
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <p class="eyebrow">Entry Points</p>
-      <h2>One core, multiple surfaces.</h2>
-      <p class="section-copy">
-        CodeArmy is designed so the same campaign state can be used from Trae Solo, local CLI,
-        collaboration channels, and remote execution environments.
-      </p>
-      <div class="grid-2">
-        <article class="card">
-          <h3>Trae Solo</h3>
-          <p>
-            Use CodeArmy as the orchestration layer behind custom agents, MCP tools, and Skills.
-          </p>
-        </article>
-        <article class="card">
-          <h3>CLI and Automation</h3>
-          <p>
-            Create campaigns, reconcile state, and generate reports from scripts and scheduled jobs.
-          </p>
-        </article>
-        <article class="card">
-          <h3>Feishu and Team Sync</h3>
-          <p>
-            Push summaries, approvals, and report artifacts back into team collaboration channels.
-          </p>
-        </article>
-        <article class="card">
-          <h3>Cluster Workflows</h3>
-          <p>
-            Connect experiments, training runs, and evaluation jobs to the same campaign timeline.
-          </p>
-        </article>
+      <div class="panel">
+        <p class="mini-title">Evidence First</p>
+        <p class="section-copy">
+          Every role handoff leaves artifacts in repo. No hidden memory, no mystery state.
+        </p>
+        <ul class="feature-list">
+          <li>Scope-bound execution by worktree.</li>
+          <li>Review verdicts tied to explicit acceptance rules.</li>
+          <li>Reconcile checkpoints before entering the next campaign phase.</li>
+          <li>Report output is generated from campaign evidence.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section id="entry" class="section">
+    <div class="container">
+      <p class="eyebrow">Entry Surfaces</p>
+      <h2>One campaign source, multiple execution fronts.</h2>
+      <div class="grid-2">
+        {entrypoints.map((surface) => (
+          <article class="card">
+            <h3>{surface.title}</h3>
+            <p>{surface.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="cases" class="section">
+    <div class="container">
+      <p class="eyebrow">Research Use Cases</p>
+      <h2>Productively persistent in real experiments.</h2>
+      <div class="grid-2">
+        {useCases.map((item) => (
+          <article class="card">
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="docs" class="section">
+    <div class="container split-grid">
+      <article class="card">
+        <p class="mini-title">Get started</p>
+        <h2>Recommended Start</h2>
+        <ol class="page-list">
+          <li>Keep runtime evolution in the Alice repository.</li>
+          <li>Use CodeArmy as the product-facing brand and campaign shell.</li>
+          <li>Prioritize Trae Solo as primary entry.</li>
+          <li>Treat CLI and Feishu as secondary channels.</li>
+        </ol>
+      </article>
+      <article class="card">
+        <p class="mini-title">Docs route</p>
+        <p class="section-copy">
+          We keep Docs lightweight by design: one clear sequence from product narrative to
+          execution examples.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="https://github.com/Alice-space/codearmy-site">Product Repo</a>
+          <a class="button-secondary" href="https://github.com/Alice-space/alice">Alice Runtime</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="roadmap" class="section">
+    <div class="container">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Focused shipping before broad expansion.</h2>
+      <div class="timeline">
+        {roadmap.map((item) => (
+          <div class="timeline-item">
+            <div class="timeline-dot">{item.version}</div>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-callout">
     <div class="container callout">
-      <strong>Start with the basics</strong>
-      The first public release should be a focused product for long-running AI coding and research
-      campaigns, not another general-purpose chat agent.
+      <strong>Start from the product front door.</strong>
+      CodeArmy starts where users begin every cycle: a clear campaign boundary and one
+      primary way to operate.
       <div class="hero-actions" style="margin-top: 1rem;">
-        <a class="button" href={`${import.meta.env.BASE_URL}docs/quickstart/`}>Open Quickstart</a>
-        <a class="button-secondary" href={`${import.meta.env.BASE_URL}research-use-cases/`}>
-          Explore Research Use Cases
-        </a>
+        <a class="button" href="#workflow">Read Workflow</a>
+        <a class="button-secondary" href="#entry">Explore Entry Surfaces</a>
       </div>
     </div>
   </section>

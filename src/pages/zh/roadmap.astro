@@ -1,103 +1,23 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const currentPriority = [
-  "先把 landing page、docs 和 quickstart 打磨成可信的产品前门",
-  "把 campaign lifecycle 讲清楚，让用户知道任务如何进入执行与评审",
-  "保持 Trae-first 的集成入口，而不是同时铺开所有客户端",
-  "直接链接当前 runtime repo 与上手路径，优先降低首次理解门槛"
-];
-
-const roadmapCards = [
-  {
-    version: "v0.1",
-    title: "聚焦产品前门",
-    summary: "当前优先级。先把范围收窄，避免把 CodeArmy 包装成一个已经完整交付的平台。",
-    items: ["官网首页与文档入口", "campaign lifecycle 叙事", "Trae 集成路径", "quickstart 与当前 runtime repo 链接"]
-  },
-  {
-    version: "v0.2",
-    title: "补齐操作层工具包",
-    summary: "在 v0.1 稳定后，再扩展真正帮助个人用户落地的运行层能力。",
-    items: ["CodeArmy CLI", "面向 Trae Solo 的 MCP server", "自定义 agents 与 skills 包", "研究案例页"]
-  },
-  {
-    version: "v0.3",
-    title: "团队协作扩展",
-    summary: "只有前两阶段已经清晰、可信、可复用时，才进入团队工作流和分发层面的增强。",
-    items: ["飞书同步", "审批与报告体验打磨", "更耐用的文档与示例", "可选自定义域名"]
-  }
-];
-
-const nonGoals = [
-  "不把当前 roadmap 写成已经排定日期的发布计划",
-  "不把每个潜在集成入口包装成同优先级承诺",
-  "不在中文页里追加英文基线没有给出的功能矩阵",
-  "不跳过 v0.1 直接把产品叙事扩成面向所有场景的平台"
-];
+const redirectTo = `${import.meta.env.BASE_URL}zh/#roadmap`;
 ---
 
 <BaseLayout
   title="路线图"
-  description="CodeArmy 中文路线图：明确 v0.1、v0.2、v0.3 的范围边界、当前优先级和 non-goals。"
+  description="本页已并入单页，自动跳转到路线图区块。"
 >
-  <section class="container page-hero">
-    <p class="eyebrow">路线图</p>
-    <h1>先交付一个聚焦产品，再谈广泛平台。</h1>
+  <section class="container page-hero redirect-note">
+    <p class="eyebrow">跳转中</p>
+    <h1>路线图已并入单页官网。</h1>
     <p class="lead">
-      中文路线图沿用英文基线：`v0.1` 先把产品前门、生命周期叙事和 Trae-first 入口做清楚，`v0.2` 和 `v0.3` 再逐步补齐操作层与团队协作扩展。
+      页面已跳转至<a href={redirectTo}>路线图区块</a>，请继续查看。
     </p>
-    <div class="hero-actions">
-      <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>回到中文快速入门</a>
-      <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/`}>返回中文首页</a>
-    </div>
-  </section>
-
-  <section class="container section">
-    <h2>当前优先级</h2>
-    <p class="section-copy">
-      现在的重点不是铺功能矩阵，而是让用户快速理解 CodeArmy 当前已经能解决什么、应该从哪里开始，以及为什么它先以 repo-first 的长周期 coding / research campaign 为切入点。
-    </p>
-    <div class="panel" style="padding: 1.5rem;">
-      <ul class="page-list">
-        {currentPriority.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="container page-body grid-3">
-    {roadmapCards.map((card) => (
-      <article class="card">
-        <p class="mini-title">{card.version}</p>
-        <h3>{card.title}</h3>
-        <p>{card.summary}</p>
-        <ul class="page-list">
-          {card.items.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </article>
-    ))}
-  </section>
-
-  <section class="container section split-grid">
-    <article class="callout">
-      <p class="eyebrow">Boundary</p>
-      <h2>范围判断</h2>
-      <p>
-        `v0.1` 要回答的是“这个产品现在值不值得试”，而不是“最终会覆盖多少工作流”。只有在前门可信、叙事闭环、入口清晰后，才继续展开 CLI、MCP、研究案例和团队协作能力。
-      </p>
-    </article>
-    <article class="callout">
-      <p class="eyebrow">Non-goals</p>
-      <h2>这页不承诺什么</h2>
-      <ul class="page-list">
-        {nonGoals.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    </article>
+    <a class="button" href={redirectTo}>前往区块</a>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  window.location.replace("{redirectTo}");
+</script>

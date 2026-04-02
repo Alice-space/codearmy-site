@@ -1,49 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const redirectTo = `${import.meta.env.BASE_URL}#entry`;
 ---
 
 <BaseLayout
   title="Integrations"
-  description="CodeArmy is designed to connect Trae Solo, CLI automation, collaboration surfaces, and remote execution workflows."
+  description="This page now redirects to the one-page entry surfaces section."
 >
-  <section class="container page-hero">
-    <p class="eyebrow">Integrations</p>
-    <h1>Use the same campaign state across multiple entry points.</h1>
+  <section class="container page-hero redirect-note">
+    <p class="eyebrow">Redirecting</p>
+    <h1>Integrations has moved into the one-page homepage.</h1>
     <p class="lead">
-      CodeArmy should not be locked to a single chat surface. The product is strongest when the
-      same campaign can be entered from Trae Solo, scripts, collaboration tools, and remote
-      execution environments.
+      You are being redirected to <a href={redirectTo}>the entry surfaces section</a>.
     </p>
-  </section>
-
-  <section class="container page-body grid-2">
-    <article class="card">
-      <h3>Trae Solo</h3>
-      <p>
-        The primary entry point for daily use. CodeArmy should appear as custom agents, Skills, and
-        MCP tools behind SOLO Coder.
-      </p>
-    </article>
-    <article class="card">
-      <h3>CLI</h3>
-      <p>
-        The automation-friendly surface for initializing campaigns, reconciling state, and building
-        reports in scripts or scheduled jobs.
-      </p>
-    </article>
-    <article class="card">
-      <h3>Feishu</h3>
-      <p>
-        A collaboration surface for summaries, approvals, and outbound notifications. Useful, but
-        not the product center of gravity.
-      </p>
-    </article>
-    <article class="card">
-      <h3>Cluster / HPC</h3>
-      <p>
-        The execution surface where research experiments actually run. CodeArmy is most valuable
-        when campaign state stays connected to remote jobs and metric outputs.
-      </p>
-    </article>
+    <a class="button" href={redirectTo}>Go to Entry Surfaces</a>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  window.location.replace("{redirectTo}");
+</script>

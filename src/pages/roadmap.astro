@@ -1,50 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const redirectTo = `${import.meta.env.BASE_URL}#roadmap`;
 ---
 
 <BaseLayout
   title="Roadmap"
-  description="A practical roadmap for shaping CodeArmy into a focused product."
+  description="This page now redirects to the one-page roadmap section."
 >
-  <section class="container page-hero">
-    <p class="eyebrow">Roadmap</p>
-    <h1>Ship a focused product before a broad platform.</h1>
+  <section class="container page-hero redirect-note">
+    <p class="eyebrow">Redirecting</p>
+    <h1>Roadmap has moved to the one-page homepage.</h1>
     <p class="lead">
-      CodeArmy should start as a clear, narrow product for long-running AI coding and research
-      campaigns. Breadth comes later.
+      You are being redirected to <a href={redirectTo}>the roadmap section</a>.
     </p>
-  </section>
-
-  <section class="container page-body grid-3">
-    <article class="card">
-      <h3>v0.1</h3>
-      <p>Trae-first product package.</p>
-      <ul class="page-list">
-        <li>Landing page and docs</li>
-        <li>Campaign lifecycle narrative</li>
-        <li>Trae integration path</li>
-        <li>Quickstart and current runtime repo links</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h3>v0.2</h3>
-      <p>Operational bundle.</p>
-      <ul class="page-list">
-        <li>CodeArmy CLI</li>
-        <li>MCP server for Trae Solo</li>
-        <li>Custom agents and Skills pack</li>
-        <li>Research case studies</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h3>v0.3</h3>
-      <p>Team workflow expansion.</p>
-      <ul class="page-list">
-        <li>Feishu sync</li>
-        <li>Approval/reporting polish</li>
-        <li>More durable docs and examples</li>
-        <li>Optional custom domain</li>
-      </ul>
-    </article>
+    <a class="button" href={redirectTo}>Go to Roadmap</a>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  window.location.replace("{redirectTo}");
+</script>

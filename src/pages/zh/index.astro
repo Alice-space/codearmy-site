@@ -1,160 +1,259 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const pillars = [
+const metrics = [
+  { label: "Campaign 阶段", value: "5+" },
+  { label: "接入面", value: "4" },
+  { label: "语言版本", value: "中 / EN" },
+  { label: "运行库位置", value: "Alice 仓库" }
+];
+
+const principles = [
   {
     title: "以仓库为核心的 Campaign",
-    text: "在结构化的 campaign 中跟踪长期工作，而不是依赖一次性聊天线程。"
+    text: "把长期 AI 编码和研究当成 campaign 状态，不是一次性对话记忆。"
   },
   {
-    title: "严格的工作流关卡",
-    text: "通过计划、评审、批准、执行、协调和报告的显式状态转换保持可信度。"
+    title: "明确的工作流闸门",
+    text: "显式定义 plan / review / execute / reconcile / report 过程，避免流程漂移。"
   },
   {
-    title: "研究就绪",
-    text: "为代码、实验、集群作业、指标和证据一体化推进而设计。"
+    title: "研究友好",
+    text: "实验运行、指标、代码变更和评审证据一并沉淀到同一套可追溯事实源。"
   }
 ];
 
-const integrations = ["Trae Solo", "CLI", "飞书", "集群 / HPC", "报告", "仓库模板"];
+const workflow = [
+  {
+    title: "1 · 定义目标",
+    text: "创建 campaign baseline：目标、边界、约束和通过标准。"
+  },
+  {
+    title: "2 · 拆分任务",
+    text: "形成有边界、可审计的 task package，并明确验收条件。"
+  },
+  {
+    title: "3 · 角色执行",
+    text: "Planner、Executor、Reviewer 各司其责，交接关系明确。"
+  },
+  {
+    title: "4 · Reconcile",
+    text: "通过仓库快照刷新状态，确认下一步动作并暴露阻塞项。"
+  },
+  {
+    title: "5 · 结案交付",
+    text: "以同一套 campaign 证据产出进展摘要与结案报告。"
+  }
+];
+
+const entrypoints = [
+  {
+    title: "Trae Solo",
+    body: "作为主要入口，承担日常主用户体验与产品叙事。"
+  },
+  {
+    title: "CLI 自动化",
+    body: "调度、reconcile、批量报告和定时任务的脚本化接入。"
+  },
+  {
+    title: "飞书协作",
+    body: "团队摘要、审批与通知承载层，不替代仓库作为事实源。"
+  },
+  {
+    title: "Cluster / HPC",
+    body: "实验任务与远端作业与 campaign 状态联动，便于追溯。"
+  }
+];
+
+const useCases = [
+  {
+    title: "JUNO 蒙特卡洛参数调优",
+    body: "将候选参数、评估证据、集群运行日志纳入同一条可回放 campaign。"
+  },
+  {
+    title: "CEPC FastSim DiT 优化",
+    body: "模型结构版本更迭、速度质量权衡与验证结论共享统一状态。"
+  }
+];
+
+const roadmap = [
+  {
+    version: "v0.1",
+    title: "聚焦产品前门",
+    text: "先把首页、核心叙事和执行闭环做好。"
+  },
+  {
+    version: "v0.2",
+    title: "补齐操作层",
+    text: "在前门稳定后扩展 CLI 与次级集成能力。"
+  },
+  {
+    version: "v0.3",
+    title: "团队协作扩展",
+    text: "经过验证后再进入审批、报告与团队协作边界收敛。"
+  }
+];
 ---
 
 <BaseLayout
-  title="面向长期 AI 编程的仓库优先编排"
-  description="CodeArmy 将长期运行的编码和研究工作转化为结构化 campaign，支持规划、执行、评审、协调和报告。"
+  title="面向长期 AI 编码的开源项目编排前门"
+  description="CodeArmy 把长期编码与科研工作从一次性对话转为可审计的 campaign，保留角色边界与证据闭环。"
 >
-  <section class="hero">
+  <section id="hero" class="hero page-shell">
     <div class="container hero-grid">
       <div>
         <p class="eyebrow">CodeArmy</p>
-        <h1>把长期 AI 编程转化为结构化 campaign。</h1>
+        <h1>把长期 AI 编码做成可审计的 campaign。</h1>
         <p class="lead">
-          CodeArmy 是面向长期编码和研究项目的 repo-first orchestration layer。你可以在
-          Trae、CLI 和团队工作流中推进计划、执行、评审、协调和报告，而不是让状态散落在对话里。
+          CodeArmy 是面向长期 AI 编码与科研的 repo-first 前门，覆盖规划、执行、评审、协调和报告。
+          信息保存在 repo 状态中，回合可恢复、证据可追溯。
         </p>
         <div class="hero-actions">
-          <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>阅读快速入门</a>
-          <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>
-            了解工作原理
-          </a>
+          <a class="button" href="#docs">开始快速入门</a>
+          <a class="button-secondary" href="#workflow">先看工作流程</a>
         </div>
       </div>
       <aside class="hero-card">
-        <p class="mini-title">不是另一个一次性 Agent</p>
-        <ul>
-          <li>Campaign 而非一次性 prompt</li>
-          <li>Planner、Reviewer、Executor 的角色纪律</li>
-          <li>依靠 repo 状态而不是聊天记忆漂移</li>
-          <li>面向编码加实验、指标和报告的一体化工作流</li>
-        </ul>
+        <p class="mini-title">核心指标</p>
+        <div class="metric-grid">
+          {metrics.map((item) => (
+            <div class="metric-card">
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
       </aside>
     </div>
   </section>
 
-  <section class="section">
+  <section id="why" class="section">
     <div class="container">
-      <p class="eyebrow">为什么是 CodeArmy</p>
-      <h2>为比单个 prompt 更持久的工作而构建。</h2>
-      <p class="section-copy">
-        多数自主 agent 更擅长一次性任务。CodeArmy 针对的是跨规划、实施、实验、评审和报告的多阶段
-        campaign，并要求所有产物都能回写到可审计的 repo 状态。
-      </p>
+      <p class="eyebrow">为什么是我们</p>
+      <h2>为比一次性 prompt 更持久的工作设计。</h2>
       <div class="grid-3">
-        {pillars.map((pillar) => (
+        {principles.map((item) => (
           <article class="card">
-            <h3>{pillar.title}</h3>
-            <p>{pillar.text}</p>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section id="workflow" class="section">
     <div class="container split-grid">
       <div>
-        <p class="eyebrow">工作流</p>
-        <h2>从 campaign 启动到结案报告。</h2>
+        <p class="eyebrow">工作流闭环</p>
+        <h2>从目标到结案报告。</h2>
         <p class="section-copy">
-          CodeArmy 把 AI 编码工作组织成闭环，因此每一轮规划、执行和评审都会在仓库中留下持久结构，而不是
-          被新的会话覆盖。
+          让 campaign 状态在 planner、executor、reviewer 之间显式交接，不依赖上下文漂移。
         </p>
         <div class="workflow">
-          <div class="workflow-step">
-            <strong>1</strong>
-            <p>创建带有目标、基线和关卡条件的 campaign。</p>
-          </div>
-          <div class="workflow-step">
-            <strong>2</strong>
-            <p>拆成带上下文、write scope 和验收标准的 task package。</p>
-          </div>
-          <div class="workflow-step">
-            <strong>3</strong>
-            <p>运行 planner、reviewer 和 executor 的显式交接回合。</p>
-          </div>
-          <div class="workflow-step">
-            <strong>4</strong>
-            <p>通过 reconcile 刷新状态、决定下一步并暴露 blocker。</p>
-          </div>
-          <div class="workflow-step">
-            <strong>5</strong>
-            <p>从同一套 campaign 事实源派生进度摘要和最终报告。</p>
-          </div>
-        </div>
-      </div>
-      <div class="panel" style="padding: 1.5rem;">
-        <p class="mini-title">入口面</p>
-        <ul class="feature-list">
-          {integrations.map((item) => (
-            <li>{item}</li>
+          {workflow.map((step) => (
+            <div class="workflow-step">
+              <strong>{step.title}</strong>
+              <p>{step.text}</p>
+            </div>
           ))}
-        </ul>
-        <div class="callout" style="margin-top: 1.2rem;">
-          <strong>当前切入点</strong>
-          已用于真实研究工作流，包括 JUNO 蒙特卡洛参数调优和 CEPC FastSim DiT 优化。
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <p class="eyebrow">入口策略</p>
-      <h2>同一个核心，多种 surface。</h2>
-      <p class="section-copy">
-        共享的是同一套 campaign state，而不是所有入口面都提供等价体验。日常主入口应优先理解为 Trae；
-        CLI、飞书和集群负责自动化、协作和远端执行。
-      </p>
-      <div class="grid-2">
-        <article class="card">
-          <h3>Trae Solo</h3>
-          <p>日常主入口，承接自定义 agents、Skills 和 MCP tools 的产品叙事。</p>
-        </article>
-        <article class="card">
-          <h3>CLI 和自动化</h3>
-          <p>适合初始化 campaign、reconcile 状态和脚本化生成报告。</p>
-        </article>
-        <article class="card">
-          <h3>飞书与团队同步</h3>
-          <p>负责协作摘要、审批信号和团队通知，而不是替代 repo 事实源。</p>
-        </article>
-        <article class="card">
-          <h3>Cluster / HPC</h3>
-          <p>承接真实实验和远端作业，让结果继续回到同一条 campaign 时间线。</p>
-        </article>
+      <div class="panel">
+        <p class="mini-title">证据优先</p>
+        <p class="section-copy">
+          不把执行历史藏在对话日志里。每一步都能回到 repo 里的交付上下文。
+        </p>
+        <ul class="feature-list">
+          <li>按 worktree 的 scope 限制执行范围。</li>
+          <li>审阅结论与验收记录固定在任务包。</li>
+          <li>状态回填后再决策下一步，避免盲目推进。</li>
+          <li>报告由 campaign 状态自动派生并可复现。</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section id="entry" class="section">
+    <div class="container">
+      <p class="eyebrow">接入面</p>
+      <h2>一个事实源，多种执行面。</h2>
+      <div class="grid-2">
+        {entrypoints.map((surface) => (
+          <article class="card">
+            <h3>{surface.title}</h3>
+            <p>{surface.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="cases" class="section">
+    <div class="container">
+      <p class="eyebrow">研究用例</p>
+      <h2>工程周期与科研周期一致地推进。</h2>
+      <div class="grid-2">
+        {useCases.map((item) => (
+          <article class="card">
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="docs" class="section">
+    <div class="container split-grid">
+      <article class="card">
+        <p class="mini-title">推荐起点</p>
+        <h2>先把前门说清楚</h2>
+        <ol class="page-list">
+          <li>将运行时代码放在 Alice 仓库并保持稳定。</li>
+          <li>以 CodeArmy 作为外部产品入口。</li>
+          <li>把 Trae Solo 作为主要入口。</li>
+          <li>CLI 与飞书作为次级接入，不混淆入口主次。</li>
+        </ol>
+      </article>
+      <article class="card">
+        <p class="mini-title">相关链接</p>
+        <p class="section-copy">
+          先把产品叙事、工作流和研究场景打通，再扩展到更广泛的功能模块。
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="https://github.com/Alice-space/codearmy-site">官方仓库</a>
+          <a class="button-secondary" href="https://github.com/Alice-space/alice">运行时仓库</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="roadmap" class="section">
+    <div class="container">
+      <p class="eyebrow">路线图</p>
+      <h2>先交付最强前门，再逐步扩展。</h2>
+      <div class="timeline">
+        {roadmap.map((item) => (
+          <div class="timeline-item">
+            <div class="timeline-dot">{item.version}</div>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-callout">
     <div class="container callout">
-      <strong>先从聚焦前门开始</strong>
-      首个公开版本要先把长期 AI 编码和研究 campaign 的产品前门讲清楚，而不是急着扩成宽泛平台。
+      <strong>先把 front door 做透彻。</strong>
+      CodeArmy 的价值在于把长期工作从“聊天回放”变成“仓库可恢复”的 campaign。
       <div class="hero-actions" style="margin-top: 1rem;">
-        <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>打开快速入门</a>
-        <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/research-use-cases/`}>
-          查看研究用例
-        </a>
+        <a class="button" href="#workflow">查看工作原理</a>
+        <a class="button-secondary" href="#entry">查看接入面</a>
       </div>
     </div>
   </section>
