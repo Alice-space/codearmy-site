@@ -1,9 +1,13 @@
 ---
 import "../../styles/global.css";
+import { getCounterpartPath } from "../../lib/i18n";
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
+
+const currentPath = Astro.url.pathname;
+const counterpartPath = getCounterpartPath(currentPath);
 
 const zhBaseUrl = `${baseUrl}zh/`;
 
@@ -96,15 +100,15 @@ const footerLinks = {
           ))}
         </nav>
         <div class="lang-switcher">
-          <a 
-            class="lang-switcher-btn" 
-            href={`${baseUrl}`}
+          <button
+            class="lang-switcher-btn"
+            data-counterpart={counterpartPath}
             aria-label="切换到英文"
           >
             <span class="lang-current">中</span>
             <span class="lang-separator">/</span>
             <span class="lang-target">English</span>
-          </a>
+          </button>
         </div>
       </div>
     </header>
@@ -288,17 +292,53 @@ const footerLinks = {
     </footer>
 
     <script>
+      import { initLocale, storeLocale, getLocaleFromPath, isZhPath, isZhPathAvailable } from "../../lib/i18n";
+
+      // Initialize locale on page load
+      initLocale();
+
+      // Set up language switcher
+      document.addEventListener("DOMContentLoaded", () => {
+        const langBtn = document.querySelector(".lang-switcher-btn") as HTMLButtonElement | null;
+
+        if (langBtn) {
+          langBtn.addEventListener("click", () => {
+            const counterpartPath = langBtn.dataset.counterpart;
+            const currentPath = window.location.pathname;
+
+            if (!counterpartPath) return;
+
+            const currentLocale = getLocaleFromPath(currentPath);
+            const newLocale = currentLocale === "zh" ? "en" : "zh";
+
+            // ALWAYS store user preference first
+            storeLocale(newLocale);
+            console.log(`[i18n] Preference saved: ${newLocale}`);
+
+            // Check if switching to Chinese and the page exists
+            const switchingToZh = isZhPath(counterpartPath);
+            if (switchingToZh && !isZhPathAvailable(counterpartPath)) {
+              console.log("[i18n] Chinese page not yet available, staying on current page.");
+              return;
+            }
+
+            // Navigate to counterpart path
+            window.location.href = counterpartPath;
+          });
+        }
+      });
+
       // Mobile navigation toggle
       const navToggle = document.querySelector('.nav-toggle');
       const siteNav = document.getElementById('site-nav');
-      
+
       if (navToggle && siteNav) {
         navToggle.addEventListener('click', () => {
           const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
           navToggle.setAttribute('aria-expanded', String(!isExpanded));
           siteNav.classList.toggle('is-open');
         });
-        
+
         // Close nav when clicking on a link
         siteNav.querySelectorAll('a').forEach(link => {
           link.addEventListener('click', () => {
