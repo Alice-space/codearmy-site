@@ -156,7 +156,7 @@ const footerLinks =
     />
     <link rel="alternate" hreflang="x-default" href={new URL(baseUrl, Astro.site)} />
   </head>
-  <body>
+<body>
     <a href="#main-content" class="skip-link">{labels.skipLink}</a>
 
     <header class="site-header">
@@ -198,12 +198,15 @@ const footerLinks =
         </nav>
 
         <div class="lang-switcher">
-          <button
-            type="button"
-            class="lang-switcher-btn"
-            data-counterpart={counterpartHref}
-            data-next-locale={currentLocale === "zh" ? "en" : "zh"}
-            aria-label={labels.switchAria}
+            <button
+              type="button"
+              class="lang-switcher-btn"
+              data-current-locale={currentLocale}
+              data-counterpart-root={counterpartRoot}
+              data-section-anchor={sectionAnchor}
+              data-counterpart={counterpartHref}
+              data-next-locale={currentLocale === "zh" ? "en" : "zh"}
+              aria-label={labels.switchAria}
           >
             <span class="lang-current">{labels.currentBadge}</span>
             <span class="lang-separator">/</span>
@@ -257,11 +260,19 @@ const footerLinks =
         };
 
         document.addEventListener("DOMContentLoaded", () => {
+          const normalizeSectionHash = (hash) => {
+            const valid = new Set(["#hero", "#workflow", "#cases", "#entry", "#roadmap", "#docs"]);
+            return valid.has(hash) ? hash : "#hero";
+          };
+
           const langButton = document.querySelector(".lang-switcher-btn");
           if (langButton instanceof HTMLButtonElement) {
             langButton.addEventListener("click", () => {
-              const target = langButton.dataset.counterpart;
               const nextLocale = langButton.dataset.nextLocale;
+              const fallbackAnchor = langButton.dataset.sectionAnchor || "#hero";
+              const hash = normalizeSectionHash(window.location.hash || fallbackAnchor);
+              const targetRoot = langButton.dataset.counterpartRoot || "";
+              const target = `${targetRoot}${hash}`;
               if (nextLocale) {
                 storeLocale(nextLocale);
               }
