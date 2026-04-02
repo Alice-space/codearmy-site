@@ -5,6 +5,8 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
+const zhBaseUrl = `${baseUrl}zh/`;
+
 const pillars = [
   {
     title: "以仓库为核心的 Campaign",
@@ -37,8 +39,8 @@ const integrations = ["Trae Solo", "CLI", "飞书", "集群 / HPC", "报告", "�
           在 Trae、CLI 和团队工作流中进行规划、执行、审查、协调和报告。
         </p>
         <div class="hero-actions">
-          <a class="button" href={`${baseUrl}docs/quickstart/`}>阅读快速入门</a>
-          <a class="button-secondary" href={`${baseUrl}how-it-works/`}>
+          <a class="button" href={`${zhBaseUrl}docs/quickstart/`}>阅读快速入门</a>
+          <a class="button-secondary" href={`${zhBaseUrl}how-it-works/`}>
             了解工作原理
           </a>
         </div>
@@ -165,8 +167,8 @@ const integrations = ["Trae Solo", "CLI", "飞书", "集群 / HPC", "报告", "�
       第一个公开发布应该是一个面向长期 AI 编码和研究 Campaign 的聚焦产品，
       而非另一个通用聊天 Agent。
       <div class="hero-actions" style="margin-top: 1rem;">
-        <a class="button" href={`${baseUrl}docs/quickstart/`}>打开快速入门</a>
-        <a class="button-secondary" href={`${baseUrl}research-use-cases/`}>
+        <a class="button" href={`${zhBaseUrl}docs/quickstart/`}>打开快速入门</a>
+        <a class="button-secondary" href={`${zhBaseUrl}research-use-cases/`}>
           探索研究用例
         </a>
       </div>
