@@ -111,6 +111,49 @@ img {
   color: var(--ink);
 }
 
+/* Language Switcher */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--line);
+}
+
+.lang-switcher-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.lang-switcher-btn:hover,
+.lang-switcher-btn:focus-visible {
+  color: var(--ink);
+  border-color: var(--ink);
+  background: rgba(19, 34, 56, 0.04);
+}
+
+.lang-current {
+  color: var(--ink);
+}
+
+.lang-separator {
+  opacity: 0.5;
+}
+
+.lang-target {
+  opacity: 0.7;
+}
+
 .hero {
   padding: 5.5rem 0 3rem;
 }
