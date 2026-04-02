@@ -1,0 +1,171 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const pillars = [
+  {
+    title: "以仓库为核心的 Campaign",
+    text: "在结构化的 Campaign 中跟踪长期工作，而非一次性聊天线程。"
+  },
+  {
+    title: "严格的工作流关卡",
+    text: "通过明确的转换进行规划、审查、批准、执行、协调和报告。"
+  },
+  {
+    title: "研究就绪",
+    text: "专为代码、实验、集群运行、指标和证据协同推进而设计。"
+  }
+];
+
+const integrations = ["Trae Solo", "CLI", "飞书", "集群 / HPC", "报告", "仓库模板"];
+---
+
+<BaseLayout
+  title="面向长期 AI 编程的仓库优先编排"
+  description="CodeArmy 将长期运行的编码和研究转化为结构化 Campaign，支持规划、执行、审查、协调和报告。"
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">CodeArmy</p>
+        <h1>将长期 AI 编程转化为结构化 Campaign。</h1>
+        <p class="lead">
+          CodeArmy 是面向长期运行的编码和研究项目的仓库优先编排层。
+          在 Trae、CLI 和团队工作流中进行规划、执行、审查、协调和报告。
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>阅读快速入门</a>
+          <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/how-it-works/`}>
+            了解工作原理
+          </a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <p class="mini-title">不是另一个用完即弃的 Agent</p>
+        <ul>
+          <li>Campaign 而非一次性 Prompt</li>
+          <li>规划者、审阅者和执行者角色规范</li>
+          <li>协调驱动的状态而非聊天记忆漂移</li>
+          <li>专为编码加实验、指标和报告而设计</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">为什么选择 CodeArmy</p>
+      <h2>为比单个 Prompt 更持久的工作而构建。</h2>
+      <p class="section-copy">
+        大多数自主 Agent 都针对单个任务进行了优化。CodeArmy 为 Campaign 而构建：
+        跨越规划、实施、实验、审查和最终报告的多阶段工作。
+      </p>
+      <div class="grid-3">
+        {pillars.map((pillar) => (
+          <article class="card">
+            <h3>{pillar.title}</h3>
+            <p>{pillar.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split-grid">
+      <div>
+        <p class="eyebrow">工作流程</p>
+        <h2>从 Campaign 设置到结案报告。</h2>
+        <p class="section-copy">
+          CodeArmy 将 AI 编码工作组织成一个闭环，因此每一轮规划、
+          执行和审查都会在仓库中留下持久的结构。
+        </p>
+        <div class="workflow">
+          <div class="workflow-step">
+            <strong>1</strong>
+            <p>创建具有明确目标、基线和关卡条件的 Campaign。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>2</strong>
+            <p>生成任务包，为每个角色提供有界、可审计的工作单元。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>3</strong>
+            <p>运行规划者、审阅者和执行者循环，并明确交接状态。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>4</strong>
+            <p>协调仓库以刷新实时状态、选择下一步行动并显示阻塞问题。</p>
+          </div>
+          <div class="workflow-step">
+            <strong>5</strong>
+            <p>发布进度和结案报告，而不会丢失证据线索。</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="padding: 1.5rem;">
+        <p class="mini-title">集成</p>
+        <ul class="feature-list">
+          {integrations.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <div class="callout" style="margin-top: 1.2rem;">
+          <strong>当前切入点</strong>
+          用于真实研究工作流，包括 JUNO 蒙特卡洛参数调优和 CEPC
+          快速模拟 DiT 优化。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">入口点</p>
+      <h2>一个核心，多种界面。</h2>
+      <p class="section-copy">
+        CodeArmy 的设计使得相同的 Campaign 状态可以从 Trae Solo、本地 CLI、
+        协作渠道和远程执行环境使用。
+      </p>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Trae Solo</h3>
+          <p>
+            将 CodeArmy 用作自定义 Agent、MCP 工具和 Skills 背后的编排层。
+          </p>
+        </article>
+        <article class="card">
+          <h3>CLI 和自动化</h3>
+          <p>
+            从脚本和计划作业创建 Campaign、协调状态并生成报告。
+          </p>
+        </article>
+        <article class="card">
+          <h3>飞书和团队同步</h3>
+          <p>
+            将摘要、批准和报告产物推送到团队协作渠道。
+          </p>
+        </article>
+        <article class="card">
+          <h3>集群工作流</h3>
+          <p>
+            将实验、训练运行和评估作业连接到同一 Campaign 时间线。
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container callout">
+      <strong>从基础开始</strong>
+      第一个公开发布应该是一个面向长期 AI 编码和研究 Campaign 的聚焦产品，
+      而非另一个通用聊天 Agent。
+      <div class="hero-actions" style="margin-top: 1rem;">
+        <a class="button" href={`${import.meta.env.BASE_URL}zh/docs/quickstart/`}>打开快速入门</a>
+        <a class="button-secondary" href={`${import.meta.env.BASE_URL}zh/research-use-cases/`}>
+          探索研究用例
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
