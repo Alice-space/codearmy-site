@@ -12,34 +12,98 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
 >
   <section class="container page-hero">
     <p class="eyebrow">快速入门</p>
-    <h1>从产品叙事开始，而非通用的 Agent 外壳。</h1>
+    <h1>在 3 分钟内了解 CodeArmy</h1>
     <p class="lead">
-      CodeArmy 的第一个公开发布版本呈现一个清晰的故事：
-      面向长期运行的 AI 编程和研究 Campaign 的仓库优先编排。
+      本页是中文文档体系的第一站。你将了解 CodeArmy 是什么、
+      它与 Alice 的关系，以及从哪开始你的第一次试用。
     </p>
   </section>
 
-  <section class="container page-body split-grid">
-    <div>
-      <h2>推荐起步路径</h2>
-      <ol class="page-list">
-        <li>将运行时代码保留在 Alice 仓库中，作为技术基础。</li>
-        <li>使用 CodeArmy 作为对外产品品牌进行推广。</li>
-        <li>将 Trae Solo 作为主要面向用户的切入点。</li>
-        <li>将 CLI 和飞书作为次要入口点，服务自动化和团队协作场景。</li>
-      </ol>
-    </div>
-
-    <div>
-      <h2>初始公开产品包</h2>
-      <ul class="page-list">
-        <li>托管在 GitHub Pages 上的落地页</li>
-        <li>聚焦的快速入门文档（本页）</li>
-        <li>解释工作原理的叙事文档</li>
-        <li>研究用例展示页面</li>
+  <section class="container page-body">
+    <h2>本页范围</h2>
+    <div class="callout">
+      <strong>涵盖内容</strong>
+      <ul style="margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
+        <li>CodeArmy 的核心概念与定位</li>
+        <li>Alice 与 CodeArmy 的关系说明</li>
+        <li>使用前置条件与推荐工具</li>
+        <li>首次试用的具体起点</li>
       </ul>
     </div>
+    <div class="callout" style="margin-top: 1rem;">
+      <strong>不涵盖内容</strong>
+      <ul style="margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
+        <li>详细的工作原理与角色分工（见<a href={`${baseUrl}zh/how-it-works/`}>工作原理</a>）</li>
+        <li>集成配置与部署细节（见<a href={`${baseUrl}zh/integrations/`}>集成指南</a>）</li>
+        <li>具体研究案例分析（见<a href={`${baseUrl}zh/research-use-cases/`}>研究用例</a>）</li>
+        <li>完整 API 或运行时参考（P05 阶段补充）</li>
+      </ul>
+    </div>
+  </section>
 
+  <section class="container page-body">
+    <h2>推荐阅读顺序</h2>
+    <div class="split-grid">
+      <div>
+        <h3>第 1 步：理解定位（本页）</h3>
+        <p>
+          确认 CodeArmy 适合你的场景：长期运行的 AI 编程和研究 Campaign，
+          需要仓库优先的编排方式，而非单次对话式的 Agent 交互。
+        </p>
+      </div>
+      <div>
+        <h3>第 2 步：了解工作原理</h3>
+        <p>
+          深入理解 CodeArmy 的仓库优先模型、角色分工（Planner/Executor/Reviewer）
+          和完整工作流关卡。
+        </p>
+        <a href={`${baseUrl}zh/how-it-works/`}>阅读工作原理 →</a>
+      </div>
+      <div>
+        <h3>第 3 步：查看集成选项</h3>
+        <p>
+          根据你的工作方式选择入口：Trae Solo 编辑器、CLI 命令行，
+          或飞书机器人。
+        </p>
+        <a href={`${baseUrl}zh/integrations/`}>查看集成选项 →</a>
+      </div>
+      <div>
+        <h3>第 4 步：参考研究用例</h3>
+        <p>
+          通过真实案例（JUNO 蒙特卡洛、CEPC 快速模拟）了解 CodeArmy
+          在高能物理研究中的应用方式。
+        </p>
+        <a href={`${baseUrl}zh/research-use-cases/`}>探索研究用例 →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container page-body">
+    <h2>首个试用途径</h2>
+    <div class="callout">
+      <strong>推荐的第一次动手</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        前往<a href={`${baseUrl}zh/integrations/`}>集成指南</a>，
+        根据你当前使用的工具选择入口：
+      </p>
+      <ul style="margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
+        <li>
+          <strong>Trae Solo 用户</strong>：查看 Trae Solo 集成说明，
+          了解如何在编辑器中启动 CodeArmy workflow
+        </li>
+        <li>
+          <strong>命令行用户</strong>：查看 CLI 集成说明，
+          了解命令行入口和基本操作
+        </li>
+        <li>
+          <strong>飞书用户</strong>：查看飞书机器人集成，
+          了解如何在团队协作文档中调用 CodeArmy
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="container page-body split-grid">
     <div class="callout">
       <strong>Alice 与 CodeArmy 的关系</strong>
       <p style="margin: 0.5rem 0 0 0;">
@@ -50,20 +114,13 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
     </div>
 
     <div class="callout">
-      <strong>技术说明</strong>
-      <p style="margin: 0.5rem 0 0 0;">
-        本网站有意采用静态架构，适合 GitHub Pages 部署。它避免后端服务、
-        动态表单和不必要的客户端复杂性，以便产品故事能够快速迭代。
-      </p>
-    </div>
-
-    <div class="callout">
       <strong>前置条件</strong>
-      <p style="margin: 0.5rem 0 0 0;">
-        开始使用 CodeArmy 前，你需要：Git 基础知识、GitHub 账号、
-        以及 Trae 编辑器（如使用 Trae Solo 集成）。
-        对于研究场景，建议熟悉你所在领域的计算集群环境。
-      </p>
+      <ul style="margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
+        <li>Git 基础知识与 GitHub 账号</li>
+        <li>对 Astro 静态站点有基本了解（如要修改文档）</li>
+        <li>Trae 编辑器（如使用 Trae Solo 集成）</li>
+        <li>计算集群访问权限（如用于研究场景）</li>
+      </ul>
     </div>
   </section>
 
@@ -71,11 +128,11 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/')
     <h2>下一步</h2>
     <div class="hero-actions">
       <a class="button" href={`${baseUrl}zh/how-it-works/`}>了解工作原理</a>
-      <a class="button-secondary" href={`${baseUrl}zh/research-use-cases/`}>
-        探索研究用例
-      </a>
       <a class="button-secondary" href={`${baseUrl}zh/integrations/`}>
         查看集成选项
+      </a>
+      <a class="button-secondary" href={`${baseUrl}zh/research-use-cases/`}>
+        探索研究用例
       </a>
     </div>
   </section>
