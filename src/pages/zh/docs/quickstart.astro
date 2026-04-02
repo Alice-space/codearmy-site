@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="快速入门"
+  description="CodeArmy 中文快速入门指南，帮助你在 3 分钟内了解如何开始使用 CodeArmy 进行长期 AI 编程和研究。"
+>
+  <section class="container page-hero">
+    <p class="eyebrow">快速入门</p>
+    <h1>从产品叙事开始，而非通用的 Agent 外壳。</h1>
+    <p class="lead">
+      CodeArmy 的第一个公开发布版本呈现一个清晰的故事：
+      面向长期运行的 AI 编程和研究 Campaign 的仓库优先编排。
+    </p>
+  </section>
+
+  <section class="container page-body split-grid">
+    <div>
+      <h2>推荐起步路径</h2>
+      <ol class="page-list">
+        <li>将运行时代码保留在 Alice 仓库中，作为技术基础。</li>
+        <li>使用 CodeArmy 作为对外产品品牌进行推广。</li>
+        <li>将 Trae Solo 作为主要面向用户的切入点。</li>
+        <li>将 CLI 和飞书作为次要入口点，服务自动化和团队协作场景。</li>
+      </ol>
+    </div>
+
+    <div>
+      <h2>初始公开产品包</h2>
+      <ul class="page-list">
+        <li>托管在 GitHub Pages 上的落地页</li>
+        <li>聚焦的快速入门文档（本页）</li>
+        <li>解释工作原理的叙事文档</li>
+        <li>研究用例展示页面</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <strong>Alice 与 CodeArmy 的关系</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        Alice 是当前的运行时代码库，CodeArmy 是正在建立的产品品牌。
+        这种安排让技术过渡可以渐进进行：先确立产品叙事和用户界面，
+        再逐步迁移底层运行时。
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>技术说明</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        本网站有意采用静态架构，适合 GitHub Pages 部署。它避免后端服务、
+        动态表单和不必要的客户端复杂性，以便产品故事能够快速迭代。
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>前置条件</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        开始使用 CodeArmy 前，你需要：Git 基础知识、GitHub 账号、
+        以及 Trae 编辑器（如使用 Trae Solo 集成）。
+        对于研究场景，建议熟悉你所在领域的计算集群环境。
+      </p>
+    </div>
+  </section>
+
+  <section class="container page-body">
+    <h2>下一步</h2>
+    <div class="hero-actions">
+      <a class="button" href={`${baseUrl}zh/how-it-works/`}>了解工作原理</a>
+      <a class="button-secondary" href={`${baseUrl}zh/research-use-cases/`}>
+        探索研究用例
+      </a>
+      <a class="button-secondary" href={`${baseUrl}zh/integrations/`}>
+        查看集成选项
+      </a>
+    </div>
+  </section>
+</BaseLayout>

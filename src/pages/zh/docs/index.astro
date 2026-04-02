@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="文档"
+  description="CodeArmy 中文文档入口，帮助你快速了解产品定位、使用方法和最佳实践。"
+>
+  <section class="container page-hero">
+    <p class="eyebrow">文档</p>
+    <h1>从快速指南开始，逐步深入了解产品。</h1>
+    <p class="lead">
+      CodeArmy 中文文档保持精简清晰：解释 CodeArmy 是什么、为什么存在，
+      以及如何将它转化为你的生产力工具。
+    </p>
+    <div class="hero-actions">
+      <a class="button" href={`${baseUrl}zh/docs/quickstart/`}>打开快速入门</a>
+      <a class="button-secondary" href={`${baseUrl}zh/how-it-works/`}>
+        了解工作原理
+      </a>
+    </div>
+  </section>
+
+  <section class="container page-body">
+    <h2>推荐阅读顺序</h2>
+    <div class="split-grid">
+      <div>
+        <h3>1. 快速入门（3 分钟）</h3>
+        <p>
+          了解 CodeArmy 的核心概念、首次试用路径，以及 Alice 与 CodeArmy 的关系。
+          适合希望快速评估产品是否适合自己的用户。
+        </p>
+        <a href={`${baseUrl}zh/docs/quickstart/`}>开始阅读 →</a>
+      </div>
+      <div>
+        <h3>2. 工作原理</h3>
+        <p>
+          深入理解 CodeArmy 的仓库优先编排模型、角色分工和工作流关卡。
+          帮助你规划如何在团队中使用 CodeArmy。
+        </p>
+        <a href={`${baseUrl}zh/how-it-works/`}>了解详情 →</a>
+      </div>
+      <div>
+        <h3>3. 研究用例</h3>
+        <p>
+          查看 CodeArmy 在真实科研场景中的应用，包括 JUNO 蒙特卡洛参数调优
+          和 CEPC 快速模拟 DiT 优化等案例。
+        </p>
+        <a href={`${baseUrl}zh/research-use-cases/`}>探索案例 →</a>
+      </div>
+      <div>
+        <h3>4. 集成指南</h3>
+        <p>
+          了解如何将 CodeArmy 与 Trae Solo、CLI、飞书和计算集群等工具集成，
+          构建完整的工作流。
+        </p>
+        <a href={`${baseUrl}zh/integrations/`}>查看集成 →</a>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 2rem;">
+      <strong>Alice 与 CodeArmy 的关系</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        Alice 是运行时代码库，CodeArmy 是面向用户的产品品牌。
+        当前运行时尚在 Alice 仓库中，CodeArmy 网站负责承载产品叙事和文档。
+        这种渐进式过渡让技术迁移更加平滑。
+      </p>
+    </div>
+
+    <div class="callout" style="margin-top: 1rem;">
+      <strong>前置条件</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        使用 CodeArmy 需要具备 Git 基础知识、对 Astro 静态站点有基本了解，
+        以及能够访问 GitHub 或类似的代码托管平台。
+        如果你计划使用 Trae Solo 集成，建议先熟悉 Trae 编辑器的基本操作。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
