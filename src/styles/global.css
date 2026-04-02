@@ -473,6 +473,22 @@ li {
   margin-top: 1.4rem;
 }
 
+.example-list,
+.repo-points {
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.example-list {
+  margin: 1.25rem 0 0;
+}
+
+.example-list li,
+.repo-points li {
+  color: var(--ink);
+}
+
 .terminal-shell {
   border-radius: 1rem;
   overflow: hidden;
@@ -524,6 +540,7 @@ li {
 }
 
 .metric-grid,
+.problem-grid,
 .feature-grid,
 .surface-grid,
 .case-grid,
@@ -559,6 +576,27 @@ li {
 
 .section-head {
   margin-bottom: 1.5rem;
+}
+
+.signal-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.signal-card {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(12, 22, 41, 0.72);
+  padding: 1rem;
+}
+
+.signal-card h3 {
+  font-size: 1.02rem;
+  margin-bottom: 0.45rem;
+}
+
+.problem-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .stack-grid {
@@ -602,7 +640,7 @@ li {
 
 .flow-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -661,6 +699,13 @@ li {
 .case-grid,
 .roadmap-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+  align-items: start;
 }
 
 .artifact-code,
@@ -788,11 +833,13 @@ li {
   .hero-shell,
   .architecture-shell,
   .capability-lower,
+  .repo-grid,
   .closing-shell,
   .footer-grid {
     grid-template-columns: 1fr;
   }
 
+  .problem-grid,
   .feature-grid,
   .surface-grid,
   .case-grid,
@@ -841,6 +888,7 @@ li {
   }
 
   .stack-grid,
+  .problem-grid,
   .feature-grid,
   .surface-grid,
   .case-grid,

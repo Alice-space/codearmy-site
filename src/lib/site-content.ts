@@ -5,14 +5,17 @@ type Action = {
   href: string;
 };
 
-type Metric = {
-  value: string;
-  label: string;
-  detail: string;
+type Signal = {
+  title: string;
+  body: string;
 };
 
-type Layer = {
-  tag: string;
+type Problem = {
+  title: string;
+  body: string;
+};
+
+type Feature = {
   title: string;
   body: string;
 };
@@ -24,27 +27,10 @@ type FlowNode = {
   artifact: string;
 };
 
-type Feature = {
-  title: string;
-  body: string;
-};
-
-type Surface = {
-  title: string;
-  body: string;
-};
-
 type CaseStudy = {
   title: string;
-  status: string;
   summary: string;
   bullets: string[];
-};
-
-type RoadmapItem = {
-  stage: string;
-  title: string;
-  body: string;
 };
 
 type QuickstartStep = {
@@ -73,19 +59,22 @@ export interface SiteContent {
     title: string;
     body: string;
     actions: Action[];
-    badges: string[];
-    metrics: Metric[];
+    examples: string[];
     terminalLabel: string;
     terminalLines: string[];
+    signals: Signal[];
   };
-  architecture: {
+  why: {
     eyebrow: string;
     title: string;
     body: string;
-    layers: Layer[];
-    repoPanelTitle: string;
-    repoPanelBody: string;
-    repoBullets: string[];
+    problems: Problem[];
+  };
+  capabilities: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    features: Feature[];
   };
   flow: {
     eyebrow: string;
@@ -93,28 +82,20 @@ export interface SiteContent {
     body: string;
     nodes: FlowNode[];
   };
-  capabilities: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    features: Feature[];
-    surfacesTitle: string;
-    surfaces: Surface[];
-    artifactTitle: string;
-    artifactIntro: string;
-    artifactLines: string[];
-  };
   cases: {
     eyebrow: string;
     title: string;
     body: string;
     items: CaseStudy[];
   };
-  roadmap: {
+  repo: {
     eyebrow: string;
     title: string;
     body: string;
-    items: RoadmapItem[];
+    points: string[];
+    treeTitle: string;
+    treeIntro: string;
+    treeLines: string[];
   };
   quickstart: {
     eyebrow: string;
@@ -138,200 +119,208 @@ export interface SiteContent {
 export const siteContent: Record<Locale, SiteContent> = {
   en: {
     meta: {
-      title: "Repo-first orchestration for long-horizon AI coding",
+      title: "Manage long-running AI coding and research in repo",
       description:
-        "CodeArmy turns planning, execution, review, reconcile, and reporting into a repo-native campaign workflow for serious AI coding and research."
+        "CodeArmy manages long-running AI coding and research campaigns with repo-native plans, task status, review writeback, and live reporting."
     },
     navItems: [
       { id: "overview", label: "Overview" },
-      { id: "architecture", label: "Architecture" },
+      { id: "why", label: "Why" },
+      { id: "capabilities", label: "What It Does" },
       { id: "flow", label: "Workflow" },
-      { id: "capabilities", label: "Capabilities" },
       { id: "cases", label: "Cases" },
-      { id: "roadmap", label: "Roadmap" },
+      { id: "repo", label: "Repo-First" },
       { id: "quickstart", label: "Quickstart" }
     ],
     hero: {
-      eyebrow: "Open-source infrastructure for long-horizon coding",
-      title: "CodeArmy turns multi-agent work into a repo-native campaign.",
+      eyebrow: "For work that lasts longer than one chat",
+      title: "CodeArmy manages long-running AI coding and research campaigns.",
       body:
-        "Instead of hiding state in chat logs, CodeArmy writes plans, task packages, reviews, wake-ups, and live reports back to durable repo artifacts. Humans keep the final gate. Agents keep the execution moving.",
+        "Use it when one task spans several repos, several review rounds, or several days of experiments. CodeArmy keeps the plan, task status, review results, and next action in repo so the work can stop, resume, and stay understandable.",
       actions: [
-        { label: "Inspect the workflow", href: "#flow" },
-        { label: "Open Alice Runtime", href: "https://github.com/Alice-space/alice" }
+        { label: "See the workflow", href: "#flow" },
+        { label: "Read the cases", href: "#cases" }
       ],
-      badges: ["Repo-first truth", "Human-gated", "Worktree-safe", "Open-source"],
-      metrics: [
-        {
-          value: "5",
-          label: "Core layers",
-          detail: "skill script, runtime index, campaign repo, reconcile/dispatch, source repos"
-        },
-        {
-          value: "4",
-          label: "Working roles",
-          detail: "planner, planner reviewer, executor, reviewer"
-        },
-        {
-          value: "1",
-          label: "Planning truth",
-          detail: "the campaign repo remains the durable source of coordination state"
-        },
-        {
-          value: "Multi",
-          label: "Execution surfaces",
-          detail: "CLI, runtime API, scheduler, worktrees, cluster jobs, repository reviews"
-        }
+      examples: [
+        "Ship one feature across multiple repos with explicit review gates.",
+        "Run a research iteration that includes local edits, cluster jobs, and later wake-ups.",
+        "Hand work from planner to executor to reviewer without re-explaining the whole project.",
+        "See at a glance what is ready, blocked, waiting, or done."
       ],
-      terminalLabel: "Repo reconcile snapshot",
+      terminalLabel: "Typical control loop",
       terminalLines: [
         "$ alice-code-army repo-reconcile",
-        "truth: campaign repo",
-        "dispatch: planner -> reviewer -> executor",
-        "writeback: task.md / reviews / live-report.md",
-        "surfaces: local repos + runtime tasks + cluster jobs"
-      ]
-    },
-    architecture: {
-      eyebrow: "System model",
-      title: "Built around clean state boundaries, not a bigger chat window.",
-      body:
-        "CodeArmy is useful when work spans many rounds, many repos, or many execution environments. Each layer has a narrow responsibility, which is why the system stays inspectable.",
-      layers: [
-        {
-          tag: "01",
-          title: "Skill entry",
-          body: "The user-facing script exposes create, bootstrap, scan, reconcile, approval, and execution commands."
-        },
-        {
-          tag: "02",
-          title: "Runtime campaign index",
-          body: "Alice runtime keeps a light session-level index, summaries, and routing state for active campaigns."
-        },
-        {
-          tag: "03",
-          title: "Campaign repo truth",
-          body: "Long-lived plans, tasks, reviews, reports, and phase status live in repo-native markdown."
-        },
-        {
-          tag: "04",
-          title: "Reconcile and dispatch",
-          body: "The runtime reads repo truth, derives ready or blocked work, and materializes the next planner, executor, reviewer, or wake task."
-        },
-        {
-          tag: "05",
-          title: "Source repos and jobs",
-          body: "Actual code changes happen in source repositories, worktrees, and compute jobs instead of inside the campaign repo."
-        }
+        "read campaign repo truth",
+        "decide ready / blocked / waiting work",
+        "dispatch the next bounded task",
+        "write results and reviews back to repo"
       ],
-      repoPanelTitle: "Why repo-first matters",
-      repoPanelBody:
-        "The campaign repo is the audit trail. It is where a new agent can restart, where a reviewer can validate, and where a human can inspect the exact state of the campaign without replaying a week of chat.",
-      repoBullets: [
-        "Planning truth survives model changes, runtime restarts, and handoffs.",
-        "Task packages can carry explicit write scope, acceptance rules, and review rounds.",
-        "Live reports summarize the queue without replacing the underlying evidence.",
-        "Old archive repos stay as reference evidence instead of silently mutating current truth."
+      signals: [
+        {
+          title: "Multi-repo delivery",
+          body: "Keep one objective coherent even when the code change spans several repositories."
+        },
+        {
+          title: "Long-running experiments",
+          body: "Track work that mixes local edits, remote jobs, waiting time, and later continuation."
+        },
+        {
+          title: "Human review gates",
+          body: "Hold plan approval, review verdicts, and reopen decisions in visible repo artifacts."
+        },
+        {
+          title: "Repo-native reporting",
+          body: "Generate live reports from the same task packages and review evidence that drive execution."
+        }
       ]
     },
-    flow: {
-      eyebrow: "Flow chart",
-      title: "The operating loop is repo truth -> reconcile -> dispatch -> writeback.",
+    why: {
+      eyebrow: "Why CodeArmy",
+      title: "Because chat history is not a durable project system.",
       body:
-        "Every transition leaves artifacts behind. That makes the next decision explainable and makes long-running work recoverable after interruptions.",
-      nodes: [
+        "When the work is short, chat is enough. When the work stretches across repos, people, and compute surfaces, the state starts to leak. CodeArmy exists to keep that state visible.",
+      problems: [
         {
-          step: "01",
-          title: "Define objective",
-          body: "Create the campaign, register source repos, constraints, and the initial planning boundary.",
-          artifact: "campaign.md"
+          title: "Plans vanish into conversation",
+          body: "After enough turns, the real task boundary, acceptance rules, and next action become hard to recover."
         },
         {
-          step: "02",
-          title: "Plan in repo",
-          body: "Planner writes proposals, phased tasks, and explicit acceptance contracts instead of vague to-do text.",
-          artifact: "plans/ and phases/"
+          title: "Long jobs outlive the operator",
+          body: "Cluster runs, waiting tasks, and delayed checks keep going while the human context goes stale."
         },
         {
-          step: "03",
-          title: "Review before execution",
-          body: "Planner reviewer and human approval gate determine whether the plan is allowed to move forward.",
-          artifact: "plan reviews"
+          title: "Review and rerun evidence scatters",
+          body: "Commits, reviewer verdicts, logs, and follow-up actions end up split across tools and threads."
         },
         {
-          step: "04",
-          title: "Dispatch bounded execution",
-          body: "Executors get isolated worktrees, write scope, branch ownership, and task-local result paths.",
-          artifact: "task.md + results/"
-        },
-        {
-          step: "05",
-          title: "Review and reconcile",
-          body: "Review verdicts, blocked dependencies, and repository issues are written back before the next wave starts.",
-          artifact: "reviews/ + live report"
-        },
-        {
-          step: "06",
-          title: "Report and wake",
-          body: "Long jobs, waiting tasks, and campaign-wide summaries remain visible even when the active operator changes.",
-          artifact: "wake fields + reports/"
+          title: "Multi-repo work loses boundaries",
+          body: "Without explicit scope, it becomes unclear which repo changes belong together and what is blocked."
         }
       ]
     },
     capabilities: {
-      eyebrow: "Capabilities",
-      title: "The product is not one feature. It is a coordination contract.",
+      eyebrow: "What CodeArmy Does",
+      title: "It gives long-running work a coordination contract.",
       body:
-        "CodeArmy is designed for codebases where planning, execution, and validation happen on different clocks. These are the capabilities that matter in practice.",
+        "The point is not to sound clever. The point is to make the next action obvious, the current state inspectable, and the evidence easy to review.",
       features: [
         {
-          title: "Repo-native task packages",
-          body: "Tasks carry write scope, dependencies, review state, execution rounds, commit anchors, and result paths."
+          title: "Turn one objective into reviewable task packages",
+          body: "Plans become phased tasks with dependencies, write scope, and acceptance rules instead of a loose to-do list."
         },
         {
-          title: "Deterministic reconcile",
-          body: "Ready, blocked, waiting, and review-pending work is derived from repo truth instead of operator memory."
+          title: "Tell you what is ready, blocked, waiting, or done",
+          body: "Reconcile reads repo truth and derives the queue instead of relying on operator memory."
         },
         {
-          title: "Human approval gates",
-          body: "Humans can require plan approval, acceptance gates, or explicit reopen policy before another execution wave begins."
+          title: "Keep humans in the approval loop",
+          body: "Plan approval, review verdicts, and reopen policy stay explicit rather than implied."
         },
         {
-          title: "Isolated execution surfaces",
-          body: "Source repos, worktrees, task branches, and cluster jobs remain isolated and attributable."
+          title: "Run work in isolated execution surfaces",
+          body: "Source repos, worktrees, branches, and remote jobs stay bounded and attributable."
         },
         {
-          title: "Live report generation",
-          body: "A campaign-level report summarizes active tasks, blockers, repository issues, and next actions without hiding the evidence."
+          title: "Wake long tasks and continue later",
+          body: "Waiting on training, evaluation, or external evidence no longer means losing the thread."
         },
         {
-          title: "Wake and long-job support",
-          body: "Wake timestamps and prompts let the system resume long HPC, training, or review workflows after bounded waiting."
+          title: "Write status and reports back to repo",
+          body: "The same artifacts that drive execution also support live reports and final summaries."
         }
-      ],
-      surfacesTitle: "Where it operates",
-      surfaces: [
+      ]
+    },
+    flow: {
+      eyebrow: "Workflow",
+      title: "The loop is simple: define, plan, execute, review, reconcile.",
+      body:
+        "This is the user-facing flow. Each step produces an artifact so the next person or agent can continue without guessing.",
+      nodes: [
         {
-          title: "CLI and shell entry",
-          body: "For bootstrap, reconcile, approval, and operator-grade debugging."
+          step: "01",
+          title: "Define the objective",
+          body: "Start with a real goal, source repos, and boundaries for this round of work.",
+          artifact: "campaign.md"
         },
         {
-          title: "Alice runtime API",
-          body: "For campaign indexing, dispatch bookkeeping, and automated reconcile loops."
+          step: "02",
+          title: "Plan and approve",
+          body: "Turn the goal into phases and task packages, then hold plan approval before execution.",
+          artifact: "plans/ + task packages"
         },
         {
-          title: "Source repositories",
-          body: "For real code changes, isolated worktrees, task branches, and reviewable commits."
+          step: "03",
+          title: "Execute in bounded scope",
+          body: "Run the task in isolated repos, branches, worktrees, or jobs with clear ownership.",
+          artifact: "results/ + commit anchors"
         },
         {
-          title: "Scheduler and cluster jobs",
-          body: "For long-running experiments, wake-based continuation, and evidence collection across compute surfaces."
+          step: "04",
+          title: "Review and write back",
+          body: "Reviewer verdicts, concerns, and follow-up actions are written back where the task lives.",
+          artifact: "reviews/"
+        },
+        {
+          step: "05",
+          title: "Reconcile and continue",
+          body: "Refresh the campaign state, surface blockers, and decide the next wave of work.",
+          artifact: "live-report.md"
         }
+      ]
+    },
+    cases: {
+      eyebrow: "Real Cases",
+      title: "This is for work that is already messy in real life.",
+      body:
+        "The examples below reflect real campaign patterns around Alice and CodeArmy rather than generic marketing placeholders.",
+      items: [
+        {
+          title: "CodeArmy Site Rewrite",
+          summary:
+            "Use one campaign to manage positioning, bilingual fixes, content review, and the release of the site itself.",
+          bullets: [
+            "Content changes and UI fixes are split into explicit tasks instead of chat-driven editing.",
+            "Review verdicts explain why a change was accepted or sent back.",
+            "The campaign can close with a live report that matches the actual repo state."
+          ]
+        },
+        {
+          title: "FastEcalSim Recovery Work",
+          summary:
+            "Coordinate local code changes, smoke tests, cluster runs, checkpoint checks, and follow-up wake-ups in one traceable loop.",
+          bullets: [
+            "Task packages point to worktrees, scripts, checkpoints, and quality gates.",
+            "Blocked state stays explicit when external evaluation evidence is still missing.",
+            "Handover notes remain attached to the same campaign instead of drifting into new threads."
+          ]
+        },
+        {
+          title: "JUNOSW Multi-Repo Tuning",
+          summary:
+            "Keep documentation repos, code repos, inherited evidence, and phase gates aligned in a single planning surface.",
+          bullets: [
+            "Old archive material stays reference-only instead of silently becoming active truth.",
+            "Repository issues and dependency blockers are surfaced by reconcile.",
+            "The next action stays visible without spreadsheets or manual status boards."
+          ]
+        }
+      ]
+    },
+    repo: {
+      eyebrow: "Why Repo-First",
+      title: "CodeArmy is repo-first because the repo is where recovery happens.",
+      body:
+        "The chat helps people and agents move. The repo records what actually happened. If the system must survive interruptions, handoffs, and review, the durable state cannot live only in conversation.",
+      points: [
+        "A new agent can restart from repo artifacts without replaying a week of chat.",
+        "Review happens against the same task package that guided execution.",
+        "Reports summarize repo truth rather than replacing it.",
+        "Humans can inspect the exact current state before approving the next step."
       ],
-      artifactTitle: "Campaign repo artifact contract",
-      artifactIntro:
-        "This is the shape that makes the workflow durable. It is intentionally plain text, reviewable, and easy to diff.",
-      artifactLines: [
+      treeTitle: "What lives in the campaign repo",
+      treeIntro:
+        "The structure is intentionally plain text and diff-friendly. It is built for inspection, review, and restart.",
+      treeLines: [
         "campaign.md",
         "plans/proposals/",
         "plans/merged/master-plan.md",
@@ -340,98 +329,34 @@ export const siteContent: Record<Locale, SiteContent> = {
         "reports/live-report.md"
       ]
     },
-    cases: {
-      eyebrow: "Real campaign patterns",
-      title: "CodeArmy is already used on work that is too messy for ordinary ticket boards.",
-      body:
-        "These are not invented marketing examples. They reflect current campaign types already present in the working environment around Alice and CodeArmy.",
-      items: [
-        {
-          title: "CodeArmy Product Front Door",
-          status: "Product and site delivery",
-          summary:
-            "The website itself is managed as a campaign so design changes, bilingual fixes, review verdicts, and release-quality content rewrite are all tied back to task artifacts.",
-          bullets: [
-            "Planning and implementation are separated into explicit task packages instead of ad hoc edits.",
-            "Review records capture why a routing or language change was rejected or accepted.",
-            "The campaign can close with a live report that shows the work queue is actually finished."
-          ]
-        },
-        {
-          title: "FastEcalSim rCM Regression Recovery",
-          status: "HPC research recovery",
-          summary:
-            "Training recovery work needs local code changes, bounded smoke tests, Slurm jobs, checkpoint evaluation, and hard quality gates. CodeArmy keeps those stages connected.",
-          bullets: [
-            "Task packages point to worktrees, scripts, checkpoints, and expected gates.",
-            "Blocked state is explicit when external evaluation evidence is still missing.",
-            "Handover notes stay linked to the same campaign rather than drifting into separate chat threads."
-          ]
-        },
-        {
-          title: "JUNOSW Ge68 Baseline Rebuild",
-          status: "Multi-repo scientific tuning",
-          summary:
-            "A rebuild campaign coordinates documentation repos, code repos, inherited archive evidence, and new execution tasks while enforcing phase-level gates.",
-          bullets: [
-            "Old archive material remains reference evidence instead of silently becoming active planning truth.",
-            "Repository issues and dependency blockers are surfaced automatically by reconcile.",
-            "Ready tasks, blocked tasks, and next actions stay visible without hand-maintained spreadsheets."
-          ]
-        }
-      ]
-    },
-    roadmap: {
-      eyebrow: "Roadmap",
-      title: "Ship the hard coordination core first, then widen the surface.",
-      body:
-        "The current direction is deliberately technical. CodeArmy needs to be credible as an open-source orchestration layer before it tries to look broad or polished.",
-      items: [
-        {
-          stage: "Now",
-          title: "Sharper product front door",
-          body: "Explain the real system layers, real workflow, and real campaign cases in one page that matches the implementation."
-        },
-        {
-          stage: "Next",
-          title: "More reusable campaign templates",
-          body: "Reduce setup friction for multi-repo delivery, research campaigns, and long-running compute workflows."
-        },
-        {
-          stage: "Later",
-          title: "Wider integrations without losing repo truth",
-          body: "Expose more collaboration surfaces while keeping campaign repo artifacts as the durable planning source."
-        }
-      ]
-    },
     quickstart: {
       eyebrow: "Quickstart",
       title: "The shortest path is still repo-first.",
       body:
-        "If you want to understand CodeArmy quickly, start from the campaign repo and follow the reconcile loop. These are the high-signal entry commands.",
+        "If you want to understand CodeArmy quickly, start from a campaign repo and run the control loop once.",
       steps: [
         {
           step: "01",
-          title: "Create or bootstrap a campaign",
-          body: "Start from a real objective and a source repo list. The campaign repo becomes the long-lived coordination surface.",
+          title: "Create the campaign shell",
+          body: "Start from a real objective and the repos you want to coordinate.",
           command: "alice-code-army create\nalice-code-army bootstrap"
         },
         {
           step: "02",
-          title: "Scan the repos you actually need",
-          body: "Register source repos, branches, and boundaries before you ask agents to act.",
+          title: "Scan the repos and boundaries",
+          body: "Make the source repos and execution surface explicit before you dispatch work.",
           command: "alice-code-army repo-scan"
         },
         {
           step: "03",
-          title: "Run reconcile and inspect the generated truth",
-          body: "Let the system derive plan state, ready work, blocked work, and dispatch candidates from the repo.",
+          title: "Run reconcile",
+          body: "Let the system derive plan state, ready tasks, blocked tasks, and next actions from repo truth.",
           command: "alice-code-army repo-reconcile"
         },
         {
           step: "04",
-          title: "Approve, execute, review, repeat",
-          body: "Humans approve the plan when needed; executors and reviewers then write their evidence back into the same campaign.",
+          title: "Approve, execute, review",
+          body: "Keep the human gate explicit, then write execution and review evidence back to the same campaign.",
           command: "alice-code-army approve-plan"
         }
       ],
@@ -440,216 +365,223 @@ export const siteContent: Record<Locale, SiteContent> = {
         { label: "CodeArmy Site Repository", href: "https://github.com/Alice-space/codearmy-site" }
       ],
       callout:
-        "If you are debugging the system itself, inspect the runtime repo and the campaign repo together. One shows coordination mechanics. The other shows the durable truth."
+        "If you are debugging the system itself, read the runtime repo and the campaign repo together: one shows control flow, the other holds the durable state."
     },
     closing: {
-      title: "Open-source orchestration should look inspectable, not magical.",
+      title: "Open-source orchestration should feel inspectable, not mystical.",
       body:
-        "CodeArmy is strongest when it makes long-running work legible: explicit plans, bounded execution, auditable reviews, and recoverable state across repos and compute surfaces.",
-      primary: { label: "Read the quickstart", href: "#quickstart" },
+        "CodeArmy is strongest when it makes long-running work legible: clear plans, bounded execution, auditable review, and state you can recover after a pause.",
+      primary: { label: "Start from the workflow", href: "#flow" },
       secondary: { label: "Browse the runtime code", href: "https://github.com/Alice-space/alice" }
     },
     footer: {
-      note:
-        "Repo-first campaign orchestration for long-horizon coding, research, review, and reporting."
+      note: "Repo-first coordination for long-running coding, research, review, and reporting."
     }
   },
   zh: {
     meta: {
-      title: "面向长周期 AI 编码的 repo-first 编排层",
+      title: "把长周期 AI 编码和科研协作管起来",
       description:
-        "CodeArmy 把规划、执行、审阅、reconcile 和报告写回仓库事实源，适合真正长期、多仓库、多执行面的 AI 编码与科研协作。"
+        "CodeArmy 用仓库内的计划、任务状态、审阅回填和 live report，管理长周期的 AI 编码与科研 campaign。"
     },
     navItems: [
       { id: "overview", label: "总览" },
-      { id: "architecture", label: "架构" },
-      { id: "flow", label: "流程图" },
-      { id: "capabilities", label: "能力" },
+      { id: "why", label: "为什么" },
+      { id: "capabilities", label: "能做什么" },
+      { id: "flow", label: "流程" },
       { id: "cases", label: "案例" },
-      { id: "roadmap", label: "路线图" },
+      { id: "repo", label: "仓库优先" },
       { id: "quickstart", label: "快速入门" }
     ],
     hero: {
-      eyebrow: "面向长周期编码的开源基础设施",
-      title: "CodeArmy 把多 Agent 协作变成 repo-native campaign。",
+      eyebrow: "给那些不会在一轮聊天里结束的工作",
+      title: "CodeArmy 用来管理长周期的 AI 编码和科研协作。",
       body:
-        "它不会把状态藏在聊天记录里，而是把计划、任务包、审阅、唤醒信息和 live report 写回仓库事实源。人负责最终门控，Agent 负责持续推进。",
+        "当一个任务会跨多个仓库、多个 review 回合，或者几天的实验执行时，它就比普通聊天和任务板更合适。CodeArmy 把计划、任务状态、review 结论和下一步动作写回仓库，所以工作中断之后还能接着做。",
       actions: [
-        { label: "查看流程图", href: "#flow" },
-        { label: "打开 Alice Runtime", href: "https://github.com/Alice-space/alice" }
+        { label: "先看流程", href: "#flow" },
+        { label: "再看案例", href: "#cases" }
       ],
-      badges: ["Repo-first 真相源", "人工门控", "Worktree 隔离", "开源可审计"],
-      metrics: [
-        {
-          value: "5",
-          label: "核心层次",
-          detail: "skill 脚本、runtime 索引、campaign repo、reconcile/dispatch、source repos"
-        },
-        {
-          value: "4",
-          label: "工作角色",
-          detail: "planner、planner reviewer、executor、reviewer"
-        },
-        {
-          value: "1",
-          label: "规划真相源",
-          detail: "长期协作状态统一落在 campaign repo 中"
-        },
-        {
-          value: "多面",
-          label: "执行入口",
-          detail: "CLI、runtime API、调度器、worktree、集群作业、仓库审阅"
-        }
+      examples: [
+        "一个功能同时改多个仓库，而且必须经过显式 review。",
+        "一次科研迭代既有本地代码修改，也有集群作业和稍后唤醒。",
+        "Planner、Executor、Reviewer 和人类操作员之间需要稳定交接。",
+        "你想一眼看到哪些任务可执行、哪些被阻塞、哪些在等待。"
       ],
-      terminalLabel: "Repo reconcile 快照",
+      terminalLabel: "典型控制循环",
       terminalLines: [
         "$ alice-code-army repo-reconcile",
-        "truth: campaign repo",
-        "dispatch: planner -> reviewer -> executor",
-        "writeback: task.md / reviews / live-report.md",
-        "surfaces: 本地仓库 + runtime task + cluster jobs"
-      ]
-    },
-    architecture: {
-      eyebrow: "系统结构",
-      title: "不是更大的聊天窗口，而是更干净的状态边界。",
-      body:
-        "当工作跨越很多轮、很多仓库、很多执行环境时，CodeArmy 才真正有价值。每一层职责都很窄，所以系统才能可读、可查、可恢复。",
-      layers: [
-        {
-          tag: "01",
-          title: "Skill 入口",
-          body: "面对用户的脚本暴露 create、bootstrap、scan、reconcile、approve、execute 等命令。"
-        },
-        {
-          tag: "02",
-          title: "Runtime campaign 索引",
-          body: "Alice runtime 只保存会话级索引、摘要和当前 campaign 的轻量路由状态。"
-        },
-        {
-          tag: "03",
-          title: "Campaign repo 真相源",
-          body: "长期计划、任务、审阅、阶段状态和报告都落在 repo-native markdown 中。"
-        },
-        {
-          tag: "04",
-          title: "Reconcile 与 dispatch",
-          body: "Runtime 读取 repo 真相源，推导 ready、blocked、review-pending，并派发下一轮 planner、executor、reviewer 或 wake task。"
-        },
-        {
-          tag: "05",
-          title: "Source repos 与作业",
-          body: "真正的业务代码修改发生在源仓库、worktree 和计算作业里，而不是写进 campaign repo。"
-        }
+        "读取 campaign repo 真相源",
+        "判断可执行 / 阻塞 / 等待状态",
+        "派发下一步有边界的任务",
+        "把结果和审阅回写到仓库"
       ],
-      repoPanelTitle: "为什么必须 repo-first",
-      repoPanelBody:
-        "Campaign repo 就是审计轨迹。新 agent 重启要看它，reviewer 验证要看它，人类判断真实状态也要看它，而不是回放一整周聊天记录。",
-      repoBullets: [
-        "规划真相源不受模型切换、runtime 重启和人员交接影响。",
-        "任务包可以显式携带 write scope、验收规则和 review round。",
-        "Live report 只做摘要，不替代底层证据。",
-        "旧 archive repo 只能作为 reference evidence，不能偷偷污染当前主线真相源。"
+      signals: [
+        {
+          title: "多仓库任务",
+          body: "一个目标同时牵涉多个代码仓库时，仍然能保持边界清楚。"
+        },
+        {
+          title: "长任务与集群实验",
+          body: "本地修改、远程作业、等待时间和后续唤醒可以挂在同一条线索上。"
+        },
+        {
+          title: "人工审批与 review",
+          body: "计划批准、review 结论和是否重开，都放在能追溯的仓库产物里。"
+        },
+        {
+          title: "仓库内可追溯报告",
+          body: "Live report 来自同一套任务包和 review 证据，不是另外写一份表面摘要。"
+        }
       ]
     },
-    flow: {
-      eyebrow: "流程图",
-      title: "核心循环是 repo truth -> reconcile -> dispatch -> writeback。",
+    why: {
+      eyebrow: "为什么需要 CodeArmy",
+      title: "因为聊天记录不是长期项目系统。",
       body:
-        "每次状态跃迁都会留下 artifact，所以中断之后能恢复，下一步决策也能解释得清楚。",
-      nodes: [
+        "短任务靠聊天就够了。长任务一旦跨仓库、跨人、跨计算面，状态就会开始漏。CodeArmy 的价值，就是把这些状态留在能复查、能恢复的地方。",
+      problems: [
         {
-          step: "01",
-          title: "定义目标",
-          body: "创建 campaign，登记 source repos、约束和本轮 planning 的边界。",
-          artifact: "campaign.md"
+          title: "计划会淹没在对话里",
+          body: "聊多了以后，真正的任务边界、验收条件和下一步动作很难再准确找回来。"
         },
         {
-          step: "02",
-          title: "在 repo 里规划",
-          body: "Planner 写 proposal、phase、task 和 acceptance contract，而不是只留下模糊待办。",
-          artifact: "plans/ 与 phases/"
+          title: "长作业会跑得比人更久",
+          body: "集群作业、等待中的检查和后续唤醒还在继续，但人的上下文已经断了。"
         },
         {
-          step: "03",
-          title: "执行前先审",
-          body: "Planner reviewer 和人工批准门控决定计划是否允许进入下一轮执行。",
-          artifact: "plan reviews"
+          title: "review 和 rerun 证据四处分散",
+          body: "提交、审阅结论、日志和后续动作常常散落在不同线程和工具里。"
         },
         {
-          step: "04",
-          title: "派发有边界的执行",
-          body: "Executor 拿到隔离 worktree、write scope、分支归属和 task-local 结果路径。",
-          artifact: "task.md + results/"
-        },
-        {
-          step: "05",
-          title: "审阅并回填",
-          body: "Reviewer verdict、依赖阻塞和 repository issues 会先写回 repo，再决定下一波动作。",
-          artifact: "reviews/ + live report"
-        },
-        {
-          step: "06",
-          title: "报告与唤醒",
-          body: "长作业、等待任务和全局摘要在切换操作人之后仍然保持可见。",
-          artifact: "wake 字段 + reports/"
+          title: "多仓库修改容易失去边界",
+          body: "如果没有明确 scope，就会越来越难判断哪些修改是一组、哪些依赖还没闭合。"
         }
       ]
     },
     capabilities: {
-      eyebrow: "能力说明",
-      title: "它不是单一功能，而是一份协作合同。",
+      eyebrow: "CodeArmy 能做什么",
+      title: "它提供的是一份长任务协作合同。",
       body:
-        "CodeArmy 面向的是规划、执行和验证节奏并不同步的代码库。真正重要的是下面这些能力，而不是表面的聊天体验。",
+        "重点不是把描述说得多抽象，而是让下一步动作更清楚、当前状态更可查、review 证据更容易回看。",
       features: [
         {
-          title: "Repo-native 任务包",
-          body: "任务携带 write scope、依赖、审阅状态、执行轮次、commit 锚点和结果路径。"
+          title: "把一个目标拆成可审阅的任务包",
+          body: "计划会落成 phase、task、依赖、write scope 和 acceptance，而不是一串模糊待办。"
         },
         {
-          title: "确定性的 reconcile",
-          body: "Ready、blocked、waiting、review-pending 全部从 repo 真相源推导，而不是靠操作人记忆。"
+          title: "告诉你哪些任务能做、哪些被阻塞、哪些在等待",
+          body: "Reconcile 直接从仓库真相源推导队列，而不是依赖操作员记忆。"
         },
         {
-          title: "人工批准门控",
-          body: "人可以在 plan approval、phase gate、acceptance gate、reopen policy 上保留最终裁决权。"
+          title: "把人工批准留在流程里",
+          body: "计划批准、review 结论和 reopen 决策都是显式状态，不靠默认理解。"
         },
         {
-          title: "隔离执行面",
-          body: "Source repo、worktree、task branch 和集群作业都保持隔离、可归因、可复查。"
+          title: "在隔离执行面里推进工作",
+          body: "Source repo、分支、worktree 和远程作业都保持边界清楚、责任明确。"
         },
         {
-          title: "Live report 自动生成",
-          body: "Campaign 级报告会汇总 active task、blocker、repository issue 和 next action，但不会吞掉底层证据。"
+          title: "让长任务可以被唤醒接回",
+          body: "等训练、等评估、等外部证据，不再意味着主线状态丢失。"
         },
         {
-          title: "Wake 与长任务支持",
-          body: "通过 wake 时间和 wake prompt，可以把 HPC、训练、外部评估等长作业安全接回下一轮。"
+          title: "把状态和报告写回仓库",
+          body: "驱动执行的那套任务产物，本身也能支撑 live report 和最终总结。"
         }
-      ],
-      surfacesTitle: "它在哪些面上工作",
-      surfaces: [
+      ]
+    },
+    flow: {
+      eyebrow: "流程",
+      title: "循环很简单：定目标、出计划、做任务、审结果、再回填。",
+      body:
+        "这是站在用户视角的一条主线。每一步都会留下产物，方便下一位人或 agent 继续接手。",
+      nodes: [
         {
-          title: "CLI 与 shell 入口",
-          body: "用于 bootstrap、reconcile、approve 和操作员级排障。"
+          step: "01",
+          title: "明确目标",
+          body: "先把本轮目标、涉及仓库和执行边界说清楚。",
+          artifact: "campaign.md"
         },
         {
-          title: "Alice runtime API",
-          body: "用于 campaign 索引、dispatch 记账和自动 reconcile 循环。"
+          step: "02",
+          title: "生成计划并批准",
+          body: "把目标落成 phase 和 task package，需要时先过人工批准门。",
+          artifact: "plans/ + task packages"
         },
         {
-          title: "Source repositories",
-          body: "用于真实代码修改、隔离 worktree、task branch 和可审阅 commit。"
+          step: "03",
+          title: "在隔离范围内执行",
+          body: "任务在隔离的仓库、分支、worktree 或作业环境中推进。",
+          artifact: "results/ + commit anchors"
         },
         {
-          title: "调度器与集群作业",
-          body: "用于长时间实验、wake 恢复以及跨计算面收集证据。"
+          step: "04",
+          title: "审阅并回填",
+          body: "Reviewer 的结论、疑点和后续动作，写回任务本身所在的位置。",
+          artifact: "reviews/"
+        },
+        {
+          step: "05",
+          title: "Reconcile 后进入下一轮",
+          body: "刷新 campaign 状态，暴露 blocker，再决定下一波动作。",
+          artifact: "live-report.md"
         }
+      ]
+    },
+    cases: {
+      eyebrow: "真实案例",
+      title: "这不是给演示用的小任务，而是给现实里已经很乱的工作。",
+      body:
+        "下面这些是 Alice / CodeArmy 当前工作环境里已经存在的典型 campaign 形态，不是凭空编出来的营销例子。",
+      items: [
+        {
+          title: "CodeArmy 站点改版",
+          summary:
+            "用一个 campaign 管网站定位、双语修复、内容审阅和最终发布，而不是边聊边改。",
+          bullets: [
+            "内容改写和界面修复分成明确任务，而不是混在同一轮聊天里。",
+            "Review 记录会说明为什么通过，或者为什么打回。",
+            "收口时可以直接用 live report 对齐真实仓库状态。"
+          ]
+        },
+        {
+          title: "FastEcalSim 恢复任务",
+          summary:
+            "把本地代码修改、smoke test、集群作业、checkpoint 检查和后续唤醒放在一条可追溯主线上。",
+          bullets: [
+            "任务包能直接指到 worktree、脚本、checkpoint 和质量门槛。",
+            "外部评估证据没回来时，blocked 状态会被显式保留下来。",
+            "交接说明仍然挂在同一个 campaign 下，不会漂到新线程。"
+          ]
+        },
+        {
+          title: "JUNOSW 多仓库调优",
+          summary:
+            "让文档仓库、代码仓库、历史证据和 phase gate 统一落在一套规划面里。",
+          bullets: [
+            "旧 archive 只作为参考证据，不会悄悄污染当前主线真相源。",
+            "Repository issues 和依赖阻塞可以由 reconcile 自动暴露。",
+            "下一步动作不需要再靠表格和人工状态板维护。"
+          ]
+        }
+      ]
+    },
+    repo: {
+      eyebrow: "为什么必须仓库优先",
+      title: "CodeArmy 选择仓库优先，因为恢复工作只能靠仓库。",
+      body:
+        "聊天可以帮助人和 agent 推进协作，但真正发生了什么、当前走到哪一步、下一步能不能继续，必须落在仓库里。只有这样，中断、交接和 review 才可靠。",
+      points: [
+        "新的 agent 可以直接从仓库产物重启，而不用回放一整周聊天。",
+        "Review 面对的是和执行同一份 task package，而不是事后整理的摘要。",
+        "报告只是对仓库真相源做总结，不替代底层证据。",
+        "人类在批准下一步之前，可以先看清楚当前真实状态。"
       ],
-      artifactTitle: "Campaign repo 的 artifact 合同",
-      artifactIntro:
-        "这套目录形状就是工作流可恢复的原因。它是纯文本、可 diff、可审阅，也方便新 agent 快速接手。",
-      artifactLines: [
+      treeTitle: "Campaign repo 里通常放什么",
+      treeIntro:
+        "这套结构故意保持纯文本和可 diff，目的是方便检查、审阅和接力，而不是做成花哨黑盒。",
+      treeLines: [
         "campaign.md",
         "plans/proposals/",
         "plans/merged/master-plan.md",
@@ -658,98 +590,34 @@ export const siteContent: Record<Locale, SiteContent> = {
         "reports/live-report.md"
       ]
     },
-    cases: {
-      eyebrow: "真实案例",
-      title: "CodeArmy 已经在普通任务板很难驾驭的工作上使用。",
-      body:
-        "下面这些不是虚构营销案例，而是 Alice / CodeArmy 当前工作环境里已经存在的典型 campaign 形态。",
-      items: [
-        {
-          title: "CodeArmy Product Front Door",
-          status: "产品与站点交付",
-          summary:
-            "连网站本身都按 campaign 管理，所以设计调整、双语修复、审阅结论和发布级内容改写都能追溯到任务产物。",
-          bullets: [
-            "规划和实现通过显式 task package 分开，而不是一边聊一边改。",
-            "审阅记录会说明路由和语言改动为什么被打回或通过。",
-            "Campaign 收口时可以直接用 live report 证明队列确实结束。"
-          ]
-        },
-        {
-          title: "FastEcalSim rCM Regression Recovery",
-          status: "HPC 科研恢复",
-          summary:
-            "训练恢复要同时处理本地代码、bounded smoke test、Slurm 作业、checkpoint 评估和硬门槛，CodeArmy 用同一条证据链把它们串起来。",
-          bullets: [
-            "任务包会指向 worktree、脚本、checkpoint 和目标 gate。",
-            "外部评估证据没回来时，blocked 状态会被显式标注。",
-            "交接说明仍然挂在同一 campaign 下，不会漂到新的聊天线程里。"
-          ]
-        },
-        {
-          title: "JUNOSW Ge68 Baseline Rebuild",
-          status: "多仓库科学调优",
-          summary:
-            "一个重建 campaign 同时协调文档仓库、代码仓库、历史 archive 证据和新执行任务，并且严格执行 phase-level gate。",
-          bullets: [
-            "旧 archive 只保留为 reference evidence，不会偷偷变成当前规划真相源。",
-            "Repository issues 和依赖阻塞由 reconcile 自动暴露。",
-            "Ready task、blocked task 和 next action 不需要手工维护表格。"
-          ]
-        }
-      ]
-    },
-    roadmap: {
-      eyebrow: "路线图",
-      title: "先把协作内核做硬，再把表面做宽。",
-      body:
-        "当前方向是刻意偏技术的。CodeArmy 必须先作为开源 orchestration layer 讲清楚、站得住，再去扩展更宽的产品表面。",
-      items: [
-        {
-          stage: "当前",
-          title: "把产品前门讲清楚",
-          body: "用一页把真实层次、真实工作流和真实案例说清楚，保证站点叙事和实现一致。"
-        },
-        {
-          stage: "下一步",
-          title: "沉淀更多可复用模板",
-          body: "继续降低多仓库交付、科研 campaign 和长任务协作的初始化成本。"
-        },
-        {
-          stage: "之后",
-          title: "扩展更多接入面但不丢真相源",
-          body: "增加协作入口，但始终保持 campaign repo 作为长期规划和审阅的主事实源。"
-        }
-      ]
-    },
     quickstart: {
       eyebrow: "快速入门",
-      title: "最短路径仍然是 repo-first。",
+      title: "最快理解 CodeArmy 的方式，仍然是从仓库出发。",
       body:
-        "如果你想最快理解 CodeArmy，就从 campaign repo 出发，再跟着 reconcile 循环往下看。下面是最值得记住的入口命令。",
+        "如果你想快速上手，就先建一个 campaign repo，然后把控制循环跑一遍。",
       steps: [
         {
           step: "01",
-          title: "创建或初始化 campaign",
-          body: "从真实 objective 和 source repo 列表开始，把 campaign repo 立成长期协作面。",
+          title: "建立 campaign 外壳",
+          body: "从真实目标和需要协作的仓库列表开始。",
           command: "alice-code-army create\nalice-code-army bootstrap"
         },
         {
           step: "02",
-          title: "扫描真正要操作的仓库",
-          body: "先把 source repo、分支和边界登记清楚，再让 agent 开始动手。",
+          title: "扫描仓库和边界",
+          body: "先把 source repo 和执行面写清楚，再派发任务。",
           command: "alice-code-army repo-scan"
         },
         {
           step: "03",
-          title: "执行 reconcile 并检查 repo 真相源",
-          body: "让系统从 repo 中推导出 plan 状态、ready work、blocked work 和 dispatch 候选。",
+          title: "执行 reconcile",
+          body: "让系统从仓库真相源里推导计划状态、可执行任务和阻塞项。",
           command: "alice-code-army repo-reconcile"
         },
         {
           step: "04",
-          title: "批准、执行、审阅、再循环",
-          body: "需要时由人批准计划，随后 executor 和 reviewer 把证据写回同一 campaign。",
+          title: "批准、执行、审阅",
+          body: "保留人工门控，再把执行和 review 证据写回同一 campaign。",
           command: "alice-code-army approve-plan"
         }
       ],
@@ -758,17 +626,17 @@ export const siteContent: Record<Locale, SiteContent> = {
         { label: "CodeArmy Site 仓库", href: "https://github.com/Alice-space/codearmy-site" }
       ],
       callout:
-        "如果你是在排查系统自身行为，就要同时看 runtime repo 和 campaign repo。前者解释协调机制，后者保存长期真相源。"
+        "如果你是在排查系统自己，就要把 runtime repo 和 campaign repo 一起看：前者解释控制流，后者保存长期状态。"
     },
     closing: {
-      title: "好的开源 orchestration，不该显得神秘，而该显得可审计。",
+      title: "好的开源编排层，不该显得神秘，而该显得能查、能接、能恢复。",
       body:
-        "CodeArmy 的强项在于把长周期工作变得可读：计划明确、执行有边界、审阅可追溯、状态可恢复，而且能跨仓库和计算面持续推进。",
-      primary: { label: "查看快速入门", href: "#quickstart" },
+        "CodeArmy 最有价值的时候，是它把长任务变得清楚：计划看得见，执行有边界，review 能回看，暂停之后还能继续。",
+      primary: { label: "从流程开始看", href: "#flow" },
       secondary: { label: "浏览运行时代码", href: "https://github.com/Alice-space/alice" }
     },
     footer: {
-      note: "面向长周期编码、科研、审阅和报告的 repo-first campaign orchestration。"
+      note: "给长周期编码、科研、审阅和报告使用的仓库优先协作层。"
     }
   }
 };
