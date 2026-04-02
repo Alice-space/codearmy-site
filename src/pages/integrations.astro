@@ -4,46 +4,172 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="Integrations"
-  description="CodeArmy is designed to connect Trae Solo, CLI automation, collaboration surfaces, and remote execution workflows."
+  description="CodeArmy brings the same campaign state to multiple entry points: Trae as the primary surface, CLI for automation, Feishu for collaboration, and Cluster/HPC for remote execution."
 >
   <section class="container page-hero">
     <p class="eyebrow">Integrations</p>
-    <h1>Use the same campaign state across multiple entry points.</h1>
+    <h1>One campaign state, multiple entry points.</h1>
     <p class="lead">
-      CodeArmy should not be locked to a single chat surface. The product is strongest when the
-      same campaign can be entered from Trae Solo, scripts, collaboration tools, and remote
-      execution environments.
+      CodeArmy is not locked to a single interface. The same repo-first campaign can be 
+      accessed and advanced from different surfaces, each serving a distinct purpose in the 
+      workflow. This page explains the hierarchy: what is your daily driver, what is for 
+      automation, and what is for remote execution.
     </p>
   </section>
 
-  <section class="container page-body grid-2">
-    <article class="card">
-      <h3>Trae Solo</h3>
-      <p>
-        The primary entry point for daily use. CodeArmy should appear as custom agents, Skills, and
-        MCP tools behind SOLO Coder.
+  <section class="container page-body">
+    <!-- Primary Entry Point -->
+    <div class="split-grid" style="margin-bottom: 3rem;">
+      <div>
+        <h2 style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 700;">1</span>
+          Primary Entry Point
+        </h2>
+        <div class="callout" style="margin-top: 1rem;">
+          <strong>Trae Solo — Daily development surface</strong>
+          <p style="margin: 0.5rem 0 0; color: var(--muted);">
+            Trae Solo is where most users spend their time. It provides the agent loop, 
+            MCP tool integration, and Skills support. The campaign state lives in the repo; 
+            Trae reads and writes it during your interactive sessions.
+          </p>
+          <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--muted);">
+            <strong>When to use:</strong> Interactive planning, task execution, reviewing 
+            campaign progress, and reconciling state after each work session.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h2>What "shared campaign state" means</h2>
+        <p class="section-copy">
+          CodeArmy keeps the ground truth in the campaign repo, not in any specific tool's 
+          memory. This means:
+        </p>
+        <ul class="page-list">
+          <li>
+            <strong>Trae</strong> writes task updates and progress to the repo during interactive sessions.
+          </li>
+          <li>
+            <strong>CLI</strong> reads the same campaign files for scripted operations and reporting.
+          </li>
+          <li>
+            <strong>Remote jobs</strong> on clusters update the same artifacts that Trae will see on next sync.
+          </li>
+          <li>
+            <strong>Notifications</strong> to Feishu reference the same commit hashes and file paths.
+          </li>
+        </ul>
+        <p class="section-copy" style="margin-top: 1rem;">
+          The surface you use depends on context; the state you work with remains consistent.
+        </p>
+      </div>
+    </div>
+
+    <!-- Secondary Entry Points -->
+    <div class="split-grid" style="margin-bottom: 3rem;">
+      <div>
+        <h2 style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; background: var(--muted); color: #fff; font-size: 0.85rem; font-weight: 700;">2</span>
+          Secondary Surfaces
+        </h2>
+        
+        <div class="callout" style="margin-top: 1rem;">
+          <strong>CLI — Automation and scripting</strong>
+          <p style="margin: 0.5rem 0 0; color: var(--muted);">
+            The command-line interface is for batch operations, scheduled reconciles, 
+            and CI/CD integration. It accesses the same campaign state but without 
+            the interactive agent loop.
+          </p>
+          <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--muted);">
+            <strong>When to use:</strong> Cron jobs, automated reporting, headless execution 
+            on servers, and integrating with existing shell workflows.
+          </p>
+        </div>
+
+        <div class="callout" style="margin-top: 1rem;">
+          <strong>Feishu — Collaboration and notifications</strong>
+          <p style="margin: 0.5rem 0 0; color: var(--muted);">
+            Feishu serves as a notification and lightweight review surface. It is not the 
+            primary workspace but a channel for sharing summaries, requesting approvals, 
+            and keeping stakeholders informed.
+          </p>
+          <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--muted);">
+            <strong>When to use:</strong> Sending campaign summaries to team members, 
+            requesting human review on completed tasks, and asynchronous status updates.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; background: var(--muted); color: #fff; font-size: 0.85rem; font-weight: 700;">3</span>
+          Execution Environments
+        </h2>
+        
+        <div class="callout" style="margin-top: 1rem;">
+          <strong>Cluster / HPC — Remote execution</strong>
+          <p style="margin: 0.5rem 0 0; color: var(--muted);">
+            Remote clusters are where long-running experiments and compute-intensive tasks 
+            actually execute. CodeArmy connects campaign state to these environments so 
+            that results feed back into the repo, not just local logs.
+          </p>
+          <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--muted);">
+            <strong>When to use:</strong> Heavy compute jobs, training runs, batch simulations, 
+            and any work that needs dedicated hardware or extended runtime.
+          </p>
+          <p style="margin: 0.75rem 0 0; font-size: 0.85rem; color: var(--muted); font-style: italic;">
+            <strong>Note:</strong> Cluster integration requires Alice runtime configuration 
+            and appropriate credentials. It is not a "zero-setup" feature.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boundaries & Limitations -->
+    <div class="callout" style="margin-bottom: 3rem; border-color: var(--warm); background: var(--warm-soft);">
+      <strong>What this page does (and does not) promise</strong>
+      <p style="margin: 0.5rem 0 0; color: var(--muted);">
+        CodeArmy is designed to share campaign state across surfaces, but this does not mean 
+        all integrations are equally mature or require zero configuration:
       </p>
-    </article>
-    <article class="card">
-      <h3>CLI</h3>
-      <p>
-        The automation-friendly surface for initializing campaigns, reconciling state, and building
-        reports in scripts or scheduled jobs.
+      <ul class="page-list" style="margin-top: 0.75rem;">
+        <li>
+          <strong>Trae integration</strong> is the primary focus and best-tested path.
+        </li>
+        <li>
+          <strong>CLI tools</strong> are available but may require setup for your specific environment.
+        </li>
+        <li>
+          <strong>Feishu notifications</strong> depend on the Alice runtime having access to your 
+          Feishu workspace; this is not automatic.
+        </li>
+        <li>
+          <strong>Cluster/HPC integration</strong> is environment-specific and requires explicit 
+          configuration for job submission, data sync, and credential management.
+        </li>
+      </ul>
+      <p style="margin: 0.75rem 0 0; color: var(--muted);">
+        For a practical starting point, see <a href={`${import.meta.env.BASE_URL}/docs/quickstart/`}>Quickstart</a>.
+        For understanding how campaigns manage state, see <a href={`${import.meta.env.BASE_URL}/how-it-works/`}>How It Works</a>.
       </p>
-    </article>
-    <article class="card">
-      <h3>Feishu</h3>
-      <p>
-        A collaboration surface for summaries, approvals, and outbound notifications. Useful, but
-        not the product center of gravity.
+    </div>
+
+    <!-- Navigation CTA -->
+    <div class="callout" style="text-align: center;">
+      <strong>Start with Trae, expand as needed</strong>
+      <p style="margin: 0.5rem 0 1rem; color: var(--muted);">
+        Most users begin with Trae Solo as their primary interface. As your workflows mature, 
+        you can add CLI automation, Feishu notifications, and cluster execution without 
+        changing the underlying campaign structure.
       </p>
-    </article>
-    <article class="card">
-      <h3>Cluster / HPC</h3>
-      <p>
-        The execution surface where research experiments actually run. CodeArmy is most valuable
-        when campaign state stays connected to remote jobs and metric outputs.
-      </p>
-    </article>
+      <div class="hero-actions" style="justify-content: center;">
+        <a class="button" href={`${import.meta.env.BASE_URL}/docs/quickstart/`}>
+          Get Started with Quickstart
+        </a>
+        <a class="button-secondary" href={`${import.meta.env.BASE_URL}/how-it-works/`}>
+          Understand the Model
+        </a>
+      </div>
+    </div>
   </section>
 </BaseLayout>
